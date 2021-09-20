@@ -15,7 +15,13 @@ window.setWindowTitle("PyQt5 example 1")
 layout = QGridLayout(window)
 label = QLabel("Just a window with a label!", window) 
 label.setAlignment(Qt.AlignCenter) 
-layout.addWidget(label,0,0)  
+layout.addWidget(label,0,0)
+
+button = QPushButton("Close me") 
+button.setToolTip('This is a <b>QPushButton</b> widget. Clicking it will close the program!') 
+layout.addWidget(button,1,0) 
+ 
+button.clicked.connect(app.quit) 
  
 window.show() 
  
