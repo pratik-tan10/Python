@@ -12,8 +12,10 @@ window = QWidget()
 window.resize(400,200) 
 window.setWindowTitle("PyQt5 example 1") 
  
+layout = QGridLayout(window)
 label = QLabel("Just a window with a label!", window) 
-label.move(100,100) 
+label.setAlignment(Qt.AlignCenter) 
+layout.addWidget(label,0,0)  
  
 window.show() 
  
