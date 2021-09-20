@@ -1,1 +1,1 @@
-# Python
+# Learning Python GUI basics
