@@ -16,8 +16,10 @@ def main():
     #Writing to a tab seperated file in the same folder as input csv file
     outfname = fname.replace('.csv', '_new.tsv')
     of = open(outfname, 'w')
+    print('Writing to file {}.'.format(outfname))
     of.writelines(N)
     of.close()
+    print('Successfully created output.')
 
     printAverage(M)
 
