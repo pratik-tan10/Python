@@ -114,7 +114,9 @@ clearPushButton.clicked.connect(textEdit.clear)
 hidePushButton.clicked.connect(textEdit.hide) 
 showPushButton.clicked.connect(textEdit.show) 
 listWordsPushButton.clicked.connect(populateListView)
-
+widgetPushButton.pressed.connect(populateComboBoxWithRandomNumbers) 
+firstNameLineEdit.textChanged.connect(checkBox.toggle) 
+lastNameLineEdit.editingFinished.connect(comboBox.showPopup)
 
 button.clicked.connect(dialogBox.exec_) # invoke dialog modal version 
  
