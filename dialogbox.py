@@ -104,6 +104,18 @@ def populateComboBoxWithRandomNumbers():
  
 # connect signals and other initializations 
  
+radioButtons = [ greatRadioButton, neutralRadioButton, horribleRadioButton ] 
+ 
+populateComboBoxWithRandomNumbers() 
+ 
+buttonBox.accepted.connect(dialogBox.accept) 
+buttonBox.rejected.connect(dialogBox.reject) 
+clearPushButton.clicked.connect(textEdit.clear) 
+hidePushButton.clicked.connect(textEdit.hide) 
+showPushButton.clicked.connect(textEdit.show) 
+listWordsPushButton.clicked.connect(populateListView)
+
+
 button.clicked.connect(dialogBox.exec_) # invoke dialog modal version 
  
 # run the program 
