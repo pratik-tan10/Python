@@ -6,8 +6,8 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QGridLayout,
    QVBoxLayout, QGroupBox, QLabel, QLineEdit, QTextEdit, QHBoxLayout, QListView, QRadioButton, \
    QCheckBox, QComboBox, QDialogButtonBox 
 from PyQt5.QtCore import Qt, QVariant 
-from PyQt5.QtGui import QPixmap, QStandardItemModel, QStandardItem 
- 
+from PyQt5.QtGui import QPixmap, QStandardItemModel, QStandardItem
+
 # set up app and GUI  
  
 app = QApplication(sys.argv) 
@@ -24,7 +24,7 @@ layout.addWidget(button,0,0)
    
 dialogBox = QDialog() 
 dialogBox.setWindowTitle("The world's weirdest dialog box") 
-
+ 
 mainVerticalLayout = QVBoxLayout(dialogBox) 
  
 nameGroupBox = QGroupBox("Name") # row 1 of vertical layout 
@@ -82,8 +82,22 @@ buttonBox = QDialogButtonBox() # row 5
 buttonBox.setStandardButtons(QDialogButtonBox.Cancel | QDialogButtonBox.Ok) 
 mainVerticalLayout.addWidget(buttonBox)
 
-# functions for interactions 
+# functions for interactions
+def populateListView(): 
+     words = textEdit.toPlainText().split() 
+     m = QStandardItemModel() 
+     for w in words: 
+         item = QStandardItem(w) 
+         item.setFlags(Qt.ItemIsUserCheckable | Qt.ItemIsEnabled) 
+         item.setData(QVariant(Qt.Checked), Qt.CheckStateRole) 
+         m.appendRow(item) 
+     listView.setModel(m) 
  
+def populateComboBoxWithRandomNumbers(): 
+     comboBox.clear() 
+     for i in range(5): 
+         comboBox.addItem(str(random.randrange(10)))
+
 # functions for modal version 
  
 # functions for modeless version 
