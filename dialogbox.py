@@ -1,7 +1,12 @@
 # imports  
  
-import sys 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QGridLayout, QWidget, QDialog 
+import sys, random 
+ 
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QGridLayout, QWidget, QDialog, \
+   QVBoxLayout, QGroupBox, QLabel, QLineEdit, QTextEdit, QHBoxLayout, QListView, QRadioButton, \
+   QCheckBox, QComboBox, QDialogButtonBox 
+from PyQt5.QtCore import Qt, QVariant 
+from PyQt5.QtGui import QPixmap, QStandardItemModel, QStandardItem 
  
 # set up app and GUI  
  
