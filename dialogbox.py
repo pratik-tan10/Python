@@ -114,6 +114,7 @@ clearPushButton.clicked.connect(textEdit.clear)
 hidePushButton.clicked.connect(textEdit.hide) 
 showPushButton.clicked.connect(textEdit.show) 
 listWordsPushButton.clicked.connect(populateListView)
+
 widgetPushButton.pressed.connect(populateComboBoxWithRandomNumbers) 
 firstNameLineEdit.textChanged.connect(checkBox.toggle) 
 lastNameLineEdit.editingFinished.connect(comboBox.showPopup)
