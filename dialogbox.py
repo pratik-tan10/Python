@@ -19,3 +19,19 @@ layout.addWidget(button,0,0)
    
 dialogBox = QDialog() 
 dialogBox.setWindowTitle("The world's weirdest dialog box") 
+
+# functions for interactions 
+ 
+# functions for modal version 
+ 
+# functions for modeless version 
+ 
+# connect signals and other initializations 
+ 
+button.clicked.connect(dialogBox.exec_) # invoke dialog modal version 
+ 
+# run the program 
+  
+mainWindow.show() 
+ 
+sys.exit(app.exec_()) 
