@@ -141,7 +141,11 @@ firstNameLineEdit.textChanged.connect(checkBox.toggle)
 lastNameLineEdit.editingFinished.connect(comboBox.showPopup)
 
 #button.clicked.connect(dialogBox.exec_) # invoke dialog modal version 
-button.clicked.connect(openDialogModal) # invoke dialog modal version
+#button.clicked.connect(openDialogModal) # invoke dialog modal version
+
+dialogBox.accepted.connect(dialogAccepted) # invoke dialog modeless version 
+dialogBox.rejected.connect(dialogRejected) 
+button.clicked.connect(openDialogModeless)
 
 # run the program 
   
