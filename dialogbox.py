@@ -113,7 +113,16 @@ def openDialogModal():
          print("Exited dialog via cancel button or closing window")
          
 # functions for modeless version 
+def openDialogModeless():     
+     dialogBox.show() 
+     print("We are already back from calling dialogBox.show()") 
  
+def dialogAccepted(): 
+     printResults() 
+ 
+def dialogRejected(): 
+     print("Exited dialog via cancel button or closing window")
+  
 # connect signals and other initializations 
  
 radioButtons = [ greatRadioButton, neutralRadioButton, horribleRadioButton ] 
