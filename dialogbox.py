@@ -97,9 +97,21 @@ def populateComboBoxWithRandomNumbers():
      comboBox.clear() 
      for i in range(5): 
          comboBox.addItem(str(random.randrange(10)))
+def printResults(): 
+     for rb in radioButtons: 
+         if rb.isChecked(): 
+             print("Selected opinion: " + rb.text()) 
+     print("Combo box has current value " + comboBox.currentText()) 
+     print("Checkbox is " + ("checked" if checkBox.isChecked() else "unchecked"))
 
 # functions for modal version 
- 
+def openDialogModal(): 
+     result = dialogBox.exec_() 
+     if result == QDialog.Accepted: 
+         printResults() 
+     else: 
+         print("Exited dialog via cancel button or closing window")
+         
 # functions for modeless version 
  
 # connect signals and other initializations 
@@ -119,8 +131,9 @@ widgetPushButton.pressed.connect(populateComboBoxWithRandomNumbers)
 firstNameLineEdit.textChanged.connect(checkBox.toggle) 
 lastNameLineEdit.editingFinished.connect(comboBox.showPopup)
 
-button.clicked.connect(dialogBox.exec_) # invoke dialog modal version 
- 
+#button.clicked.connect(dialogBox.exec_) # invoke dialog modal version 
+button.clicked.connect(openDialogModal) # invoke dialog modal version
+
 # run the program 
   
 mainWindow.show() 
