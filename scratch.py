@@ -35,6 +35,9 @@ k = 0
 while True:
       print(l[k])
       if k>=len(l): break
-      
+
+#Creating list using lambda
 v = list(map(lambda x: x+1, l))
+      
+#Creating list using short hand
 w = [k+1 for k in l]
