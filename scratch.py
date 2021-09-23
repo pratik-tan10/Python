@@ -35,3 +35,6 @@ k = 0
 while True:
       print(l[k])
       if k>=len(l): break
+      
+v = list(map(lambda x: x+1, l))
+w = [k+1 for k in l]
