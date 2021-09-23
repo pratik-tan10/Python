@@ -46,3 +46,6 @@ def subt(x): return ("Odd",x) if x%2==1 else ("Even",x)
       
 q = list(map(subt,l))
       
+#Eval function dynamically changes the variable to appropriate number type
+num1 = eval(input("Input a number."))
+      
