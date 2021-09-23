@@ -20,7 +20,18 @@ number = int(input("Please enter a whole number."))
 print("That's a large number" if number>100 else "That's a small number")
       
 l = list(range(1,20))
+
+#iterate through a list using for loop
 for i in l: print(i)
+
+#iterate through a list using while loop
 j = 0
 while(j<len(l)):
-      print l(j)
+      print l[j]
+      j+=1
+
+#while loop with break
+k = 0
+while True:
+      print(l[k])
+      if k>=len(l): break
