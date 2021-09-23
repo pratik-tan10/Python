@@ -21,4 +21,6 @@ print("That's a large number" if number>100 else "That's a small number")
       
 l = list(range(1,20))
 for i in l: print(i)
-     
+j = 0
+while(j<len(l)):
+      print l(j)
