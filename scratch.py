@@ -20,5 +20,5 @@ number = int(input("Please enter a whole number."))
 print("That's a large number" if number>100 else "That's a small number")
       
 l = list(range(1,20))
-for i in l: print i
+for i in l: print(i)
      
