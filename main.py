@@ -90,7 +90,23 @@ def runDirectInput(query):
     mapWV.setHtml(core_functions.webMapFromDictionaryList(result))     
     ui.statusbar.showMessage('Direct input has been added to results list!')
 
-
+# list view selection functions 
+ 
+def selectAll(): 
+    """select all items of the list view widget"""
+    for i in range(ui.resultsLV.model().rowCount()): 
+        ui.resultsLV.model().item(i).setCheckState(Qt.Checked)  
+ 
+def clearSelection(): 
+    """deselect all items of the list view widget"""
+    for i in range(ui.resultsLV.model().rowCount()): 
+        ui.resultsLV.model().item(i).setCheckState(Qt.Unchecked)  
+ 
+def invertSelection(): 
+    """invert current selection of the list view widget"""
+    for i in range(ui.resultsLV.model().rowCount()): 
+        currentValue = ui.resultsLV.model().item(i).checkState() 
+        ui.resultsLV.model().item(i).setCheckState(Qt.Checked if currentValue == Qt.Unchecked else Qt.Unchecked)
 
 
 
