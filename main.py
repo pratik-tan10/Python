@@ -34,6 +34,29 @@ def setListViewFromResult(r):
         item.setData(QVariant(Qt.Checked), Qt.CheckStateRole) 
         m.appendRow(item) 
     ui.resultsLV.setModel(m)
+def runNominatimQuery(query): 
+    """query nominatim and update list view and web map with results"""
+    ui.statusbar.showMessage('Querying Nominatim... please wait!') 
+ 
+    country = ui.nominatimCountryCodeLE.text() if ui.nominatimCountryCodeCB.isChecked() else '' 
+    limit = ui.nominatimLimitLE.text()  
+ 
+    try: 
+        items = core_functions.queryNominatim(query, limit, country) # run query 
+        # create result list from JSON response and store in global variable result 
+        global result  
+        result = [(lambda x: {'name': x['display_name'],'lat': x['lat'], 'lon': x['lon']})(i) for i in items] 
+        # update list view and map with results 
+        setListViewFromResult(result) 
+        mapWV.setHtml(core_functions.webMapFromDictionaryList(result))       
+        ui.statusbar.showMessage('Querying done, ' + str(len(result)) + ' results returned!') 
+    except Exception as e: 
+        QMessageBox.information(mainWindow, 'Operation failed', 'Querying Nominatim failed with '+ str(e.__class__) + ': ' + str(e), QMessageBox.Ok ) 
+        ui.statusbar.clearMessage()
+
+
+
+
 
 
 
