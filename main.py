@@ -108,6 +108,16 @@ def invertSelection():
         currentValue = ui.resultsLV.model().item(i).checkState() 
         ui.resultsLV.model().item(i).setCheckState(Qt.Checked if currentValue == Qt.Unchecked else Qt.Unchecked)
 
+# adding features functions 
+ 
+def addFeatures(): 
+    """run one of the different functions for adding features based on which tab is currently open"""
+    activeTab = ui.addFeaturesTW.currentWidget() 
+    addFeaturesHandler[activeTab]() # call a function from the dictionary in addFeatureHandler
+
+
+
+
 
 
 
