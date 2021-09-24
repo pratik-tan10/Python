@@ -54,6 +54,27 @@ def runNominatimQuery(query):
         QMessageBox.information(mainWindow, 'Operation failed', 'Querying Nominatim failed with '+ str(e.__class__) + ': ' + str(e), QMessageBox.Ok ) 
         ui.statusbar.clearMessage()
 
+def runGeonamesQuery(query): 
+    """query geonames and update list view and web map with results"""
+    ui.statusbar.showMessage('Querying GeoNames... please wait!') 
+ 
+    username = ui.geonamesUsernameLE.text()  
+    country = ui.geonamesCountryCodeLE.text() if ui.geonamesCountryCodeCB.isChecked() else '' 
+    fclass = ui.geonamesFeatureClassLE.text() if ui.geonamesFeatureClassCB.isChecked() else '' 
+    limit = ui.geonamesLimitLE.text() 
+ 
+    try: 
+        items = core_functions.queryGeonames(query, limit, username, country, fclass ) # run query 
+        # create result list from JSON response and store in global variable result 
+        global result  
+        result  = [(lambda x: {'name': x['toponymName'],'lat': x['lat'], 'lon': x['lng']})(i) for i in items] 
+        # update list view and map with results 
+        setListViewFromResult(result) 
+        mapWV.setHtml(core_functions.webMapFromDictionaryList(result)) 
+        ui.statusbar.showMessage('Querying done, ' + str(len(result)) + ' results returned!') 
+    except Exception as e: 
+        QMessageBox.information(mainWindow, 'Operation failed', 'Querying GeoNames failed with '+ str(e.__class__) + ': ' + str(e), QMessageBox.Ok) 
+        ui.statusbar.clearMessage()
 
 
 
