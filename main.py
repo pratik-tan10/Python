@@ -175,7 +175,22 @@ def updateLayers():
         ui.statusbar.clearMessage() 
         ui.shapefileFieldCB.clear()
 
-
+def addFeaturesToLayer(): 
+    """add selected features from list view to layer"""
+    layer = ui.layerPickLayerCB.currentText(); 
+    fieldName = ui.layerFieldCB.currentText() 
+    ui.statusbar.showMessage('Adding entities has started... please wait!') 
+ 
+    try: 
+        with arcpy.da.InsertCursor(arcValidLayers[layer], ("SHAPE@",fieldName)) as cursor: 
+            for i in range(ui.resultsLV.model().rowCount()): # go through all items in list view 
+                if ui.resultsLV.model().item(i).checkState() == Qt.Checked: 
+                    point = arcpy.Point( float(result[i]['lon']), float(result[i]['lat'])) 
+                    cursor.insertRow( (point, result[i]['name'][:30]) ) # name shortened to 30 chars    
+        ui.statusbar.showMessage('Adding entities has finished.') 
+    except Exception as e: 
+        QMessageBox.information(mainWindow, 'Operation failed', 'Writing to layer failed with '+ str(e.__class__) + ': ' + str(e), QMessageBox.Ok ) 
+        ui.statusbar.clearMessage()
 
 
 
