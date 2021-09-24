@@ -220,15 +220,22 @@ def selectNewShapefile():
     if fileName: 
         createShapefileDialog_ui.newShapefileLE.setText(fileName)
 
-
-
-
-
-
-
-      
-
-
+def createNewShapefile(): 
+    """create new shapefile and adds field based on info in dialog GUI"""
+    if createShapefileDialog.exec_() == QDialog.Accepted: 
+        file = createShapefileDialog_ui.newShapefileLE.text() 
+        field = createShapefileDialog_ui.fieldForNameLE.text() 
+ 
+        try: 
+            core_functions.createPointWGS1984Shapefile(file,field) 
+            ui.shapefileAddLE.setText(file) 
+            updateShapefileFieldCB() 
+            ui.shapefileFieldCB.setCurrentIndex(ui.shapefileFieldCB.findText(field)) 
+            ui.statusbar.showMessage('New shapefile has been created.') 
+        except Exception as e: 
+            QMessageBox.information(mainWindow, 'Operation failed', 'Creating new shapefile failed with '+ str(e.__class__) + ': ' + str(e), QMessageBox.Ok ) 
+            ui.statusbar.clearMessage() 
+            ui.shapefileFieldCB.clear()
 
 
 #========================================== 
