@@ -198,10 +198,28 @@ def selectCSV():
     if fileName: 
         ui.csvAddToFileLE.setText(fileName)
 
+def addFeaturesToCSV(): 
+    """add selected features from list view to csv/text file"""
+    fileName = ui.csvAddToFileLE.text() 
+    ui.statusbar.showMessage('Adding entities has started... please wait!') 
+ 
+    try: 
+        with open(fileName, 'a', newline='') as csvfile: 
+             csvWriter = csv.writer(csvfile) 
+             for i in range(ui.resultsLV.model().rowCount()): # go through all items in list view 
+                if ui.resultsLV.model().item(i).checkState() == Qt.Checked: 
+                     csvWriter.writerow( [ result[i]['name'], result[i]['lon'], result[i]['lat'] ])    
+        ui.statusbar.showMessage('Adding entities has finished.') 
+    except Exception as e: 
+        QMessageBox.information(mainWindow, 'Operation failed', 'Writing to csv file failed with '+ str(e.__class__) + ': ' + str(e), QMessageBox.Ok ) 
+        ui.statusbar.clearMessage()
 
 
 
 
+
+
+       
 
 
 
