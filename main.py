@@ -128,7 +128,22 @@ def selectShapefile():
         ui.shapefileAddLE.setText(fileName) 
         updateShapefileFieldCB()
 
-
+def addFeaturesToShapefile(): 
+    """add selected features from list view to shapefile"""
+    fieldName = ui.shapefileFieldCB.currentText() 
+    fileName = ui.shapefileAddLE.text() 
+    ui.statusbar.showMessage('Adding entities has started... please wait!') 
+ 
+    try: 
+        with arcpy.da.InsertCursor(fileName, ("SHAPE@",fieldName)) as cursor:  
+           for i in range(ui.resultsLV.model().rowCount()): # go through all items in list view 
+               if ui.resultsLV.model().item(i).checkState() == Qt.Checked: 
+                   point = arcpy.Point( result[i]['lon'], result[i]['lat']) 
+                   cursor.insertRow( (point, result[i]['name'][:30]) ) # name shortened to 30 chars       
+        ui.statusbar.showMessage('Adding entities has finished.') 
+    except Exception as e: 
+        QMessageBox.information(mainWindow, 'Operation failed', 'Writing to shapefile failed with '+ str(e.__class__) + ': ' + str(e), QMessageBox.Ok ) 
+        ui.statusbar.clearMessage()
 
 
 
