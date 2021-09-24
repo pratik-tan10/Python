@@ -1,1 +1,5 @@
 C:\Users\<username>\AppData\Local\ESRI\conda\envs\arcgispro-py3-clone\python.exe
+
+
+"C:\Users\<username>\AppData\Local\ESRI\conda\envs\arcgispro-py3-clone\python.exe" –m PyQt5.uic.pyuic gui_main.ui –o gui_main.py
+
