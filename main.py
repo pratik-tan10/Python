@@ -121,7 +121,12 @@ def updateShapefileFieldCB():
     fileName = ui.shapefileAddLE.text() 
     ui.shapefileFieldCB.addItems(core_functions.getValidFieldsForShapefile(fileName))
 
-
+def selectShapefile():     
+    """open file dialog to select exising shapefile and if accepted, update GUI accordingly"""
+    fileName, _ = QFileDialog.getOpenFileName(mainWindow,"Select shapefile", "","Shapefile (*.shp)") 
+    if fileName: 
+        ui.shapefileAddLE.setText(fileName) 
+        updateShapefileFieldCB()
 
 
 
