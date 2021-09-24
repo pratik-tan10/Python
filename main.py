@@ -214,12 +214,20 @@ def addFeaturesToCSV():
         QMessageBox.information(mainWindow, 'Operation failed', 'Writing to csv file failed with '+ str(e.__class__) + ': ' + str(e), QMessageBox.Ok ) 
         ui.statusbar.clearMessage()
 
+def selectNewShapefile():     
+    """open file dialog to creaete new shapefile and if accepted, update GUI accordingly"""
+    fileName, _ = QFileDialog.getSaveFileName(mainWindow,"Save new shapefile as", "","Shapefile (*.shp)") 
+    if fileName: 
+        createShapefileDialog_ui.newShapefileLE.setText(fileName)
 
 
 
 
 
-       
+
+
+      
+
 
 
 
