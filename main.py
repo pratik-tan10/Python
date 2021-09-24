@@ -115,6 +115,14 @@ def addFeatures():
     activeTab = ui.addFeaturesTW.currentWidget() 
     addFeaturesHandler[activeTab]() # call a function from the dictionary in addFeatureHandler
 
+def updateShapefileFieldCB(): 
+    """update shapefileFieldCB combo box with field names based on shapefile name"""
+    ui.shapefileFieldCB.clear() 
+    fileName = ui.shapefileAddLE.text() 
+    ui.shapefileFieldCB.addItems(core_functions.getValidFieldsForShapefile(fileName))
+
+
+
 
 
 
