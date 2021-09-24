@@ -145,6 +145,16 @@ def addFeaturesToShapefile():
         QMessageBox.information(mainWindow, 'Operation failed', 'Writing to shapefile failed with '+ str(e.__class__) + ': ' + str(e), QMessageBox.Ok ) 
         ui.statusbar.clearMessage()
 
+def updateLayerFieldCB(): 
+    """update layerFieldCB combo box with field names based on selected layer"""
+    ui.layerFieldCB.clear() 
+    layer = ui.layerPickLayerCB.currentText() 
+ 
+    try: 
+        ui.layerFieldCB.addItems(core_functions.getStringFieldsForDescribeObject(arcpy.Describe(arcValidLayers[layer]))) 
+    except Exception as e: 
+        QMessageBox.information(mainWindow, 'Operation failed', 'Obtaining field list failed with '+ str(e.__class__) + ': ' + str(e), QMessageBox.Ok ) 
+        ui.statusbar.clearMessage()
 
 
 
