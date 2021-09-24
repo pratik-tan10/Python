@@ -76,7 +76,19 @@ def runGeonamesQuery(query):
         QMessageBox.information(mainWindow, 'Operation failed', 'Querying GeoNames failed with '+ str(e.__class__) + ': ' + str(e), QMessageBox.Ok) 
         ui.statusbar.clearMessage()
 
-
+def runDirectInput(query): 
+    """create single feature and update list view and web map with results"""
+    name = ui.directInputNameLE.text() 
+    lon = ui.directInputLonLE.text() 
+    lat = ui.directInputLatLE.text()  
+ 
+    # create result list with single feature and store in global variable result 
+    global result 
+    result = [{ 'name': name, 'lat': lat, 'lon': lon }] 
+    # update list view and map with results 
+    setListViewFromResult(result) 
+    mapWV.setHtml(core_functions.webMapFromDictionaryList(result))     
+    ui.statusbar.showMessage('Direct input has been added to results list!')
 
 
 
