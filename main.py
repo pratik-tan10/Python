@@ -271,7 +271,21 @@ createShapefileDialog_ui.setupUi(createShapefileDialog)
 #========================================== 
 # connect signals 
 #========================================== 
+ui.runQueryPB.clicked.connect(runQuery) 
+ui.resultsClearSelectionPB.clicked.connect(clearSelection) 
+ui.resultsSelectAllPB.clicked.connect(selectAll) 
+ui.resultsInvertSelectionPB.clicked.connect(invertSelection) 
+ui.shapefileOpenFileTB.clicked.connect(selectShapefile) 
+ui.addFeatureAddPB.clicked.connect(addFeatures) 
+ui.shapefileCreateNewPB.clicked.connect(createNewShapefile) 
+ui.csvOpenFileTB.clicked.connect(selectCSV) 
+ui.layerRefreshTB.clicked.connect(updateLayers) 
+ui.shapefileAddLE.editingFinished.connect(updateShapefileFieldCB) 
+ui.layerPickLayerCB.activated.connect(updateLayerFieldCB) 
  
+createShapefileDialog_ui.newShapefileBrowseTB.clicked.connect(selectNewShapefile) 
+
+
 #================================== 
 # initialize global variables 
 #================================== 
