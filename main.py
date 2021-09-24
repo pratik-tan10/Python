@@ -156,6 +156,24 @@ def updateLayerFieldCB():
         QMessageBox.information(mainWindow, 'Operation failed', 'Obtaining field list failed with '+ str(e.__class__) + ': ' + str(e), QMessageBox.Ok ) 
         ui.statusbar.clearMessage()
 
+def updateLayers(): 
+    """refresh layers in global variable arcValidLayers and layerPickLayerCB combo box"""
+    layers = [] 
+    global  arcValidLayers 
+    arcValidLayers = {} 
+    ui.layerPickLayerCB.clear() 
+    ui.layerFieldCB.clear() 
+ 
+    try:  
+        layers = core_functions.getPointLayersFromArcGIS() # get all point layers 
+        for l in layers:                                   # add layers to arcValidLayers and GUI 
+            arcValidLayers[l.name] = l 
+            ui.layerPickLayerCB.addItem(l.name) 
+            updateLayerFieldCB() 
+    except Exception as e: 
+        QMessageBox.information(mainWindow, 'Operation failed', 'Obtaining layer list from  ArcGIS failed with '+ str(e.__class__) + ': ' + str(e), QMessageBox.Ok ) 
+        ui.statusbar.clearMessage() 
+        ui.shapefileFieldCB.clear()
 
 
 
