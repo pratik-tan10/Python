@@ -21,7 +21,33 @@ import core_functions
 #========================================== 
 # create app and main window + dialog GUI 
 # =========================================  
+app = QApplication(sys.argv) 
  
+# set up main window 
+mainWindow = QMainWindow() 
+ui = gui_main.Ui_MainWindow() 
+ui.setupUi(mainWindow) 
+ 
+ui.actionExit.setIcon(app.style().standardIcon(QStyle.SP_DialogCancelButton)) 
+ui.layerRefreshTB.setIcon(app.style().standardIcon(QStyle.SP_BrowserReload)) 
+ 
+ui.directInputLatLE.setValidator(QDoubleValidator()) 
+ui.directInputLonLE.setValidator(QDoubleValidator()) 
+ui.nominatimLimitLE.setValidator(QIntValidator()) 
+ui.geonamesLimitLE.setValidator(QIntValidator()) 
+ 
+mapWV = WebMapWidget() 
+mapWV.page().profile().setHttpAcceptLanguage("en-US")
+mapWV.setHtml(core_functions.webMapFromDictionaryList([])) 
+ui.resultsListAndMapHBL.addWidget(mapWV) 
+mapWV.setFixedSize(300,200) 
+mapWV.setSizePolicy(QSizePolicy(QSizePolicy.Fixed,QSizePolicy.Fixed)) 
+ 
+# set up new shapefile dialog 
+createShapefileDialog = QDialog(mainWindow) 
+createShapefileDialog_ui = gui_newshapefile.Ui_Dialog() 
+createShapefileDialog_ui.setupUi(createShapefileDialog) 
+
 #========================================== 
 # connect signals 
 #========================================== 
