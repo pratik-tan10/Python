@@ -70,7 +70,21 @@ runningAsScriptTool = False     # indicates whether script is run as script tool
 #============================================ 
 # test availability and if run as script tool 
 #============================================ 
+arcpyAvailable = core_functions.importArcpyIfAvailable() 
  
+if not arcpyAvailable: 
+    ui.addFeaturesTW.setCurrentWidget(ui.csvTab) 
+    ui.addFeaturesTW.setTabEnabled(ui.addFeaturesTW.indexOf(ui.shapefileTab),False) 
+    ui.addFeaturesTW.setTabEnabled(ui.addFeaturesTW.indexOf(ui.layerTab),False) 
+    ui.statusbar.showMessage('arcpy not available. Adding to shapefiles and layers has been disabled.') 
+else: 
+    import arcpy 
+    if core_functions.runningAsScriptTool(): 
+        runningAsScriptTool = True
+        updateLayers() 
+    else: 
+        ui.addFeaturesTW.setTabEnabled(ui.addFeaturesTW.indexOf(ui.layerTab),False) 
+        ui.statusbar.showMessage(ui.statusbar.currentMessage() + 'Not running as a script tool. Adding to layer has been disabled.')
 #======================================= 
 # run app 
 #======================================= 
