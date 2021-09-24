@@ -17,7 +17,25 @@ import core_functions
 # ======================================= 
 # GUI event handler and related functions 
 # ======================================= 
+# query and direct input functions 
  
+def runQuery(): 
+    """run one of the different query services based on which tab is currently open"""
+    queryString = ui.queryTermLE.text() 
+    activeTab = ui.queryServicesTW.currentWidget() 
+    queryHandler[activeTab](queryString)   # call a function from the dictionary in queryHandler
+
+
+
+
+
+
+
+
+
+
+
+
 #========================================== 
 # create app and main window + dialog GUI 
 # =========================================  
