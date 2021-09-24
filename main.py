@@ -192,6 +192,12 @@ def addFeaturesToLayer():
         QMessageBox.information(mainWindow, 'Operation failed', 'Writing to layer failed with '+ str(e.__class__) + ': ' + str(e), QMessageBox.Ok ) 
         ui.statusbar.clearMessage()
 
+def selectCSV():     
+    """open file dialog to select exising csv/text file and if accepted, update GUI accordingly"""
+    fileName, _ = QFileDialog.getOpenFileName(mainWindow,"Select CSV file", "","(*.*)") 
+    if fileName: 
+        ui.csvAddToFileLE.setText(fileName)
+
 
 
 
