@@ -25,7 +25,15 @@ def runQuery():
     activeTab = ui.queryServicesTW.currentWidget() 
     queryHandler[activeTab](queryString)   # call a function from the dictionary in queryHandler
 
-
+def setListViewFromResult(r): 
+    """populate list view with checkable entries created from result list in r"""
+    m = QStandardItemModel() 
+    for item in r: 
+        item = QStandardItem(item['name'] + ' ('+item['lat'] + ',' + item['lon'] + ')') 
+        item.setFlags(Qt.ItemIsUserCheckable | Qt.ItemIsEnabled) 
+        item.setData(QVariant(Qt.Checked), Qt.CheckStateRole) 
+        m.appendRow(item) 
+    ui.resultsLV.setModel(m)
 
 
 
