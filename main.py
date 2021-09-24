@@ -55,7 +55,18 @@ createShapefileDialog_ui.setupUi(createShapefileDialog)
 #================================== 
 # initialize global variables 
 #================================== 
+# dictionary mapping tabs from services tab widget to event handler functions 
+queryHandler = { ui.nominatimTab: runNominatimQuery, ui.geonamesTab: runGeonamesQuery, ui.directInputTab: runDirectInput } 
  
+# dictionary mapping tabs from add feature tab widget to event handler functions 
+addFeaturesHandler = { ui.layerTab: addFeaturesToLayer, ui.shapefileTab: addFeaturesToShapefile, ui.csvTab: addFeaturesToCSV } 
+ 
+result = []                     # global variable for storing query results as list of dictionaries 
+arcValidLayers= {}              # dictionary mapping layer names to layer objects       
+ 
+arcpyAvailable = False          # indicates whether is available for import 
+runningAsScriptTool = False     # indicates whether script is run as script tool inside ArcGIS 
+
 #============================================ 
 # test availability and if run as script tool 
 #============================================ 
