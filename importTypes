@@ -2,3 +2,19 @@ import arcpy
 import arcpy as ap
 from arcpy import raster
 from arcpy import *
+++++++++++++++++++++++++++++++++++++++++++
+C:\Users\<username>\AppData\Local\ESRI\conda\envs\arcgispro-py3-clone\
+cd Scripts
+dir pip.*
+
+pip --version
+
+pip list
+
+pip install numpy
+
+pip list --outdated
+
+pip install numpy --upgrade
+
+pip uninstall numpy
