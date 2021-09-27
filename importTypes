@@ -29,4 +29,15 @@ featuresAsTuples = [ ("Feature " + feat['id'], float(feat['lat']), float(feat['l
 print(featuresAsTuples) 
 
 ================================================
-
+import requests
+from bs4 import BeautifulSoup
+ 
+url = 'https://www.e-education.psu.edu/geog489/node/2269'
+ 
+response = requests.get(url)
+soup = BeautifulSoup(response.text, 'html.parser')
+ 
+divElement = soup.select('article#node-book-2269 > div > div')[0] 
+ 
+wordLengths = [ len(word) for word in divElement.text.split() ] 
+print(wordLengths)
