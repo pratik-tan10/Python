@@ -18,3 +18,15 @@ pip list --outdated
 pip install numpy --upgrade
 
 pip uninstall numpy
+ +++++++++++++++++++++++++++++++++++++++++++
+ 
+ features = [ { "id": "A", "lat": "23.32", "lon": "-54.22" }, 
+             { "id": "B", "lat": "24.39", "lon": "53.11" }, 
+             { "id": "C", "lat": "27.98", "lon": "-54.01" } ]
+              
+featuresAsTuples = [ ("Feature " + feat['id'], float(feat['lat']), float(feat['lon']) ) for feat in features if float(feat['lon']) < 0 ] 
+ 
+print(featuresAsTuples) 
+
+================================================
+
