@@ -7,3 +7,4 @@ df = pd.DataFrame(my_array, columns = ['Name','Age','Birth Year','Graduation Yea
 
 print(df)
 print(type(df))
+print(df.dtypes)
