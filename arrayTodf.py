@@ -1,9 +1,7 @@
 import numpy as np
-import pandas as pd
 
-my_array = np.array([[11,22,33],[44,55,66]])
+my_array = np.array([['Jon',25,1995,2016],['Maria',47,1973,2000],['Bill',38,1982,2005]], dtype=object)
 
-df = pd.DataFrame(my_array, columns = ['Column_A','Column_B','Column_C'], index = ['Item_1', 'Item_2'])
-
-print(df)
-print(type(df))
+print(my_array)
+print(type(my_array))
+print(my_array.dtype)
