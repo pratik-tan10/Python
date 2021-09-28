@@ -1,7 +1,9 @@
 import numpy as np
+import pandas as pd
 
 my_array = np.array([['Jon',25,1995,2016],['Maria',47,1973,2000],['Bill',38,1982,2005]], dtype=object)
 
-print(my_array)
-print(type(my_array))
-print(my_array.dtype)
+df = pd.DataFrame(my_array, columns = ['Name','Age','Birth Year','Graduation Year'])
+
+print(df)
+print(type(df))
