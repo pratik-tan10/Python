@@ -9,3 +9,9 @@ print(allUpperCase)
 allLowerCase = applyToEachString(str.lower, ['Building', 'ROAD', 'tree'] )
 print(allLowerCase)
 print([ s.upper() for s in ['Building', 'ROAD', 'tree'] ])
+
+def capitalizeFirstCharacter(s):
+    return s[:1].upper() + s[1:].lower()
+ 
+allCapitalized = applyToEachString(capitalizeFirstCharacter, ['Building', 'ROAD', 'tree'] )
+print(allCapitalized)
