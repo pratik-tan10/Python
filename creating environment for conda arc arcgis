@@ -1,1 +1,3 @@
 conda env create --name AC36 -f "C:\489\AC36_....yml"
+
+C:\Users\<user name>\Anaconda3\envs\AC36 .
