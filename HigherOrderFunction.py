@@ -47,4 +47,8 @@ print(newList)
 newList = filter(float.is_integer, [12.4, 11.0, 17.43, 13.0])
 print(newList)
 
-
+import operator
+from functools import reduce
+ 
+result = reduce(operator.mul, [234,3,3], 1) # product
+print(result)
