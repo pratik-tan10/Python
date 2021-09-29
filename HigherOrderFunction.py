@@ -15,3 +15,6 @@ def capitalizeFirstCharacter(s):
  
 allCapitalized = applyToEachString(capitalizeFirstCharacter, ['Building', 'ROAD', 'tree'] )
 print(allCapitalized)
+
+allCapitalized = applyToEachString(lambda s: s[:1].upper() +  s[1:].lower(), ['Building', 'ROAD', 'tree'] )
+print(allCapitalized)
