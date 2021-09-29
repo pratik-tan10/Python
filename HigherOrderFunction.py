@@ -41,14 +41,20 @@ import operator
 map(operator.add, [1,3,4], [4,5,6])
 
 #==================================================================================
+#FILTER
 newList = list(filter(lambda s: s.startswith('R'), ['Building', 'ROAD', 'tree']))
 print(newList)
 
 newList = filter(float.is_integer, [12.4, 11.0, 17.43, 13.0])
 print(newList)
 
+#=====================================================================================
+#REDUCE
 import operator
 from functools import reduce
- 
+
+result = reduce(operator.add, [234,3,3], 0) # sum
+print(result)
+
 result = reduce(operator.mul, [234,3,3], 1) # product
 print(result)
