@@ -18,7 +18,7 @@ print(allCapitalized)
 
 allCapitalized = applyToEachString(lambda s: s[:1].upper() +  s[1:].lower(), ['Building', 'ROAD', 'tree'] )
 print(allCapitalized)
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 def applyToEachNumber(numberFunction, numberList):
     l = []
     for item in numberList:
@@ -27,7 +27,7 @@ def applyToEachNumber(numberFunction, numberList):
  
 roundedNumbers = applyToEachNumber(round, [12.3, 42.8] )
 print(roundedNumbers)
-==========================================================================================
+#==========================================================================================
 #Map
 
 map(str.upper, ['Building', 'Road', 'Tree'])
@@ -40,4 +40,6 @@ map(round, [12.3, 42.8])
 import operator
 map(operator.add, [1,3,4], [4,5,6])
 
-
+#==================================================================================
+newList = list(filter(lambda s: s.startswith('R'), ['Building', 'ROAD', 'tree']))
+print(newList)
