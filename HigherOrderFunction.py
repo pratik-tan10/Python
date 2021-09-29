@@ -18,3 +18,12 @@ print(allCapitalized)
 
 allCapitalized = applyToEachString(lambda s: s[:1].upper() +  s[1:].lower(), ['Building', 'ROAD', 'tree'] )
 print(allCapitalized)
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+def applyToEachNumber(numberFunction, numberList):
+    l = []
+    for item in numberList:
+        l.append(numberFunction(item))
+    return l
+ 
+roundedNumbers = applyToEachNumber(round, [12.3, 42.8] )
+print(roundedNumbers)
