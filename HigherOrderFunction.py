@@ -6,3 +6,5 @@ def applyToEachString(stringFunction, stringList):
  
 allUpperCase = applyToEachString(str.upper, ['Building', 'ROAD', 'tree'] )
 print(allUpperCase)
+allLowerCase = applyToEachString(str.lower, ['Building', 'ROAD', 'tree'] )
+print(allLowerCase)
