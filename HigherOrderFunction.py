@@ -35,3 +35,9 @@ map(str.upper, ['Building', 'Road', 'Tree'])
 map(lambda s: s[:1].upper() + s[1:].lower(), ['Building', 'ROAD', 'tree']) # uses lambda expression for only first character as upper-case
  
 map(round, [12.3, 42.8])
+
+
+import operator
+map(operator.add, [1,3,4], [4,5,6])
+
+
