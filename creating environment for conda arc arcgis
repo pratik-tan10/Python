@@ -1,3 +1,12 @@
 conda env create --name AC36 -f "C:\489\AC36_....yml"
 
 C:\Users\<user name>\Anaconda3\envs\AC36 .
+
+C:\Users\<user name>\AppData\Local\ESRI\conda\envs\arcgispro-py-clone\Lib\site-packages:
+
+arcgisscripting
+
+arcpy_wmx
+
+gapy
+
