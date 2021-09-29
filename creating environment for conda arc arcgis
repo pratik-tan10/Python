@@ -13,3 +13,22 @@ gapy
 C:\Users\<user name>\Anaconda3\envs\AC36\Lib\site-packages
 
 activate AC36
+
+import bs4
+import pandas
+import cartopy
+import matplotlib
+from osgeo import gdal
+import geopandas
+import rpy2
+import shapely
+import os,sys
+# these next two lines assume your Pro installation is in the default location
+# if it is not amend those paths to point to where it really is e.g. c:\ArcGIS\Pro\bin etc.
+os.environ["PATH"] = r"{};{}".format(os.environ["PATH"], r"C:\Program Files\ArcGIS\Pro\bin")
+sys.path.append(r"C:\Program Files\ArcGIS\Pro\Resources\ArcPy")
+import arcgis
+from arcgis.gis import GIS 
+gis = GIS('pro')
+print(gis.users.me)
+
