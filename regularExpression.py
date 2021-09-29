@@ -7,6 +7,8 @@ personList = [ 'Julia Smith', 'Francis Drake', 'Michael Mason',
                 'Rebecca Clark' ]
 pattern = "John"
 
+compiledRE = re.compile(pattern)
+
 for person in personList:
-  if re.match(pattern, person):
+  if compiledRE.match(pattern, person):
     print(person)
