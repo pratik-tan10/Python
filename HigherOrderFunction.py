@@ -43,3 +43,8 @@ map(operator.add, [1,3,4], [4,5,6])
 #==================================================================================
 newList = list(filter(lambda s: s.startswith('R'), ['Building', 'ROAD', 'tree']))
 print(newList)
+
+newList = filter(float.is_integer, [12.4, 11.0, 17.43, 13.0])
+print(newList)
+
+
