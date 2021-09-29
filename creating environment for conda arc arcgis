@@ -1,0 +1,1 @@
+conda env create --name AC36 -f "C:\489\AC36_....yml"
