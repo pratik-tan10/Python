@@ -25,4 +25,18 @@ os.environ['R_HOME'] = r'C:\Users\username\anaconda3\envs\AC37\lib\R' # workarou
 
 
 #_______________________________________________________________________
+#WIDGETS
+
+from ipywidgets import widgets 
+from IPython.display import display 
+ 
+def onButtonClick(b):
+    print("Button " + b.description + " has been clicked")
+ 
+for i in range(1,4):
+    button = widgets.Button(description=str(i))
+    display(button)
+    button.on_click(onButtonClick)
+
+#_______________________________________________________________________
 
