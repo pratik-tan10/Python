@@ -61,4 +61,10 @@ bc <- bioclim(predictorRasters, observationPoints)
 #_______________________________________________________________________
 
 
+pb <- predict(predictorRasters, bc)
+plot(pb, main='Bioclim, raw values')
+
+#_______________________________________________________________________
+
+
 
