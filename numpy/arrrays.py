@@ -56,3 +56,10 @@ print(a[:4])
 print(a[4:])
 
 
+import numpy
+a = numpy.arange(9)
+b = a.reshape(3,3)
+c = numpy.arange(5,14)
+print('{}\n{}'.format(a,b))
+print(numpy.row_stack((a,c)))
+
