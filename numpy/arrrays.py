@@ -74,3 +74,14 @@ print(b.tolist())
 print(b.astype('float16'))
 print(numpy.arange(6000).reshape(10,10,12,5).std())
 
+
+import numpy as np
+import random
+import matplotlib as plt
+a = random.sample(range(1,15),5)
+b = random.sample(range(6,30),5)
+print(a)
+print(b)
+print(np.corrcoef(a,b))
+
+
