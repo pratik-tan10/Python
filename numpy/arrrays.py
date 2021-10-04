@@ -39,3 +39,9 @@ newArray = numpy.array(aList)
 
 a = numpy.array([1,2,3],[6,7,8],[11,51,53])
 print(a)
+
+b=numpy.arange(5, dtype = 'float16')
+print(b)
+
+c = numpy.int8(b)
+print(c)
