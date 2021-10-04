@@ -19,11 +19,26 @@ def main():
 #=============================================================================================
     #Writing to a tab seperated file in the same folder as input csv file
     #outfname = fname.replace('.csv', '_new.tsv')
-    case = True
+    #outval(N)
     while True:
         try:
-            outfname0 = input('Please enter the name of output .tsv file (e.g (e.g C:\Workspace\output.tsv): \n')
-            outfname = outfname0.replace('\\\\','\\').replace('"','').replace("'","")
+            outfolder0 = input('Please enter the name of folder to store output .tsv file (e.g C:\Workspace): \n')
+            outfolder = outfolder0.replace('\\\\','\\').replace('"','').replace("'","")
+            print(outfolder0)
+            if os.path.exists(outfolder0):
+                break
+        except:
+            print(outfolder0)
+            print('Some issue with output folder name.')
+        else:
+            break
+            
+    case = True
+    while case:
+        try:
+            outfname0 = input('Please enter the name of output .tsv file (e.g output.tsv): \n')
+            outfname1 = outfname0.replace('\\\\','\\').replace('"','').replace("'","")
+            outfname = os.path.join(outfolder, outfname1)
             if os.path.exists(outfname):
                 print('File with specified name already exists.')
                 overwrite = input('Enter y to override\t or n to save as another file\t')
@@ -98,4 +113,5 @@ def fwrite(outfname,N):
     of.writelines(N)
     of.close()
     print('\n\nPlease, check the following file:\n{}\n'.format(outfname))
+
 main()
