@@ -65,13 +65,13 @@ def fread():
     while True:
         try:
             fname0 = input('Please enter the input file name. (e.g C:\Workspace\RiverFlux_months.csv): \n')
-            #print(fname0)
             fname = fname0.replace('\\\\','\\').replace('"','').replace("'","")
-            #print(fname)
-            return open(str(fname),'r').readlines()
+#--------------------first use of with----------------------------------------
+            with open(str(fname),'r') as rf:
+                return rf.readlines()
         except:
             import sys
-            print("\nPlease, check your inputs and try again.Be wary of quotation marks.\n")
+            print("\nFile not found.Please check the input file name and try again.\n")
             #sys.exit(1)
         else:
             break
@@ -109,10 +109,11 @@ def hintf():
 #=============================================================================================
 #function 6: fwrite, to write output file
 def fwrite(outfname,N):
+#--------------------second use of with----------------------------------------
     with open(outfname,'w') as of:
         of.writelines(N)
 
-    print('\n\nPlease, check the following file:\n{}\n'.format(outfname))
+    print('\n\nOutput written to following file.\nPlease, check the following file:\n{}\n'.format(outfname))
 
 
 #=============================================================================================
@@ -132,16 +133,20 @@ def outval(N):
             outfname1 = outfname0.replace('\\\\','\\').replace('"','').replace("'","")
             outfname = os.path.join(outfolder, outfname1)
             if os.path.exists(outfname):
+                
                 print('File with specified name already exists.')
                 overwrite = input('Enter y to override\t or n to save as another file\t')
                 if overwrite=='y' or overwrite=='Y':
                     fwrite(outfname,N)
                     break
+                #--------------------raising exception------------------------------
+                raise NameError('File already exists.')
             else:
                 fwrite(outfname,N)
                 break
-            
-        except:
-            print("Some error occured\n")
+
+        #--------------------catching exception------------------------------
+        except NameError:
+            print("Please enter a new name for output file.\n")
 
 main()
