@@ -63,3 +63,14 @@ c = numpy.arange(5,14)
 print('{}\n{}'.format(a,b))
 print(numpy.row_stack((a,c)))
 
+import numpy
+a = numpy.arange(27)
+b = a.reshape(3,3,3)
+c = numpy.arange(5,14)
+#print('{}\n{}'.format(a,b))
+print(b)
+w,v = numpy.hsplit(b,[2])
+print(b.tolist())
+print(b.astype('float16'))
+print(numpy.arange(6000).reshape(10,10,12,5).std())
+
