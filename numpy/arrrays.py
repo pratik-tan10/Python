@@ -45,3 +45,14 @@ print(b)
 
 c = numpy.int8(b)
 print(c)
+
+a = np.arange(9)
+print(a)
+
+print(a[2:4])
+
+print(a[:-4])
+print(a[:4])
+print(a[4:])
+
+
