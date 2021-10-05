@@ -57,3 +57,10 @@ points(train, col='red', pch=20, cex=2)
 p <- polygons(ch)
 p
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++
+## S4 method for signature 'matrix'
+circles(p, d, lonlat, n=360, r=6378137, dissolve=TRUE, ...)
+## S4 method for signature 'SpatialPoints'
+circles(p, d, lonlat, n=360, r=6378137, dissolve=TRUE, ...)
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++
+
