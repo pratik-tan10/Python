@@ -10,11 +10,13 @@ for i in range(1,4):
     button.on_click(onButtonClick)
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++
-conda install -n base -c conda-forge widgetsnbextension
-conda install -n AC36 -c conda-forge ipywidgets
+#If the code above shows error in anaconda prompt run the following lines
+'''conda install -n base -c conda-forge widgetsnbextension
+conda install -n AC36 -c conda-forge ipywidgets'''
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++
-logo <- stack(system.file("external/rlogo.grd", package="raster"))
+#Species distribution model in DISMO package of R
+'''logo <- stack(system.file("external/rlogo.grd", package="raster"))
 v <- extract(logo, pts)
 bc <- bioclim(v)
 p1 <- predict(logo, bc)
@@ -74,4 +76,4 @@ predict(cc, test)
 plot(r)
 plot(cc, border='red', lwd=2, add=TRUE)
 points(train, col='red', pch=20, cex=2)
-points(test, col='black', pch=20, cex=2)
+points(test, col='black', pch=20, cex=2)'''
