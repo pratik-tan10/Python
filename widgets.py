@@ -31,3 +31,7 @@ tmx <- tmn + 5
 prc <- setValues(prc, t(matrix(c(0,2,10,30,80,160,80,20,40,60,20,0))))
 b <- biovars(prc, tmn, tmx)
 as.matrix(b)
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++
+calc.deviance(obs, pred, weights = rep(1,length(obs)),
+family="binomial", calc.mean = TRUE)
