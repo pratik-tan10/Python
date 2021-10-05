@@ -14,3 +14,8 @@ conda install -n base -c conda-forge widgetsnbextension
 conda install -n AC36 -c conda-forge ipywidgets
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++
+logo <- stack(system.file("external/rlogo.grd", package="raster"))
+v <- extract(logo, pts)
+bc <- bioclim(v)
+p1 <- predict(logo, bc)
+p2 <- predict(logo, bc, tails=c('both', 'low', 'high'))
