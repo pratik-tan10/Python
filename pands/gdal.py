@@ -24,3 +24,11 @@ for feature in layer:
     print(feature.GetField('NAME'))
 layer.ResetReading()
 
+layer.SetAttributeFilter('')
+
+wkt = 'POLYGON ( (6.3 -14, 52 -14, 52 -40, 6.3 -40, 6.3 -14))'  # WKT polygon string for a rectangular area
+geom = ogr.CreateGeometryFromWkt(wkt) 
+layer.SetSpatialFilter(geom)
+for feature in layer:
+    print(feature.GetField('NAME'))
+layer.ResetReading()
