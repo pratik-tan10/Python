@@ -19,3 +19,8 @@ for feature in layer:
     print(feature.GetField('NAME') + '–' + feature.GetGeometryRef().Centroid().ExportToWkt())
 layer.ResetReading()
 
+layer.SetAttributeFilter('POP2005 > 100000000')
+for feature in layer:
+    print(feature.GetField('NAME'))
+layer.ResetReading()
+
