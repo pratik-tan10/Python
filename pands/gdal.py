@@ -10,3 +10,12 @@ layer = dataSet.GetLayer(0)
 layerDefinition = layer.GetLayerDefn()
 for i in range(layerDefinition.GetFieldCount()):
     print(layerDefinition.GetFieldDefn(i).GetName())
+
+for feature in layer:
+    print(feature.GetField('NAME'))
+layer.ResetReading()
+
+for feature in layer:
+    print(feature.GetField('NAME') + '–' + feature.GetGeometryRef().Centroid().ExportToWkt())
+layer.ResetReading()
+
