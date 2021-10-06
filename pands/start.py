@@ -65,3 +65,6 @@ for row in df.itertuples(index=False):
     print(row.m2)  # print value from column with name m2
     print('----------')
       
+dfSorted = df.sort_values(by='m2', ascending=False)
+dfSorted
+
