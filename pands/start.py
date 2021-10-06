@@ -68,3 +68,12 @@ for row in df.itertuples(index=False):
 dfSorted = df.sort_values(by='m2', ascending=False)
 dfSorted
 
+m5values = [0.432523, -0.123223, -0.231232, 0.001231, -0.23698, -0.41231]
+df['m5'] = m5values
+df
+
+df.loc[pd.Timestamp('2017-01-07'),:] = [ ... ]
+for i in range(7,10):
+    df.loc[ pd.Timestamp('2017-01-0'+str(i)),:] = [ np.random.rand() for j in range(5) ]
+df
+
