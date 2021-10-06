@@ -41,7 +41,17 @@ print(allRowsSomeColumns)
 someSubset = df.loc[ [pd.Timestamp('2017-01-01'), pd.Timestamp('2017-01-03'), pd.Timestamp('2017-01-05')] , ['m2', 'm4'] ]
 print(someSubset
 
+	
+df.loc['2017' , ['m2', 'm4'] ]
 
+	
+df.iloc[0,0] = 0.17
 
+df.loc['2017-01-01', 'm1'] = 0.17
 
+df
 
+dfCopy = df.copy()
+dfCopy.iloc[0,0] = 0
+print(df)
+print(dfCopy
