@@ -55,3 +55,13 @@ dfCopy = df.copy()
 dfCopy.iloc[0,0] = 0
 print(df)
 print(dfCopy
+
+df.iloc[ [0,4] , [0] ] = 1.2
+print(df)
+
+for row in df.itertuples(index=False):
+    print(row)     # print entire row tuple
+    print(row[0])  # print value from column with index 0
+    print(row.m2)  # print value from column with name m2
+    print('----------')
+      
