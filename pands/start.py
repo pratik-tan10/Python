@@ -100,3 +100,7 @@ print(~v1)
 print(v1 & v2)
 print(v1 | v2)
 
+df[ [True, False, True, False, True, False, True, False, True] ]
+df[v1 &v2]
+df[(df.m1*2<0.2) &(df.m2<0)]
+
