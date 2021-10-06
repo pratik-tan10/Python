@@ -88,3 +88,15 @@ merged
 newMerged = merged.drop('name', axis=1)
 newMerged
 
+df > 0
+	
+df.m1 * 2 < 0.2
+(df.m1 * 2 < 0.2).value_counts()
+v1 = df.m1 * 2 < 0.2
+print(v1)
+v2 = df.m2 > 0
+print(v2)
+print(~v1)
+print(v1 & v2)
+print(v1 | v2)
+
