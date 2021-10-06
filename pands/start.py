@@ -77,3 +77,14 @@ for i in range(7,10):
     df.loc[ pd.Timestamp('2017-01-0'+str(i)),:] = [ np.random.rand() for j in range(5) ]
 df
 
+df1 = pd.DataFrame( {'state': ['Washington', 'Oregon'], 'capital': ['Olympia', 'Salem']} )
+print(df1)
+df2 = pd.DataFrame( {'name': ['Washington', 'Oregon'], 'population':[7288000, 4093000]} )
+print(df2
+
+merged = df1.merge(df2, left_on='state', right_on='name')
+merged
+
+newMerged = merged.drop('name', axis=1)
+newMerged
+
