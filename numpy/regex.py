@@ -40,6 +40,7 @@ for line in hand:
 
 for line in hand:
     line = line.rstrip()
-    if re.search('^X\S*: [0-9.]+', line):
-        print(line)
+    x = re.search('^X\S*: ([0-9.]+)', line)
+    if len(x)>0:
+        print(x)
 
