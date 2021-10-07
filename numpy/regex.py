@@ -21,3 +21,7 @@ for line in hand:
     if re.search('From:.+@*', line):
         print(line)
         
+s = 'A message from csev@umich.edu to cwen@iupui.edu about meeting @2PM'
+lst = re.findall('\S+@\S+', s)
+print(lst)
+
