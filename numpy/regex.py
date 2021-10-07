@@ -5,7 +5,6 @@ for line in hand:
     if re.search('From:', line):
         print(line)
 
-
 for line in hand:
     line = line.rstrip()
     if re.search('^From', line):
