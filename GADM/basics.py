@@ -56,7 +56,9 @@ with ZipFile("gadm36_NPL_shp.zip", 'r') as zipObj:
     path = os.path.join(os.getcwd(),"gadm36_NPL_shp")
     if not os.path.exists(path):
         zipObj.extractall(path = path)
-   
+
+#------------------------------------------------------------------
+
 flist = os.listdir(path)
 shps = [j for j in flist if j.endswith('.shp')]
 labels = ['Country', 'States','Districts','Local Levels']
@@ -68,8 +70,8 @@ for k,v,n in zip(labels, shps, range(len(shps))):
     fdict[k]=v
     ndict[k]=n
 
+#------------------------------------------------------------------
 import geopandas as gp
-
 level = input("Enter the level of data to search: eg: country, states, district, local level")
 
 for i in fdict:
