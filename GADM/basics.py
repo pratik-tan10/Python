@@ -28,3 +28,22 @@ else:
     slink=template_url.format(k)
     savename = slink.split('/')[-1]
 
+def download_shp_zip(slink, savename):
+
+    print( "Downloading file:%s"%savename)
+    
+    # create response object
+    r = requests.get(slink, stream = True)
+    
+    # download started
+    with open(savename, 'wb') as f:
+        for chunk in r.iter_content(chunk_size = 1024*1024):
+            if chunk:
+                f.write(chunk)
+    
+    print( "%s downloaded!\n"%savename )
+    print ("File {} downloaded!".format(savename))
+    return
+
+download_shp_zip(slink, savename)
+
