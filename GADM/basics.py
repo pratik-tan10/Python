@@ -47,3 +47,20 @@ def download_shp_zip(slink, savename):
 
 download_shp_zip(slink, savename)
 
+#------------------------------------------------------------------
+from zipfile import ZipFile
+import os
+
+with ZipFile("gadm36_NPL_shp.zip", 'r') as zipObj:
+    # Extract all the contents of zip file in following directory
+    path = os.path.join(os.getcwd(),"gadm36_NPL_shp")
+    if not os.path.exists(path):
+        zipObj.extractall(path = path)
+   
+flist = os.listdir(path)
+shps = [j for j in flist if j.endswith('.shp')]
+labels = ['Country', 'States','Districts','Local Levels']
+
+fdict = {}
+ndict = {}
+
