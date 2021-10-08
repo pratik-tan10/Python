@@ -64,3 +64,19 @@ labels = ['Country', 'States','Districts','Local Levels']
 fdict = {}
 ndict = {}
 
+for k,v,n in zip(labels, shps, range(len(shps))):
+    fdict[k]=v
+    ndict[k]=n
+
+import geopandas as gp
+
+level = input("Enter the level of data to search: eg: country, states, district, local level")
+
+for i in fdict:
+    if level.lower() in fdict[i]:
+        shp = fdict[i]
+        numb = ndict[i]
+
+shppath = os.path.join(path, shp)
+
+dname = input('Enter name of district.')
