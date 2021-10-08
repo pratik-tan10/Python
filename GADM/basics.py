@@ -13,3 +13,9 @@ with open("countriesShortform.txt",'r') as f:
         a = line.split(',')
         if len(a)>1:
             cdict[a[0]]=a[1].rstrip()
+
+def findcd(sp):
+    for key, val in cdict.items():
+        if sp.replace(' ','').lower()==val.lower():
+            return(key, val, sp)
+    return None
