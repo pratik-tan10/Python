@@ -19,3 +19,12 @@ def findcd(sp):
         if sp.replace(' ','').lower()==val.lower():
             return(key, val, sp)
     return None
+
+if sp.lower()=='world':
+    slink = 'https://biogeo.ucdavis.edu/data/gadm3.6/gadm36_shp.zip'
+    savename = 'world.zip'
+else:
+    k,v,s = findcd(sp)
+    slink=template_url.format(k)
+    savename = slink.split('/')[-1]
+
