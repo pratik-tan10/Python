@@ -27,3 +27,9 @@ import datashader as ds
 from datashader import transfer_functions as tf
 from datashader.colors import Greys9
 Greys9_r = list(reversed(Greys9))[:-2]
+
+%%time
+cvs = ds.Canvas(plot_width=plot_width, plot_height=plot_height, x_range=x_range, y_range=y_range)
+agg = cvs.points(df, 'dropoff_x', 'dropoff_y',  ds.count('passenger_count'))
+img = tf.shade(agg, cmap=["white", 'darkblue'], how='linear')
+
