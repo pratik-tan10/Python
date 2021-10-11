@@ -9,3 +9,8 @@ import holoviews as hv
 from holoviews import opts
 from holoviews.element.tiles import StamenTerrain
 hv.extension('bokeh')
+
+plot_width  = int(750)
+plot_height = int(plot_width//1.2)
+x_range, y_range =(-8242000,-8210000), (4965000,4990000)
+plot_options = hv.Options(width=plot_width, height=plot_height, xaxis=None, yaxis=None)
