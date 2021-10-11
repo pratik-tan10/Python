@@ -48,3 +48,8 @@ hv.Histogram((edges, frequencies)).opts(width=800).redim.range(Frequency=(0,6000
 tf.shade(agg, cmap=Greys9_r, how='eq_hist')
 
 
+import holoviews.operation.datashader as hd
+from datashader.colors import Hot
+shaded = hd.datashade(hv.Points(df, ['dropoff_x', 'dropoff_y']), cmap=Hot, aggregator=ds.count('passenger_count'))
+hd.dynspread(shaded, threshold=0.5, max_px=4).opts(bgcolor='black', xaxis=None, yaxis=None, width=900, height=500)
+
