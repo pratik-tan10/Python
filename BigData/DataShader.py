@@ -61,3 +61,18 @@ custom_points = hv.Points(df, ['dropoff_x', 'dropoff_y'])
 custom_shaded = hd.shade(hd.rasterize(custom_points).apply(transform), cmap=Hot)
 tiles * hd.dynspread(custom_shaded, threshold=0.3, max_px=4)
 
+def transform(overlay):
+    picks = overlay.get(0).redim(pickup_x='x', pickup_y='y')
+    drops = overlay.get(1).redim(dropoff_x='x', dropoff_y='y')
+    pick_agg = picks.data.Count.data
+    drop_agg = drops.data.Count.data
+    more_picks = picks.clone(picks.data.where(pick_agg>drop_agg))
+    more_drops = drops.clone(drops.data.where(drop_agg>pick_agg))
+    return (hd.shade(more_drops, cmap=['lightcyan', "blue"]) *
+            hd.shade(more_picks, cmap=['mistyrose', "red"]))
+
+picks = hv.Points(df, ['pickup_x',  'pickup_y'])
+drops = hv.Points(df, ['dropoff_x', 'dropoff_y'])
+((hd.rasterize(picks) * hd.rasterize(drops))).apply(transform).opts(
+    bgcolor='white', xaxis=None, yaxis=None, width=900, height=500)
+
