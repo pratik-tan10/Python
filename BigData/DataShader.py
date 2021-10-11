@@ -33,3 +33,18 @@ cvs = ds.Canvas(plot_width=plot_width, plot_height=plot_height, x_range=x_range,
 agg = cvs.points(df, 'dropoff_x', 'dropoff_y',  ds.count('passenger_count'))
 img = tf.shade(agg, cmap=["white", 'darkblue'], how='linear')
 
+frequencies,edges = np.histogram(agg.values, bins=100)
+hv.Histogram((edges, frequencies)).opts(width=800).redim.range(Frequency=(0,6000))
+
+frequencies,edges = np.histogram(np.log1p(agg.values), bins=100)
+hv.Histogram((edges, frequencies)).opts(width=800).redim.range(Frequency=(0,8000))
+
+tf.shade(agg, cmap=Greys9_r, how='log')
+
+frequencies,edges = np.histogram(tf.eq_hist(agg.values), bins=100)
+hv.Histogram((edges, frequencies)).opts(width=800).redim.range(Frequency=(0,6000))
+
+
+tf.shade(agg, cmap=Greys9_r, how='eq_hist')
+
+
