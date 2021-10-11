@@ -14,3 +14,9 @@ plot_width  = int(750)
 plot_height = int(plot_width//1.2)
 x_range, y_range =(-8242000,-8210000), (4965000,4990000)
 plot_options = hv.Options(width=plot_width, height=plot_height, xaxis=None, yaxis=None)
+
+samples = df.sample(frac=1e-4)
+tiles = StamenTerrain().redim.range(x=x_range, y=y_range)
+points = hv.Points(samples, ['dropoff_x', 'dropoff_y'])
+(tiles * points)
+
