@@ -84,3 +84,7 @@ pickups = hv.Points(df, ['pickup_x', 'pickup_y'])
 shade =  hd.datashade(pickups, aggregator=ds.count_cat('pickup_hour'), color_key=colors)
 hd.dynspread(shade, threshold=0.3, max_px=4).opts(bgcolor='black', xaxis=None, yaxis=None, width=900, height=500)
 
+pickups = hv.Points(df, ['dropoff_x', 'dropoff_y'])
+shade = hd.datashade(pickups, aggregator=ds.count_cat('pickup_hour'), color_key=colors)
+hd.dynspread(shade, threshold=0.3, max_px=4).opts(bgcolor='black', xaxis=None, yaxis=None, width=900, height=500)
+
