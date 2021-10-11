@@ -76,3 +76,11 @@ drops = hv.Points(df, ['dropoff_x', 'dropoff_y'])
 ((hd.rasterize(picks) * hd.rasterize(drops))).apply(transform).opts(
     bgcolor='white', xaxis=None, yaxis=None, width=900, height=500)
 
+colors = ["#FF0000","#FF3F00","#FF7F00","#FFBF00","#FFFF00","#BFFF00","#7FFF00","#3FFF00",
+          "#00FF00","#00FF3F","#00FF7F","#00FFBF","#00FFFF","#00BFFF","#007FFF","#003FFF",
+          "#0000FF","#3F00FF","#7F00FF","#BF00FF","#FF00FF","#FF00BF","#FF007F","#FF003F"]
+
+pickups = hv.Points(df, ['pickup_x', 'pickup_y'])
+shade =  hd.datashade(pickups, aggregator=ds.count_cat('pickup_hour'), color_key=colors)
+hd.dynspread(shade, threshold=0.3, max_px=4).opts(bgcolor='black', xaxis=None, yaxis=None, width=900, height=500)
+
