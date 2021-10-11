@@ -20,3 +20,10 @@ tiles = StamenTerrain().redim.range(x=x_range, y=y_range)
 points = hv.Points(samples, ['dropoff_x', 'dropoff_y'])
 (tiles * points)
 
+tiles * hv.Points(df.sample(frac=1e-3), ['dropoff_x', 'dropoff_y'])
+tiles * hv.Points(df.sample(frac=1e-2), ['dropoff_x', 'dropoff_y']).opts(size=1, alpha=0.1)
+
+import datashader as ds
+from datashader import transfer_functions as tf
+from datashader.colors import Greys9
+Greys9_r = list(reversed(Greys9))[:-2]
