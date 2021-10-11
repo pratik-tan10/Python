@@ -53,3 +53,11 @@ from datashader.colors import Hot
 shaded = hd.datashade(hv.Points(df, ['dropoff_x', 'dropoff_y']), cmap=Hot, aggregator=ds.count('passenger_count'))
 hd.dynspread(shaded, threshold=0.5, max_px=4).opts(bgcolor='black', xaxis=None, yaxis=None, width=900, height=500)
 
+def transform(img):
+    agg = img.data.Count
+    return img.clone(agg.where(agg>np.percentile(agg, 90)))
+
+custom_points = hv.Points(df, ['dropoff_x', 'dropoff_y'])
+custom_shaded = hd.shade(hd.rasterize(custom_points).apply(transform), cmap=Hot)
+tiles * hd.dynspread(custom_shaded, threshold=0.3, max_px=4)
+
