@@ -32,4 +32,22 @@ file_share_folder = bigdata_fileshares[0]
 #manifest describes schema
 manifest = file_share_folder.manifest
 manifest
+manifest['datasets'][0]['geometry']['spatialReference'] = { "wkid": 102682, "latestWkid": 3452 }
+file_share_folder.manifest = manifest
+file_share_folder.manifest
+
+#search for big dat file shares
+search_result = gis.content.search("bigDataFileShares_ServiceCallsOrleans", item_type = "big data file share", max_items=40)
+search_result
+
+data_item = search_result[0]
+data_item
+
+calls = data_item.layers[0]
+calls.properties
+block_grp_item = gis.content.get('9975b4dd3ca24d4bbe6177b85f9da7bb')
+block_grp_item
+blk_grp_lyr = block_grp_item.layers[0]
+
+
 
