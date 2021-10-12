@@ -64,4 +64,12 @@ m1 = gis.map()
 m1
 m1.add_layer(description.sample_layer)
 
+#clip to a boundary
+clip_result = clip_layer(calls, blk_grp_lyr, output_name="service calls in new Orleans" + str(dt.now().microsecond))
+
+orleans_calls = clip_result.layers[0]
+m2 = gis.map('New Orleans')
+m2
+m2.add_layer(orleans_calls)
+
 
