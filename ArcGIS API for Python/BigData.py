@@ -83,4 +83,23 @@ m3
 m3.add_layer(agg_result)
 m3.legend=True
 
+cal_density = calculate_density(orleans_calls,
+                                weight='Uniform',
+                                bin_type='Square',
+                                bin_size=1,
+                                bin_size_unit="Kilometers",
+                                time_step_interval=1,
+                                time_step_interval_unit="Years",
+                                time_step_repeat_interval=1,
+                                time_step_repeat_interval_unit="Months",
+                                time_step_reference=dt(2011, 1, 1),
+                                radius=1000,
+                                radius_unit="Meters",
+                                area_units='SquareKilometers',
+                                output_name="calculate density of call" + str(dt.now().microsecond))
+
+cal_density
+
+m4 = gis.map("New Orleans")
+m4
 
