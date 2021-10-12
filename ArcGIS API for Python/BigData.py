@@ -103,3 +103,21 @@ cal_density
 m4 = gis.map("New Orleans")
 m4
 
+m4.add_layer(cal_density)
+m4.legend = True
+
+#finding hot spots and cold spots
+
+hot_spots = find_hot_spots(orleans_calls, 
+                           bin_size=100,
+                           bin_size_unit='Meters',
+                           neighborhood_distance=250,
+                           neighborhood_distance_unit='Meters',
+                           output_name="get hot spot areas" + str(dt.now().microsecond))
+
+hot_spots
+m5 = gis.map("New Orleans")
+m5
+m5.add_layer(hot_spots)
+m5.legend = True
+
