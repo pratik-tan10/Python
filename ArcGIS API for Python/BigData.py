@@ -49,5 +49,19 @@ block_grp_item = gis.content.get('9975b4dd3ca24d4bbe6177b85f9da7bb')
 block_grp_item
 blk_grp_lyr = block_grp_item.layers[0]
 
+#describe data
+description = describe_dataset(input_layer=calls,
+                               extent_output=True,
+                               sample_size=1000,
+                               output_name="Description of service calls" + str(dt.now().microsecond),
+                               return_tuple=True)
+
+description.output_json
+description.sample_layer
+description.sample_layer.query().sdf
+
+m1 = gis.map()
+m1
+m1.add_layer(description.sample_layer)
 
 
