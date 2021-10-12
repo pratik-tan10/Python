@@ -17,3 +17,19 @@ gis = GIS('https://pythonapi.playground.esri.com/portal', 'arcgis_python', 'amaz
 
 #Check if GeoAnalytics is supported
 arcgis.geoanalytics.is_supported()
+
+#Create big data file share
+
+bigdata_datastore_manager = arcgis.geoanalytics.get_datastores()
+bigdata_datastore_manager
+
+
+bigdata_fileshares = bigdata_datastore_manager.search(id='cff51a1a-4f27-4955-a3ef-5fa23240ccf9')
+bigdata_fileshares
+
+file_share_folder = bigdata_fileshares[0]
+
+#manifest describes schema
+manifest = file_share_folder.manifest
+manifest
+
