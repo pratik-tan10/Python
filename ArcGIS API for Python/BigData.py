@@ -72,4 +72,15 @@ m2 = gis.map('New Orleans')
 m2
 m2.add_layer(orleans_calls)
 
+#summarize data
+arcgis.env.prcess_spatial_reference = 54034
+agg_result = aggregate_points(orleans_calls, polygon_layer = blk_grp_lyr, output_name = "aggregate results of call" +str(dt.now().microsecond))
+
+agg_result
+
+m3 = gis.map()
+m3
+m3.add_layer(agg_result)
+m3.legend=True
+
 
