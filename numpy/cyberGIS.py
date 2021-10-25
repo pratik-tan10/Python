@@ -16,3 +16,16 @@ plt.plot(range(10))
 plt.gca().add_patch(patches.Circle((5,5),2, edgecolor = 'red', facecolor = 'cyan'))
 plt.gca().add_patch(patches.rectangle((0,0),9,9, linewidth = 10, edgecolor = 'cyan'))
 
+plt.figure(figsize = (6,5))
+
+mu, sigma = 150, 20
+x = mu +sigma*np.random.rand(10000)
+
+n,bins,_ = plt.hist(x,10, density = 1, facecolor = 'g', alpha = 0.75)
+plt.xlabel('Value', fontsize = 22)
+plt.ylabel('Probability', fontsize = 22)
+plt.title('Histogram', fontsize = 22)
+plt.tick_params(labelsize = 20)
+plt.text(100, 0.25, r'$\mu = 150, \ \sigma = 20$', fontsize = 22)
+plt.axis([75,225,0,0.03])
+plt.grid(True)
