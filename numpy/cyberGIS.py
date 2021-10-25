@@ -46,3 +46,21 @@ ax.add_feature(cf.LAKES)
 ax.set_title("WORLD")
 ax.figure.set_size_inches(9,7.5)
 
+rivers_50m = cf.NaturalEarthFeature('physical', 'rivers_lake_centerlines', '50m')
+land_50m = cf.NautralEarthFeature('physical', 'land', '50m', edgecolor = 'face', facecolor = cf.COLORS['land'])
+ax = plt.axes(projection = ccrs.Mercator())
+ax.add_feature(land_50m)
+ax.add_feature(rivers_50m)
+ax.set_title("Natural Earth")
+ax.figure.set_size_inches(6,5)
+
+central_lon, central_lat = -105, 40
+extent = [-130, 30, -80, 50]
+ax = plt.axes(projection = ccrs.Orthographic(central_lon, central_lat))
+ax.set_extent(extent)
+ax.gridlines()
+ax.coastlines(resolution = '50m')
+ax.add_fefature(cf.BORDERS)
+ax.figure.set_size_inches(12,10)
+
+
