@@ -105,6 +105,18 @@ bmap = Basemap(width = 12000000, height = 9000000, projection = 'lcc',
                resolution = None, lat_1 = 45.0, lat_3 = 55, lat_0 = 50, lon_0 =-107.)
 bmap.etopo()
 
+#setup LCC basemap
+m = Basemap( width = 9000000, height = 6000000, projection = 'lcc', resoultion = 'c', lat_1 = 45., lat_2 = 55, lat_0 = 50, lon_0 =-107.)
+m.drawcoastlines()
+m.drawmapboundary(fill_color = 'aqua')
+m.fillcontinents(color = 'coral', lake_color = 'aqua')
 
+#draw parallels and meridians
+
+parallels = np.arange(20., 61, 10.)
+m.drawparallels(parallels, labels = [True, True, False, False])
+
+meridianns = np.arange(220., 351., 10.)
+m.drawmeridians(meridians, labels = [False, False, False, True])
 
 
