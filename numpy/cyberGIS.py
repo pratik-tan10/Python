@@ -83,3 +83,28 @@ ax.plt(lons, lats, label = 'Equirectangular straight line')
 ax.plot(lons, lats, label = 'Great Circle', transform = ccrs.Geodetic())
 
 ax.legend()
+
+from mpl_toolkits.basemap import Basemap
+import matplotlib.patches as patches
+
+#set up map
+bmap = Basemap(width = 12000000, height = 9000000, projection = 'lcc', \
+               resolution = 'c', lat_1=45., lat_2 = 55, lat0 = 50, lon_0 = -107.0)
+bmap.drawcoastlines()
+bmap.drawmapboundary(fill_color = 'lightblue')
+
+#fill continents, set lake color same as ocean color
+bmap.fillcontinents(color = 'lightgreen', lake_color = 'lightblue')
+
+#blue marble
+bmap = Basemap(projection = 'robin', lon_0 = -0.)
+bmap.bluemarble()
+
+#ETOPO1 Global Relief Model
+bmap = Basemap(width = 12000000, height = 9000000, projection = 'lcc',
+               resolution = None, lat_1 = 45.0, lat_3 = 55, lat_0 = 50, lon_0 =-107.)
+bmap.etopo()
+
+
+
+
