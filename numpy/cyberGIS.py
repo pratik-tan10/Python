@@ -63,4 +63,23 @@ ax.coastlines(resolution = '50m')
 ax.add_fefature(cf.BORDERS)
 ax.figure.set_size_inches(12,10)
 
+new_york = dict(lon = -74.00, lat = 40.72)
+london = dict(lon = 0.08, lat = 51.53)
+extent = [-80, 39, 2, 52]
 
+fig = plt.figure(figsize = (12,6))
+ax = plt.axes(projection = ccrs.PlateCarree())
+
+ax.set_extent(extent)
+ax.gridlines()
+ax.coastlines(resolution = '50m')
+
+plt.title('Great Circle V/S straight line from New York to London')
+
+lons = [new_york['lon'], london['lon']]
+lats = [new_york['lat'], london['lat']]
+
+ax.plt(lons, lats, label = 'Equirectangular straight line')
+ax.plot(lons, lats, label = 'Great Circle', transform = ccrs.Geodetic())
+
+ax.legend()
