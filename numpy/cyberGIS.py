@@ -29,3 +29,20 @@ plt.tick_params(labelsize = 20)
 plt.text(100, 0.25, r'$\mu = 150, \ \sigma = 20$', fontsize = 22)
 plt.axis([75,225,0,0.03])
 plt.grid(True)
+
+import matplotlib.pyplot as plt
+import cartopy.crs as ccrs
+import cartopy.feature as cf
+
+ax = plt.axes(projection = cccrs.AlbersEqualArea())
+ax.add_feature(cf.COASTLINE)
+ax.set_title("Coastline")
+
+ax = plt.axes(projection = ccrs.Mercator())
+ax.add_feature(cf.COASTLINE)
+ax.add_feature(cf.BORDERS)
+ax.add_feature(cf.OCEAN)
+ax.add_feature(cf.LAKES)
+ax.set_title("WORLD")
+ax.figure.set_size_inches(9,7.5)
+
