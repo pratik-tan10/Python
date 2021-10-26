@@ -158,3 +158,13 @@ m.drawgreatcircle(nylon, nylat, lonlon, lonlat, linewidth = 2, color ='b')
 
 m.scatter(nylon, nylat, s = 500, latlonn = True)
 m.scatter(lonlon, lonlat, s =500, latlon = True)
+
+#draw parallels
+m.drawparallels(np.arange(10,90,20), labels = [1,1,0,1])
+
+#draw meridians
+m.drawmeridians(np.arange(-180, 180, 30), labels = [1,,1,0,1])
+
+plt.title('Great Circle from New York to London')
+print plt.xlim(), plt.ylim()  
+
