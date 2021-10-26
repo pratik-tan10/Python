@@ -132,4 +132,19 @@ m.drawmeridians(np.arange(m.lonmin, m.lonmax + 30, 60), labels = [0,0,0,1])
 m.drawmapboundary(fill_color = 'aqua')
 m.fillcontinents(color = 'coral', lake_color = 'aqua')
 
+#shade the night areas, with alpha transparency so the map shows through. Use current time in UTC
+date = datetime.utcnow()
+CS = m.nightshade(date, alpha = 0.7)
+
+plt.title('Day/Night Map for %s (UTC)' % date.strftime("%d %b %Y %H:%M:%S"))
+
+fig = plt.figure(figsize = (12,6))
+                                                       
+#setup mercator map projection
+m = Basemap(llcrnrlon = -1000, llcrnnrlat = 20, urcrnrlon = 220, urcrnrlat = 60.,\
+            resolution = '1', projection = 'merc',\
+            lat_0 = 40., lon_0 = -20., lat_ts =20.)
+m.drawcoastlines()
+m.fillcontinents(zorder = 0)
+
 
