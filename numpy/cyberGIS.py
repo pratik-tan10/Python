@@ -119,4 +119,17 @@ m.drawparallels(parallels, labels = [True, True, False, False])
 meridianns = np.arange(220., 351., 10.)
 m.drawmeridians(meridians, labels = [False, False, False, True])
 
+from datetime import datetime
+#create a map with Miller projection
+m = Basemap(projection = 'mill', lon_0 = 0)
+
+#plot coastlines, draw label meridians and parallels
+m.drawcoastlines()
+m.drawparallels(np.arange(-90,90,30), labels = [1,0,0,0])
+m.drawmeridians(np.arange(m.lonmin, m.lonmax + 30, 60), labels = [0,0,0,1])
+
+#fill continents 'coral' with zorder = 0, color wet areas 'aqua'
+m.drawmapboundary(fill_color = 'aqua')
+m.fillcontinents(color = 'coral', lake_color = 'aqua')
+
 
