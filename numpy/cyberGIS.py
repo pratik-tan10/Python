@@ -147,4 +147,14 @@ m = Basemap(llcrnrlon = -1000, llcrnnrlat = 20, urcrnrlon = 220, urcrnrlat = 60.
 m.drawcoastlines()
 m.fillcontinents(zorder = 0)
 
+#nylat, nylon,are lat/lon of New York
+nylat = 40.78; nylon = -73.98
 
+#lonlat, lonlon, are lat/lon of London
+lonlat = 51.53; lonlon = 0.08
+
+#draw great circle route between NY and London
+m.drawgreatcircle(nylon, nylat, lonlon, lonlat, linewidth = 2, color ='b')
+
+m.scatter(nylon, nylat, s = 500, latlonn = True)
+m.scatter(lonlon, lonlat, s =500, latlon = True)
