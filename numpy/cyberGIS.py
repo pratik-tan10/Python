@@ -168,3 +168,20 @@ m.drawmeridians(np.arange(-180, 180, 30), labels = [1,,1,0,1])
 plt.title('Great Circle from New York to London')
 print plt.xlim(), plt.ylim()  
 
+#basic plot --interactive
+plt.plot(range(10), 'b')
+plt.plot(range(10), 'rs')
+mplleaflet.display()
+
+import geopandas as gpd
+df = gpd.read_file(os.path.join('/share/pyintro_resources/data', 'Chicago_Community.geojson'))
+
+df.columns
+
+ax = df.head(50).plot(cmap = 'tab10')
+mplleaflet.display(fig = ax.figure, crs = df.crs)
+mplleaflet.show(fig = ax.figure, crs = df.crs, tiles = 'cartodb_positron', path = 'chicago.html')
+
+
+
+
