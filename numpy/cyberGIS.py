@@ -207,4 +207,9 @@ m = folium.Map(location = [40.1094763, -88.2261033], tiles = 'Stamen Terrain', z
 m.add_child(folium.LatLngPopup())
 m
 
+#add markers on click
+m = folium.Map(location = [44.8527, -121.7649], tiles = 'Stamen Terrain', zoom_start = 13)
+follium.Marker([46.8354, -121.7325], popup = 'Camp Muir').add_to(m)
+m.add_child(folium.ClickForMarker(popup = 'Waypoint'))
+
 
