@@ -182,6 +182,21 @@ ax = df.head(50).plot(cmap = 'tab10')
 mplleaflet.display(fig = ax.figure, crs = df.crs)
 mplleaflet.show(fig = ax.figure, crs = df.crs, tiles = 'cartodb_positron', path = 'chicago.html')
 
+import folium
+m=folium.Map(location = [40.1080246, 88.2259164], zoom_start = 17)
+m
+#save file to html
+m.save('folium-quad.html')
+
+m = folium.Map(location = [40.1080246, 88.2259164], zoom_start = 17, tiles = 'Stamen Terrain')
+tooltip = 'Click Me'
+folium.Marker([40.1094736, -88.226103], popup = '<i>Natural History Building</i>', tooltip = tooltip).add_to(m)
+folium.Marker([40.1094375, -88.2271792], popup = '<b>Illini Union</b>', tooltip = tooltip).add_to(m)
+m
+
+folium.Marker([40.1094736, -88.226103], popup = '<i>Natural History Building</i>', tooltip = tooltip, icon = folium.Icon(icon = 'cloud')).add_to(m)
+folium.Marker([40.1094375, -88.2271792], popup = '<b>Illini Union</b>',  icon = folium.Icon(color = 'red', icon = 'info-sign')).add_to(m)
+m
 
 
 
