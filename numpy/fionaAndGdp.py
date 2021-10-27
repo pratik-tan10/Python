@@ -32,3 +32,16 @@ boroDF[['Shape_Araea', 'BoroName']]
 boroDF[['Shape_Araea', 'BoroName']][:2]
 boroDF[:2][['Shape_Araea', 'BoroName',  'Shape_Leng']]
 
+bpop = [200000,22000,60000,111000,256000]
+boroDF['Population'] = bpop
+boroDF.tail()
+from pandas import Series
+population = Series({'Manhattan': 154882,
+                     'Bronx' : 258254,
+                     'Brooklyn' : 598324,
+                     'Queens' : 256789,
+                     'Staten Island' : 468730})
+boroDF = boroDF.set_index('BoroName')
+boroDF['Population'] = population
+
+
