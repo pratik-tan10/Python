@@ -198,5 +198,13 @@ folium.Marker([40.1094736, -88.226103], popup = '<i>Natural History Building</i>
 folium.Marker([40.1094375, -88.2271792], popup = '<b>Illini Union</b>',  icon = folium.Icon(color = 'red', icon = 'info-sign')).add_to(m)
 m
 
+folium.Circle(radius = 100, location = [40.107570, -88.227102], popup = 'The Quad', color = 'crimson', fill = False, ).add_to(m)
+folium.CircleMarker(location = [40.117555, -88.242494], radius = 30, popup = 'Downtown Champaign', color = '#32ffcc', fill = True, fill_color = '##31ffcc').add_to(m)
+m
+
+#add lat/long popup on click
+m = folium.Map(location = [40.1094763, -88.2261033], tiles = 'Stamen Terrain', zoom_start = 12)
+m.add_child(folium.LatLngPopup())
+m
 
 
