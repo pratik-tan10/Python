@@ -25,3 +25,10 @@ normal_n_input = BoundedIntText(value=30, min=0, max=100000, step=1, description
 normal_button = Button(description="Calculate")
 normal_output = Output()
 
+
+binomial_label = Label("Binomial Distribution Confidence Interval Calculator")
+binomial_confidence = FloatSlider(description="confidence", value=0.95, min=0.5, max=0.99, step=0.01)
+binomial_phat = FloatSlider(description="p hat", value=0.78, min=0.0, max=1.0, step=0.01)
+binomial_n_input = BoundedIntText(value=30, min=0, max=100000, step=1, description='n:', disabled=False)
+binomial_button = Button(description="Calculate")
+binomial_output = Output()
