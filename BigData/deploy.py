@@ -32,3 +32,11 @@ binomial_phat = FloatSlider(description="p hat", value=0.78, min=0.0, max=1.0, s
 binomial_n_input = BoundedIntText(value=30, min=0, max=100000, step=1, description='n:', disabled=False)
 binomial_button = Button(description="Calculate")
 binomial_output = Output()
+# Button click event handlers ...
+def normal_button_on_click(b):
+    ci = normal_distribution_ci(normal_confidence.value, normal_x_bar_input.value, normal_sigma_input.value, normal_n_input.value)
+    
+    normal_output.clear_output()
+    with normal_output:
+        print(f"The population mean lies between {ci[0]:.2f} and {ci[1]:.2f} with {normal_confidence.value:.0%} confidence")
+
