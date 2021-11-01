@@ -47,3 +47,10 @@ def binomial_button_on_click(b):
     with binomial_output:
         print(f"The population mean lies between {ci[0]:.1%} and {ci[1]:.1%} with {binomial_confidence.value:.0%} confidence")
 
+normal_button.on_click(normal_button_on_click)
+binomial_button.on_click(binomial_button_on_click)
+
+vbox_normal = VBox([normal_label, normal_confidence, normal_x_bar_input, normal_sigma_input, normal_n_input, normal_button, normal_output])
+vbox_binomial = VBox([binomial_label, binomial_confidence, binomial_phat, binomial_n_input, binomial_button, binomial_output])
+
+VBox([vbox_normal, vbox_binomial])
