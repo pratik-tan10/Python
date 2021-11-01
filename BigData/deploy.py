@@ -40,3 +40,10 @@ def normal_button_on_click(b):
     with normal_output:
         print(f"The population mean lies between {ci[0]:.2f} and {ci[1]:.2f} with {normal_confidence.value:.0%} confidence")
 
+def binomial_button_on_click(b):
+    ci = binomial_distribution_ci(binomial_confidence.value, binomial_phat.value, binomial_n_input.value)
+    
+    binomial_output.clear_output()
+    with binomial_output:
+        print(f"The population mean lies between {ci[0]:.1%} and {ci[1]:.1%} with {binomial_confidence.value:.0%} confidence")
+
