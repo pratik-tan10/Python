@@ -94,5 +94,15 @@ for i in range(0,3000): #3000 columns in our dataframe
     
 string = pd.Series(cleaned_tweets).str.cat(sep=' ')
 
+#Generate Word Cloud
+from wordcloud import WordCloud, STOPWORDS
+import matplotlib.pyplot as plt
+stopwords = set(STOPWORDS)
+stopwords.update(["elonmusk","elon musk","elon","musk","spacex"]) #adding our own stopwords
 
+wordcloud = WordCloud(width=1600, stopwords=stopwords,height=800,max_font_size=200,max_words=50,collocations=False, background_color='black').generate(string)
+plt.figure(figsize=(40,30))
+plt.imshow(wordcloud, interpolation="bilinear")
+plt.axis("off")
+plt.show()
     
