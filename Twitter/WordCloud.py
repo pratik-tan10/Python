@@ -23,5 +23,10 @@ def keyword_to_csv(keyword,recent):
     except BaseException as e:
         print('failed on_status,',str(e))
         time.sleep(3)
+ 
+#Choose Keyword
+keyword = 'SpaceX'+ " -filter:retweets" #excludes retweets
+recent  = 3000
+keyword_to_csv(keyword, recent)
 
-        
+#Data CLeaning
