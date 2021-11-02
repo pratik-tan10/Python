@@ -58,7 +58,28 @@ a = df.loc[3].to_string()
 print(a
 re_list = [’@[A-Za-z0–9_]+’, '#']
 combined_re = re.compile( '|'.join( re_list) )
-match = re.sub(combined_re,’’,a)
+match = re.sub(combined_re,’’,a))
 print(match)
-      
 
+#Html to plaintext
+from bs4 import BeautifulSoup
+a = df.loc[27].to_string()
+print(a)
+
+del_amp = BeautifulSoup(a, 'lxml')
+del_amp_text = del_amp.get_text()
+print(del_amp_text)
+
+#Finally CLeal everything
+from bs4 import BeautifulSoup
+from nltk.tokenize import WordPunctTokenizer
+token = WordPunctTokenizer()
+def cleaning_tweets(t):
+    del_amp = BeautifulSoup(t, 'lxml')
+    del_amp_text = del_amp.get_text()
+    del_link_mentions = re.sub(combined_re, '', del_amp_text)
+    del_emoticons = re.sub(regex_pattern, '', del_link_mentions)
+    lower_case = del_emoticons.lower()
+    words = token.tokenize(lower_case)
+    result_words = [x for x in words if len(x) > 2]
+    return (" ".join(result_words)).strip()
