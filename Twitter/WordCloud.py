@@ -106,3 +106,18 @@ plt.imshow(wordcloud, interpolation="bilinear")
 plt.axis("off")
 plt.show()
     
+#Custom mask for wordcloud
+import numpy as np
+from PIL import Image
+mask = np.array(Image.open('./your_image.jpg'))
+wordcloud = WordCloud(width=1600, mask =   mask,stopwords=stopwords,height=800,max_font_size=200,max_words=50,collocations=False).generate(string)
+f = plt.figure(figsize=(50,50))
+f.add_subplot(1,2, 1)
+plt.imshow(mask, cmap=plt.cm.gray, interpolation='bilinear')
+plt.title('Original Image', size=40)
+plt.axis("off")
+f.add_subplot(1,2, 2)
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.title('Generated Word Cloud', size=40)
+plt.axis("off")
+plt.show()
