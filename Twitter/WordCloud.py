@@ -29,4 +29,36 @@ keyword = 'SpaceX'+ " -filter:retweets" #excludes retweets
 recent  = 3000
 keyword_to_csv(keyword, recent)
 
-#Data CLeaning
+#Load data for data CLeaning
+df = pd.read_csv("./#spacex-filter:retweets.csv") #loads csv file into pandas dataframe
+pd.options.display.max_colwidth = 200 
+df.head() #prints out first few columns in a dataframe
+
+#Remove Emoji
+a = df.loc[1272].to_string() #loads the row from dataframe
+print(a)
+regex_pattern = re.compile(pattern = "["
+        u"\U0001F600-\U0001F64F"  # emoticons
+        u"\U0001F300-\U0001F5FF"  # symbols & pictographs
+        u"\U0001F680-\U0001F6FF"  # transport & map symbols
+        u"\U0001F1E0-\U0001F1FF"  # flags (iOS)
+                           "]+", flags = re.UNICODE)
+match = re.sub(regex_pattern,'',a) #replaces pattern with ''
+print(match)
+
+#Remove URL
+a = df.loc[0].to_string()
+print(a)
+pattern = re.compile(r'(https?://)?(www\.)?(\w+\.)?(\w+)(\.\w+)(/.+)?')
+match = re.sub(pattern,'',a)
+print(match)
+
+#Remove menthions and hash symbol
+a = df.loc[3].to_string()
+print(a
+re_list = [’@[A-Za-z0–9_]+’, '#']
+combined_re = re.compile( '|'.join( re_list) )
+match = re.sub(combined_re,’’,a)
+print(match)
+      
+
