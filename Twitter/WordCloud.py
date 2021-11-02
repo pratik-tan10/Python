@@ -83,3 +83,16 @@ def cleaning_tweets(t):
     words = token.tokenize(lower_case)
     result_words = [x for x in words if len(x) > 2]
     return (" ".join(result_words)).strip()
+
+#Pass tweets to clean.
+print("Cleaning the tweets...\n")
+cleaned_tweets = []
+for i in range(0,3000): #3000 columns in our dataframe
+    if( (i+1)%100 == 0 ):
+        print("Tweets {} of {} have ben processed".format(i+1,3000))                                                                  
+    cleaned_tweets.append(cleaning_tweets((df.Text[i])))
+    
+string = pd.Series(cleaned_tweets).str.cat(sep=' ')
+
+
+    
