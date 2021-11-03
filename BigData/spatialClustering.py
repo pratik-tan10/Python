@@ -80,4 +80,15 @@ cl_pcts.plot(kind='barh', stacked=True, ax=ax, \
              cmap='Set2', linewidth=0)
 ax.legend(ncol=1, loc="right");
 
+ratings = [i for i in lst if 'review_scores_' in i]
+ratings
+
+rt_av = lst.groupby('zipcode')[ratings]\
+           .mean()\
+           .rename(lambda x: str(int(x)))
+
+zrt = zc[['geometry', 'zipcode']].join(rt_av, on='zipcode')\
+                                 .dropna()
+zrt.info()
+
 
