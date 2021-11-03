@@ -91,4 +91,34 @@ zrt = zc[['geometry', 'zipcode']].join(rt_av, on='zipcode')\
                                  .dropna()
 zrt.info()
 
+zrt.to_file('tmp')
+w = ps.queen_from_shapefile('tmp/tmp.shp', idVariable='zipcode')
+# NOTE: this might not work on Windows
+! rm -r tmp
+w
+
+n_rev = lst.groupby('zipcode')\
+           .sum()\
+           ['number_of_reviews']\
+           .rename(lambda x: str(int(x)))\
+           .reindex(zrt['zipcode'])
+thr = np.round(0.1 * n_rev.sum())
+thr
+
+# Set the seed for reproducibility
+np.random.seed(1234)
+
+z = zrt.drop(['geometry', 'zipcode'], axis=1).values
+maxp = ps.region.Maxp(w, z, thr, n_rev.values[:, None], initial=1000)
+
+%%time
+np.random.seed(1234)
+maxp.cinference(nperm=999)
+
+lbls = pd.Series(maxp.area2region).reindex(zrt['zipcode'])
+
+f, ax = plt.subplots(1, figsize=(9, 9))
+
+
+
 
