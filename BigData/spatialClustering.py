@@ -21,3 +21,22 @@ varis = ['bedrooms', 'bathrooms', 'beds']
 aves = lst.groupby('zipcode')[varis].mean()
 aves.info()
 
+#additional Variables
+types = pd.get_dummies(lst['property_type'])
+prop_types = types.join(lst['zipcode'])\
+                  .groupby('zipcode')\
+                  .sum()
+prop_types_pct = (prop_types * 100.).div(prop_types.sum(axis=1), axis=0)
+prop_types_pct.info()
+aves_props = aves.join(prop_types_pct)
+
+#Standarize columns
+db = pd.DataFrame(\
+                 scale(aves_props), \
+                 index=aves_props.index, \
+                 columns=aves_props.columns)\
+       .rename(lambda x: str(int(x)))
+
+#Plot
+zc = gpd.read_file(zc_link)
+zc.plot(color = 'red');
