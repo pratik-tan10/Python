@@ -40,3 +40,20 @@ db = pd.DataFrame(\
 #Plot
 zc = gpd.read_file(zc_link)
 zc.plot(color = 'red');
+
+#Combine two data sets
+zdb = zc[['geometry', 'zipcode', 'name']].join(db, on='zipcode').dropna()
+
+f, ax = plt.subplots(1, figsize=(9, 9))
+
+zc.plot(color='grey', linewidth=0, ax=ax)
+zdb.plot(color='red', linewidth=0.1, ax=ax)
+
+ax.set_axis_off()
+
+plt.show()
+
+#GeoDemographic Analysis
+cluster.KMeans?
+
+km5 = cluster.KMeans(n_clusters=5)
