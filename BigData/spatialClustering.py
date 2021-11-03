@@ -57,3 +57,27 @@ plt.show()
 cluster.KMeans?
 
 km5 = cluster.KMeans(n_clusters=5)
+
+km5cls = km5.fit(zdb.drop(['geometry', 'name'], axis=1).values)
+f, ax = plt.subplots(1, figsize=(9, 9))
+
+zdb.assign(cl=km5cls.labels_)\
+   .plot(column='cl', categorical=True, legend=True, \
+         linewidth=0.1, edgecolor='white', ax=ax)
+
+ax.set_axis_off()
+
+plt.show()
+
+cl_pcts = prop_types_pct.rename(lambda x: str(int(x)))\
+                          .reindex(zdb['zipcode'])\
+                          .assign(cl=km5cls.labels_)\
+                          .groupby('cl')\
+                          .mean()
+
+f, ax = plt.subplots(1, figsize=(18, 9))
+cl_pcts.plot(kind='barh', stacked=True, ax=ax, \
+             cmap='Set2', linewidth=0)
+ax.legend(ncol=1, loc="right");
+
+
