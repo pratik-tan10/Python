@@ -119,6 +119,15 @@ lbls = pd.Series(maxp.area2region).reindex(zrt['zipcode'])
 
 f, ax = plt.subplots(1, figsize=(9, 9))
 
+zrt.assign(cl=lbls.values)\
+   .plot(column='cl', categorical=True, legend=True, \
+         linewidth=0.1, edgecolor='white', ax=ax)
+
+ax.set_axis_off()
+
+plt.show()
+
+zrt[ratings].groupby(lbls.values).mean().T
 
 
 
