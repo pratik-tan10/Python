@@ -34,4 +34,11 @@ oldMain = geocode('Old Main Bldg, State College, PA')[0]
 map.draw(walker, {'title':'Walker Bldg', 'content': walker['attributes']['LongLabel']})
 map.draw(oldMain, {'title':'Old Main Bldg', 'content': oldMain['attributes']['LongLabel']})
 
+#Draw Freehand line between those two points
+from arcgis.geometry import lengths
+ 
+def calcLength(map,g):
+    l = lengths(g['spatialReference'], [g], '', 'geodesic')
+    print('Length: '+ str(l[0]) + 'm.')
+
 
