@@ -11,3 +11,10 @@ import arcgis
 from arcgis.gis import GIS
 gis = GIS('pro')
 gis?
+
+#Access User Properties
+user = gis.users.get('<your username>')
+user
+user.email
+user.fullName
+
