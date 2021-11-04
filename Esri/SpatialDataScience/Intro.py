@@ -41,4 +41,6 @@ def calcLength(map,g):
     l = lengths(g['spatialReference'], [g], '', 'geodesic')
     print('Length: '+ str(l[0]) + 'm.')
 
+map.on_draw_end(calcLength)
+map.draw('freehandpolyline')
 
