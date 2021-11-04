@@ -18,3 +18,12 @@ user
 user.email
 user.fullName
 
+#Create Map
+map = gis.map('State College, PA')
+map
+
+#set Zoom
+map.zoom = 11
+#Change basemap to satellite image
+map.basemap = 'satellite'
+
