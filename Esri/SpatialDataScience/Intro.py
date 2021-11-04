@@ -44,3 +44,15 @@ def calcLength(map,g):
 map.on_draw_end(calcLength)
 map.draw('freehandpolyline')
 
+featureServicesPA = gis.content.search(query='title:PA', item_type='Feature Layer Collection', max_items = 50)
+featureServicesPA
+map.add_layer(featureServicesPA[0], {'opacity': 0.8})
+
+gis.content.search(query='owner:<your agol username>', item_type='Feature Service')
+
+neCities = gis.content.add({'type': 'Shapefile'}, r'C:\489\L3\ne_cities.zip')
+neCitiesFS = neCities.publish()
+cityMap = gis.map('Pennsylvania')
+cityMap.add_layer(neCitiesFS, {})
+cityMap
+gis.content.search(query='owner:<your agol username>', item_type='Feature Service')
