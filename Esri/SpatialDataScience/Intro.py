@@ -27,3 +27,11 @@ map.zoom = 11
 #Change basemap to satellite image
 map.basemap = 'satellite'
 
+#Add marker on map
+from arcgis.geocoding import geocode
+walker = geocode('Walker Bldg, State College, PA')[0]
+oldMain = geocode('Old Main Bldg, State College, PA')[0]
+map.draw(walker, {'title':'Walker Bldg', 'content': walker['attributes']['LongLabel']})
+map.draw(oldMain, {'title':'Old Main Bldg', 'content': oldMain['attributes']['LongLabel']})
+
+
