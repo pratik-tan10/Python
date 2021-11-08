@@ -34,7 +34,7 @@ echo hash('sha256','Pratik Dhungana')
 </div>
 
 </div>
-<div style ="width: 25%;height: 400px; border: 2px solid green; padding: 2%"><iframe src="https://www.google.com/maps/d/u/0/embed?mid=1ldvNeLyqamtC9ufmx-8-4sBTYrUjHhOo" width=100% height=100%></iframe></div>
+<div style ="width: 25%;height: 400px; border: 2px solid green; padding: 2%"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d16723.783131514898!2d83.95586696316263!3d28.215140413409127!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3995951d11d64f5d%3A0x8f0d3f2ed876286d!2sLake%20Side%2C%20Pokhara%2033700%2C%20Nepal!5e0!3m2!1sen!2sus!4v1636396610477!5m2!1sen!2sus" width=100% height=100% style="border:0;" allowfullscreen="" loading="lazy"></iframe></div>
 </p>
 <pre>ASCII ART:
 
