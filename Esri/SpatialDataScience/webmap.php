@@ -48,6 +48,11 @@ echo hash('sha256','Pratik Dhungana')
     **
     **
     **
+<form action="/action_page.php">
+  <label for="birthday">Birthday:</label>
+  <input type="date" id="birthday" name="birthday">
+  <input type="submit">
+</form>
 <iframe src="https://calendar.google.com/calendar/htmlembed?src=addressbook%23contacts%40group.v.calendar.google.com&ctz=America%2FChicago" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
 </pre>
 <a href="check.php">Click here to check the error setting</a>
