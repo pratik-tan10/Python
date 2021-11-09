@@ -15,3 +15,12 @@ def create_connection(host_name, user_name, user_password):
   return connection
 
 connection = create_connection("localhost", "root", "")
+
+def create_database(connection, query):
+  cursor = connection.cursor()
+  try:
+    cursor.execute(query)
+    print("Database created Successfully.")
+  except Error as e:
+    print(f"The error '{e}' occured")
+    
