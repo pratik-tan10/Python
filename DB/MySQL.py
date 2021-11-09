@@ -27,3 +27,26 @@ def create_database(connection, query):
     
 create_database_query = "CREATE DATABASE sm_app"
 create_database(connection, create_database_query)
+
+def execute_query(connection, query):
+    cursor = connection.cursor()
+    try:
+        cursor.execute(query)
+        connection.commit()
+        print("Query executed successfully")
+    except Error as e:
+        print(f"The error '{e}' occurred")
+
+create_users_table = """
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT, 
+  name TEXT NOT NULL, 
+  age INT, 
+  gender TEXT, 
+  nationality TEXT, 
+  PRIMARY KEY (id)
+) ENGINE = InnoDB
+"""
+
+execute_query(connection, create_users_table)
+
