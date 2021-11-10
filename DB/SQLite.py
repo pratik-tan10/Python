@@ -156,3 +156,22 @@ users_posts = execute_read_query(connection, select_users_posts)
 
 for users_post in users_posts:
     print(users_post)
+
+select_posts_comments_users = """
+SELECT
+  posts.description as post,
+  text as comment,
+  name
+FROM
+  posts
+  INNER JOIN comments ON posts.id = comments.post_id
+  INNER JOIN users ON users.id = comments.user_id
+"""
+
+posts_comments_users = execute_read_query(
+    connection, select_posts_comments_users
+)
+
+for posts_comments_user in posts_comments_users:
+    print(posts_comments_user)
+
