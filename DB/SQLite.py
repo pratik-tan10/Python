@@ -141,3 +141,18 @@ posts = execute_read_query(connection, select_posts)
 
 for post in posts:
     print(post)
+
+select_users_posts = """
+SELECT
+  users.id,
+  users.name,
+  posts.description
+FROM
+  posts
+  INNER JOIN users ON users.id = posts.user_id
+"""
+
+users_posts = execute_read_query(connection, select_users_posts)
+
+for users_post in users_posts:
+    print(users_post)
