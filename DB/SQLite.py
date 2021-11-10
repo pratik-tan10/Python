@@ -129,3 +129,15 @@ def execute_read_query(connection, query):
         return result
     except Error as e:
         print(f"The error '{e}' occurred")
+
+select_users = "SELECT * from users"
+users = execute_read_query(connection, select_users)
+
+for user in users:
+    print(user)
+
+select_posts = "SELECT * FROM posts"
+posts = execute_read_query(connection, select_posts)
+
+for post in posts:
+    print(post)
