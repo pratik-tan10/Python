@@ -175,3 +175,28 @@ posts_comments_users = execute_read_query(
 for posts_comments_user in posts_comments_users:
     print(posts_comments_user)
 
+cursor = connection.cursor()
+cursor.execute(select_posts_comments_users)
+cursor.fetchall()
+
+column_names = [description[0] for description in cursor.description]
+print(column_names)
+
+select_post_likes = """
+SELECT
+  description as Post,
+  COUNT(likes.id) as Likes
+FROM
+  likes,
+  posts
+WHERE
+  posts.id = likes.post_id
+GROUP BY
+  likes.post_id
+"""
+
+post_likes = execute_read_query(connection, select_post_likes)
+
+for post_like in post_likes:
+    print(post_like)
+
