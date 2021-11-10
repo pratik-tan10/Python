@@ -118,4 +118,14 @@ VALUES
 execute_query(connection, create_comments)
 execute_query(connection, create_likes)
 
-execute_query(connection, create_posts)  
+execute_query(connection, create_posts)
+
+def execute_read_query(connection, query):
+    cursor = connection.cursor()
+    result = None
+    try:
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result
+    except Error as e:
+        print(f"The error '{e}' occurred")
