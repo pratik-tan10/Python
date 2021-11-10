@@ -82,3 +82,19 @@ CREATE TABLE IF NOT EXISTS likes (
 
 execute_query(connection, create_comments_table)  
 execute_query(connection, create_likes_table)
+
+def execute_read_query(connection, query):
+    cursor = connection.cursor()
+    result = None
+    try:
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result
+    except Error as e:
+        print(f"The error '{e}' occurred")
+select_users = "SELECT * FROM users"
+users = execute_read_query(connection, select_users)
+
+for user in users:
+    print(user)
+
