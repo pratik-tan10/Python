@@ -113,3 +113,16 @@ users = execute_read_query(connection, select_users)
 
 for user in users:
     print(user)
+update_post_description = """
+UPDATE
+  posts
+SET
+  description = "The weather has become pleasant now"
+WHERE
+  id = 2
+"""
+
+execute_query(connection,  update_post_description)
+
+delete_comment = "DELETE FROM comments WHERE id = 2"
+execute_query(connection, delete_comment)
