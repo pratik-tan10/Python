@@ -58,3 +58,14 @@ CREATE TABLE IF NOT EXISTS users (
 """
 
 execute_query(connection, create_users_table)
+
+create_posts_table = """
+CREATE TABLE IF NOT EXISTS posts (
+  id SERIAL PRIMARY KEY, 
+  title TEXT NOT NULL, 
+  description TEXT NOT NULL, 
+  user_id INTEGER REFERENCES users(id)
+)
+"""
+
+execute_query(connection, create_posts_table)
