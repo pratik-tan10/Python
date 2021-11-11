@@ -38,3 +38,23 @@ connection = create_connection(
     "sm_app", "postgres", "abc123", "127.0.0.1", "5432"
 )
 
+def execute_query(connection, query):
+    connection.autocommit = True
+    cursor = connection.cursor()
+    try:
+        cursor.execute(query)
+        print("Query executed successfully")
+    except OperationalError as e:
+        print(f"The error '{e}' occurred")
+
+create_users_table = """
+CREATE TABLE IF NOT EXISTS users (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL, 
+  age INTEGER,
+  gender TEXT,
+  nationality TEXT
+)
+"""
+
+execute_query(connection, create_users_table)
