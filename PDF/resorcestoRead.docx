@@ -1,0 +1,6 @@
+from reportlab.pdfgen.canvas import Canvas
+canvas = Canvas("hello.pdf")
+canvas.drawString(72, 72, "Hello, World")
+canvas.save()
+canvas = Canvas("hello.pdf", pagesize=(612.0, 792.0))
+from reportlab.lib.units import inch, cm
