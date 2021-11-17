@@ -56,4 +56,12 @@ img = image.load_img(dir_path+'//'+i, target_size = (200,200))#Resizing is impor
 plt.imshow(img)
 plt.show()
 
-                                                                
+#Check the testing accuracy
+X = image.img_to_array(img)
+X = np.expand_dims(X,axis = 0)
+images = np.vstack([X])
+val = model.predict(images)
+if val ==0:
+print("you are not happy")
+else:
+print("you are happy")
