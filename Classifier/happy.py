@@ -48,4 +48,12 @@ metrics = ['accuracy'])
 #Train the model
 model_fit = model.fit(train_dataset, step_per_epoch =3, epochs = 10, validation_data = validation_dataset)
                                                                 
+#Look at test data
+dir_path = 'basedata/test'
+
+for i in os.listdir(dir_path):
+img = image.load_img(dir_path+'//'+i, target_size = (200,200))#Resizing is important
+plt.imshow(img)
+plt.show()
+
                                                                 
