@@ -40,3 +40,12 @@ tf.keras.layers.Flattenn(),
 tf.keras.layers.Dense(512, activation = 'relu'),
 tf.keras.layers.Dense(1,activation='sigmoid')\
 ])
+
+#Set accuracy metrics
+model.compile(loss = 'binary_crossentropy', optimizer = RMSprop[lr = 0.001),
+metrics = ['accuracy'])
+
+#Train the model
+model_fit = model.fit(train_dataset, step_per_epoch =3, epochs = 10, validation_data = validation_dataset)
+                                                                
+                                                                
