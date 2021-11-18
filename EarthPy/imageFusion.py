@@ -15,3 +15,9 @@ def fuseCoeff(cooef1, cooef2, method):
         cooef = []
 
     return cooef
+# Params
+FUSION_METHOD = 'mean' # Can be 'min' || 'max || anything you choose according theory
+
+# Read the two image
+I1 = cv2.imread('i1.bmp',0)
+I2 = cv2.imread('i2.jpg',0)
