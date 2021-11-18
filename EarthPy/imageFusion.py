@@ -52,3 +52,7 @@ fusedImage = pywt.waverec2(fusedCooef, wavelet)
 # Forth: normmalize values to be in uint8
 fusedImage = np.multiply(np.divide(fusedImage - np.min(fusedImage),(np.max(fusedImage) - np.min(fusedImage))),255)
 fusedImage = fusedImage.astype(np.uint8)
+
+
+# Fith: Show image
+cv2.imshow("win",fusedImage)
