@@ -21,3 +21,5 @@ FUSION_METHOD = 'mean' # Can be 'min' || 'max || anything you choose according t
 # Read the two image
 I1 = cv2.imread('i1.bmp',0)
 I2 = cv2.imread('i2.jpg',0)
+# We need to have both images the same size
+I2 = cv2.resize(I2,I1.shape) # I do this just because i used two random images
