@@ -23,3 +23,9 @@ I1 = cv2.imread('i1.bmp',0)
 I2 = cv2.imread('i2.jpg',0)
 # We need to have both images the same size
 I2 = cv2.resize(I2,I1.shape) # I do this just because i used two random images
+## Fusion algo
+
+# First: Do wavelet transform on each image
+wavelet = 'db1'
+cooef1 = pywt.wavedec2(I1[:,:], wavelet)
+cooef2 = pywt.wavedec2(I2[:,:], wavelet)
