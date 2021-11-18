@@ -46,3 +46,9 @@ for i in range(len(cooef1)-1):
         c3 = fuseCoeff(cooef1[i][2], cooef2[i][2], FUSION_METHOD)
 
         fusedCooef.append((c1,c2,c3))
+# Third: After we fused the cooefficent we nned to transfor back to get the image
+fusedImage = pywt.waverec2(fusedCooef, wavelet)
+
+# Forth: normmalize values to be in uint8
+fusedImage = np.multiply(np.divide(fusedImage - np.min(fusedImage),(np.max(fusedImage) - np.min(fusedImage))),255)
+fusedImage = fusedImage.astype(np.uint8)
