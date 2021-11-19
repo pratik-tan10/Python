@@ -23,3 +23,17 @@ model.add(Dense(n_outputs, activation='softmax', name = 'OutputLayer'))
 
 
 model.summary()
+
+
+#Training model
+data = loadmat('Salinas_corrected.mat')['salinas_corrected']
+
+gt = loadmat('Salinas_gt.mat')['salinas_gt']
+
+print(f'Data Shape: {data.shape[:-1]}\nNumber of Bands: {data.shape[-1]}')
+
+df = pd.DataFrame(data.reshape(data.shape[0]*data.shape[1], -1))
+
+df.columns = [f'band{i}' for i in range(1, df.shape[-1]+1)]
+
+df['class'] = gt.ravel()
