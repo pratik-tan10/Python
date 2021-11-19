@@ -101,3 +101,29 @@ fig.add_trace(go.Scatter(x = hist.index, y = hist.val_accuracy.values,
 
 fig.show()
 
+#View Results as confusion matrix
+plt.figure(figsize = (10,7))
+
+classes = ['1.Brocoli_green_weeds_1', '2.Brocoli_green_weeds_2',
+                      '3.Fallow',
+                      '4.Fallow_rough_plow',
+                      '5.Fallow_smooth',
+                      '6.Stubble',
+                      '7.Celery',
+                      '8.Grapes_untrained',
+                      '9.Soil_vinyard_develop',
+                      '10.Corn_senesced_green_weeds',
+                      '11.Lettuce_romaine_4wk',
+                      '12.Lettuce_romaine_5wk',
+                      '13.Lettuce_romaine_6wk',
+                      '14.Lettuce_romaine_7wk',
+                      '15.Vinyard_untrained',
+                      '16.Vinyard_vertical_trellis']
+
+mat = confusion_matrix(np.add(pred, 1), np.add(np.argmax(y_test, 1), 1))
+
+df_cm = pd.DataFrame(mat, index = classes, columns = classes)
+
+sns.heatmap(df_cm, annot=True, fmt='d')
+
+plt.show()
