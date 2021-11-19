@@ -25,7 +25,7 @@ model.add(Dense(n_outputs, activation='softmax', name = 'OutputLayer'))
 model.summary()
 
 
-#Training model
+#Prepare data
 data = loadmat('Salinas_corrected.mat')['salinas_corrected']
 
 gt = loadmat('Salinas_gt.mat')['salinas_gt']
@@ -37,3 +37,20 @@ df = pd.DataFrame(data.reshape(data.shape[0]*data.shape[1], -1))
 df.columns = [f'band{i}' for i in range(1, df.shape[-1]+1)]
 
 df['class'] = gt.ravel()
+
+#Split train and test data
+t_df = df[df['class']!=0]
+
+ind = ['band'+str(i) for i in range(1, t_df.shape[-1])]
+
+X = t_df.loc[:, ind]
+
+y = to_categorical(t_df.loc[:, 'class'])
+
+X_scaled = minmax_scale(X, axis = 0);
+
+X_train, X_test, y_train, y_test = train_test_split(X_scaled, y,
+                                                    stratify=y, 
+                                                    test_size=0.30)
+print(f"X_train: {X_train.shape}\ny_train: {y_train.shape}\nX_test: {X_test.shape}\ny_test: {y_test.shape}")
+
