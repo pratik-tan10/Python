@@ -79,4 +79,25 @@ hist = model.fit(X_train,
                                   checkpoint,
                                   tensorboard])
 
+#Plot graphs
+
+hist = pd.DataFrame(data= hist.history)
+
+fig = go.Figure()
+
+fig.add_trace(go.Scatter(x = hist.index, y = hist.loss.values,
+                    mode='lines+markers',
+                    name='Train Loss'))
+
+fig.add_trace(go.Scatter(x = hist.index, y = hist.accuracy.values,
+                    mode='lines+markers',
+                    name='Train Accuracy'))
+
+fig.add_trace(go.Scatter(x = hist.index, y = hist.val_loss.values,
+                    mode='lines+markers', name='Test loss'))
+
+fig.add_trace(go.Scatter(x = hist.index, y = hist.val_accuracy.values,
+                    mode='lines+markers', name='Test Accuracy'))
+
+fig.show()
 
