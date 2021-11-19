@@ -54,3 +54,29 @@ X_train, X_test, y_train, y_test = train_test_split(X_scaled, y,
                                                     test_size=0.30)
 print(f"X_train: {X_train.shape}\ny_train: {y_train.shape}\nX_test: {X_test.shape}\ny_test: {y_test.shape}")
 
+#Train the CNN model
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+early_stop = EarlyStopping(monitor = 'val_loss',
+                            mode = 'min',
+                            min_delta = 0,
+                            patience = 10,
+                            restore_best_weights = True)
+
+checkpoint = ModelCheckpoint(filepath = 'Salinas_Model.h5', 
+                             monitor = 'val_loss', 
+                             mode ='min', 
+                             save_best_only = True)
+
+tensorboard = TensorBoard(log_dir='SA_logs/{}'.format(time()))
+
+hist = model.fit(X_train, 
+                       y_train, 
+                       epochs = 100, 
+                       batch_size = 256 , 
+                       validation_data = (X_test, y_test), 
+                       callbacks=[early_stop,
+                                  checkpoint,
+                                  tensorboard])
+
+
