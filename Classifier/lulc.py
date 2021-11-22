@@ -38,3 +38,19 @@ plt.ylabel('Size', fontsize=14)
 plt.tight_layout()
 plt.savefig('classes.jpg')
 
+#images
+fig = plt.figure(figsize=(12,10))
+ax1 = plt.subplot(331);plt.axis('off');plot.show((rasterio.open(files[0])), ax=ax1, title=classes[0])
+ax2 = plt.subplot(332);plt.axis('off');plot.show((rasterio.open(files[1])), ax=ax2, title=classes[1])
+ax3 = plt.subplot(333);plt.axis('off');plot.show((rasterio.open(files[2])), ax=ax3, title=classes[2])
+
+ax1 = plt.subplot(334);plt.axis('off');plot.show((rasterio.open(files[3])), ax=ax1, title=classes[3])
+ax2 = plt.subplot(335);plt.axis('off');plot.show((rasterio.open(files[4])), ax=ax2, title=classes[4])
+ax3 = plt.subplot(336);plt.axis('off');plot.show((rasterio.open(files[5])), ax=ax3, title=classes[5])
+
+ax1 = plt.subplot(337);plt.axis('off');plot.show((rasterio.open(files[6])), ax=ax1, title=classes[6])
+ax2 = plt.subplot(338);plt.axis('off');plot.show((rasterio.open(files[7])), ax=ax2, title=classes[7])
+ax3 = plt.subplot(339);plt.axis('off');plot.show((rasterio.open(files[8])), ax=ax3, title=classes[8])
+
+plt.tight_layout()
+
