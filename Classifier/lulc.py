@@ -69,3 +69,19 @@ learn.sched.plot()
 learn.fit(1e-5, 3, cycle_len=1)
 learn.fit(1e-5, 3, cycle_len=1, cycle_mult=2)
 
+learn.fit(1e-5, 3, cycle_len=1, cycle_mult=2)
+lr = 1e-4
+lrs = np.array([lr/12,lr/6,lr])
+learn.fit(lrs, 2, cycle_len=1, cycle_mult=2) 
+learn.unfreeze()
+learn.fit(lrs, 3, cycle_len=1, cycle_mult=2) 
+learn.fit(lrs, 2, cycle_len=1, cycle_mult=2) 
+
+#Check results
+log_preds,y = learn.TTA()
+probs = np.mean(np.exp(log_preds),0)
+log_preds = learn.predict()
+preds = np.argmax(log_preds, axis=1)
+preds
+data.val_ds.fnames[0]
+
