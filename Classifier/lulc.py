@@ -54,3 +54,18 @@ ax3 = plt.subplot(339);plt.axis('off');plot.show((rasterio.open(files[8])), ax=a
 
 plt.tight_layout()
 
+#Model
+sz = 224
+arch=resnet50
+data = ImageClassifierData.from_paths(PATH, tfms=tfms_from_model(arch, sz))
+
+learn = ConvLearner.pretrained(arch, data, precompute=True)
+learn.fit(0.001, 2)
+
+lrf=learn.lr_find(start_lr=1e-5, end_lr=1e-1)
+
+learn.sched.plot_lr()
+learn.sched.plot()
+learn.fit(1e-5, 3, cycle_len=1)
+learn.fit(1e-5, 3, cycle_len=1, cycle_mult=2)
+
