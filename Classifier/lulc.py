@@ -85,3 +85,28 @@ preds = np.argmax(log_preds, axis=1)
 preds
 data.val_ds.fnames[0]
 
+#Individual prediction
+classes_dict = dict(enumerate(data.classes))
+classes_dict
+fn = data.val_ds.fnames[0]
+pic1 = rasterio.open(str(PATH/fn))
+plt.axis('off')
+plot.show(pic1)
+trn_tfms, val_tfms = tfms_from_model(arch, sz)
+ds = FilesIndexArrayDataset([fn], np.array([0]), val_tfms, PATH)
+dl = DataLoader(ds)
+preds = learn.predict_dl(dl)
+print(classes_dict[np.argmax(preds)] == 'AnnualCrop')
+np.argmax(preds), classes_dict[np.argmax(preds)]
+data.val_ds.fnames[2900]
+fn = data.val_ds.fnames[2900]
+pic2 = rasterio.open(str(PATH/fn))
+plt.axis('off')
+plot.show(pic2)
+
+trn_tfms, val_tfms = tfms_from_model(arch, sz)
+ds = FilesIndexArrayDataset([fn], np.array([2900]), val_tfms, PATH)
+dl = DataLoader(ds)
+preds = learn.predict_dl(dl)
+print(classes_dict[np.argmax(preds)] == 'Pasture')
+np.argmax(preds), classes_dict[np.argmax(preds)]
