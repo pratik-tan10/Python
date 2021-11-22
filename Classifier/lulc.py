@@ -110,3 +110,12 @@ dl = DataLoader(ds)
 preds = learn.predict_dl(dl)
 print(classes_dict[np.argmax(preds)] == 'Pasture')
 np.argmax(preds), classes_dict[np.argmax(preds)]
+
+#Confusion matrix
+multi_preds = learn.predict()
+preds = np.argmax(multi_preds, axis=1)
+preds
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(y, preds)
+plot_confusion_matrix(cm, data.classes, cmap='Reds',figsize=(12,6))
+plt.tight_layout()
