@@ -55,4 +55,32 @@ with arcpy.da.SearchCursor(fc, fields) as rows:
         for fc in openfc:
             copyorclip(gdb,fc)
         
-        
+        input_datasets = arcpy.ListDatasets('*', 'Feature')
+        rds = arcpy.ListDatasets('*', 'Raster')
+        input_datasets.extend(rds)
+        for ds in input_datasets:
+
+            fcd = arcpy.Describe(fc)
+            sr = fcd.spatialReference
+            if ds in rds:
+                arcpy.AddMessage(f"Skipping rater dataset {ds}...")
+            else:
+                out_dataset = arcpy.CreateFeatureDataset_management(gdb, str(ds), sr)
+                in_dataset = input_gdb + '/' + str(ds)
+                
+                arcpy.env.workspace = in_dataset
+                rasters = arcpy.ListRasters()
+                in_anno = arcpy.ListFeatureClasses('*','Annotation')
+                in_feature_class = arcpy.ListFeatureClasses('*','Point')+arcpy.ListFeatureClasses('*','Line')+arcpy.ListFeatureClasses('*','Polygon')+in_anno+rasters
+                
+                for fc in in_feature_class:
+                    
+                    copyorclip(out_dataset,fc)
+                    
+
+            arcpy.AddMessage("Success...")
+del rows
+
+arcpy.AddMessage(" All done !")
+
+
