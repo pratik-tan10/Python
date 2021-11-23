@@ -35,28 +35,16 @@ def copyorclip(outl,fc):
 
         arcpy.Clip_management(fc, f"{xmin} {ymin} {xmax} {ymax}", out_fc, clipper, "0", "ClippingGeometry", "MAINTAIN_EXTENT")
 
-def deleteIfEmpty(gdb)
-import arcpy
-from arcpy import env
-env.workspace = gdb
-data_sets = arcpy.ListDatasets()
-for item in data_sets:    
-    fcList = arcpy.ListFeatureClasses('', '', item)    
-    for item in fcList:        
-        fcLength = arcpy.GetCount_management(item)        
-        if int(fcLength.getOutput(0)) == 0:            
-            arcpy.Delete_management(item)
+def deleteIfEmpty(item)
+    fcLength = arcpy.GetCount_management(item)        
+    if int(fcLength.getOutput(0)) == 0:            
+        arcpy.Delete_management(item)
 
 with arcpy.da.SearchCursor(fc, fields) as rows:
     for row in rows:
         arcpy.AddMessage( "Starting Polygon : " + str(row[1]))
         clipper = row[0]
-        
-        #set gdb name
-        if (row[1][0]).isalpha():
-            gdb_name = str(row[1]) + '.gdb'
-        else:
-            gdb_name = 'o'+str(row[1]) + '.gdb'
+        gdb_name = str(row[1]) + '.gdb'
         
         arcpy.CreateFileGDB_management(output_folder, gdb_name)
         arcpy.env.workspace = input_gdb
