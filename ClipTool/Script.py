@@ -35,3 +35,24 @@ def copyorclip(outl,fc):
 
         arcpy.Clip_management(fc, f"{xmin} {ymin} {xmax} {ymax}", out_fc, clipper, "0", "ClippingGeometry", "MAINTAIN_EXTENT")
 
+with arcpy.da.SearchCursor(fc, fields) as rows:
+    for row in rows:
+        arcpy.AddMessage( "Starting Polygon : " + str(row[1]))
+        clipper = row[0]
+        
+        #set gdb name
+        if (row[1][0]).isalpha():
+            gdb_name = str(row[1]) + '.gdb'
+        else:
+            gdb_name = 'o'+str(row[1]) + '.gdb'
+        
+        arcpy.CreateFileGDB_management(output_folder, gdb_name)
+        arcpy.env.workspace = input_gdb
+        gdb = output_folder + '/' + gdb_name
+        rasters = arcpy.ListRasters()
+        in_anno = arcpy.ListFeatureClasses('*','Annotation')
+        openfc = arcpy.ListFeatureClasses('*','Point')+arcpy.ListFeatureClasses('*','Line')+arcpy.ListFeatureClasses('*','Polygon')+in_anno+rasters
+        for fc in openfc:
+            copyorclip(gdb,fc)
+        
+        
