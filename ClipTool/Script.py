@@ -35,10 +35,25 @@ def copyorclip(outl,fc):
 
         arcpy.Clip_management(fc, f"{xmin} {ymin} {xmax} {ymax}", out_fc, clipper, "0", "ClippingGeometry", "MAINTAIN_EXTENT")
 
+#This function can be used to delete any empty feature class that is generated as the result of clip operation
 def deleteIfEmpty(item)
     fcLength = arcpy.GetCount_management(item)        
     if int(fcLength.getOutput(0)) == 0:            
         arcpy.Delete_management(item)
+
+#THis function may be used to check beforehand if a feature class should be put in output layer or not
+def intersectLayers():
+    bldgFp = os.path.join(wrkingdb, r'bldg_footprints')
+    bldgFP_Lyr = arcpy.MakeFeatureLayer_management(bldgFp, "bldgFP_lyr")
+
+    with arcpy.da.SearchCursor(pictBldgFP, ['OBJECTID', 'SHAPE@']) as cur:
+        for row in cur:
+            curIntersect = arcpy.SelectLayerByLocation_management(bldgFP_Lyr, "INTERSECT", row[1], '', 'NEW_SELECTION')
+            intersectCnt = int(arcpy.GetCount_management(curIntersect).getOutput(0))
+
+            if intersectCnt > 0:
+                print(f'{row[0]} intersects with {intersectCnt} features')
+                
 
 with arcpy.da.SearchCursor(fc, fields) as rows:
     for row in rows:
