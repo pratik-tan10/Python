@@ -99,6 +99,12 @@ del rows
 arcpy.AddMessage(" All done !")
 
 #------------------------------------------------------------
+a=arcpy.ListFeatureClasses('*','Point')+arcpy.ListFeatureClasses('*','Line')+arcpy.ListFeatureClasses('*','Polygon')+arcpy.ListFeatureClasses('*','Annotation')
+b = arcpy.ListFeatureClasses('*')
+c=[i for i in b if i not in a]
+print(a+c)
+list(set((a+b))
+
 k =  r'test.gdb'
 env.workspace = k
 a = arcpy.ListDatasets('*', 'Feature')
