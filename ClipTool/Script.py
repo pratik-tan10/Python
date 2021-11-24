@@ -99,6 +99,8 @@ del rows
 arcpy.AddMessage(" All done !")
 
 #------------------------------------------------------------
+a = arcpy.ListDatasets('*', 'Feature')
+b = []
 for each in a:
     l = str(k)+'\\'+ str(each)
     c = arcpy.Describe(l)
@@ -107,4 +109,6 @@ for each in a:
     m = arcpy.ListFeatureClasses('*')
     b.append((each, d,m) )
 
-    
+print(b)
+
+
