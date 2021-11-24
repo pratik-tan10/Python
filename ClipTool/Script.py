@@ -99,6 +99,8 @@ del rows
 arcpy.AddMessage(" All done !")
 
 #------------------------------------------------------------
+k =  r'test.gdb'
+env.workspace = k
 a = arcpy.ListDatasets('*', 'Feature')
 b = []
 for each in a:
@@ -111,4 +113,4 @@ for each in a:
 
 print(b)
 
-
+xx = b[0][2][1]
