@@ -98,4 +98,13 @@ del rows
 
 arcpy.AddMessage(" All done !")
 
+#------------------------------------------------------------
+for each in a:
+    l = str(k)+'\\'+ str(each)
+    c = arcpy.Describe(l)
+    d = c.spatialReference
+    arcpy.env.workspace = l
+    m = arcpy.ListFeatureClasses('*')
+    b.append((each, d,m) )
 
+    
