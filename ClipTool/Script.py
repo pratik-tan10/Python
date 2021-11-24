@@ -116,3 +116,5 @@ print(b)
 xx = b[0][2][1]
 
 type(arcpy.Describe(os.path.join(k,b[0][0],xx)).spatialReference)
+
+for each in b: print(f"{each}\n")
