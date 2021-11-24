@@ -71,8 +71,8 @@ with arcpy.da.SearchCursor(fc, fields) as rows:
             copyorclip(gdb,fc)
         
         input_datasets = arcpy.ListDatasets('*', 'Feature')
-        rds = arcpy.ListDatasets('*', 'Raster')
-        input_datasets.extend(rds)
+        #rds = arcpy.ListDatasets('*', 'Raster')
+        #skip rasters input_datasets.extend(rds)
         for ds in input_datasets:
 
             fcd = arcpy.Describe(fc)
