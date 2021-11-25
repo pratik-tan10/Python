@@ -37,3 +37,27 @@ def read_shapefile(sf):
 df = read_shapefile(sf)
 df.shape
 
+#plotting map
+def plot_shape(id, s=None):
+    plt.figure()
+    #plotting the graphical axes where map ploting will be done
+    ax = plt.axes()
+    ax.set_aspect('equal')
+#storing the id number to be worked upon
+    shape_ex = sf.shape(id)
+#NP.ZERO initializes an array of rows and column with 0 in place of each elements 
+    #an array will be generated where number of rows will be(len(shape_ex,point))and number of columns will be 1 and stored into the variable
+    x_lon = np.zeros((len(shape_ex.points),1))
+#an array will be generated where number of rows will be(len(shape_ex,point))and number of columns will be 1 and stored into the variable
+    y_lat = np.zeros((len(shape_ex.points),1))
+    for ip in range(len(shape_ex.points)):
+        x_lon[ip] = shape_ex.points[ip][0]
+        y_lat[ip] = shape_ex.points[ip][1]
+#plotting using the derived coordinated stored in array created by numpy
+    plt.plot(x_lon,y_lat) 
+    x0 = np.mean(x_lon)
+    y0 = np.mean(y_lat)
+    plt.text(x0, y0, s, fontsize=10)
+# use bbox (bounding box) to set plot limits
+    plt.xlim(shape_ex.bbox[0],shape_ex.bbox[2])
+    
