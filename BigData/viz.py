@@ -89,4 +89,76 @@ def plot_map(sf, x_lim = None, y_lim = None, figsize = (11,9)):
 #calling the function and passing required parameters to plot the full map
 plot_map(sf)
 
+#zoomed map
+y_lim = (2900000,3000000) # latitude
+x_lim = (200000, 400000) # longitude
+plot_map(sf, x_lim, y_lim)
+
+#show selected particular area
+
+def plot_map_fill(id, sf, x_lim = None, 
+                          y_lim = None, 
+                          figsize = (11,9), 
+                          color = 'r'):
+   
+    plt.figure(figsize = figsize)
+    fig, ax = plt.subplots(figsize = figsize)
+    for shape in sf.shapeRecords():
+        x = [i[0] for i in shape.shape.points[:]]
+        y = [i[1] for i in shape.shape.points[:]]
+        ax.plot(x, y, 'k')
+        
+    shape_ex = sf.shape(id)
+    x_lon = np.zeros((len(shape_ex.points),1))
+    y_lat = np.zeros((len(shape_ex.points),1))
+    for ip in range(len(shape_ex.points)):
+        x_lon[ip] = shape_ex.points[ip][0]
+        y_lat[ip] = shape_ex.points[ip][1]
+    ax.fill(x_lon,y_lat, color)
+    
+    if (x_lim != None) & (y_lim != None):     
+        plt.xlim(x_lim)
+        plt.ylim(y_lim)
+#plot_map_fill(0, sf, x_lim, y_lim, color=’y’)
+plot_map_fill(13, sf,color=’y’)
+
+#highlight multiple selected areas
+def plot_map_fill_multiples_ids(title, city, sf, 
+                                               x_lim = None, 
+                                               y_lim = None, 
+                                               figsize = (11,9), 
+                                               color = 'r'):
+  
+    
+    plt.figure(figsize = figsize)
+    fig, ax = plt.subplots(figsize = figsize)
+    fig.suptitle(title, fontsize=16)
+    for shape in sf.shapeRecords():
+        x = [i[0] for i in shape.shape.points[:]]
+        y = [i[1] for i in shape.shape.points[:]]
+        ax.plot(x, y, 'k')
+            
+    for id in city:
+        shape_ex = sf.shape(id)
+        x_lon = np.zeros((len(shape_ex.points),1))
+        y_lat = np.zeros((len(shape_ex.points),1))
+        for ip in range(len(shape_ex.points)):
+            x_lon[ip] = shape_ex.points[ip][0]
+            y_lat[ip] = shape_ex.points[ip][1]
+        ax.fill(x_lon,y_lat, color)
+             
+        x0 = np.mean(x_lon)
+        y0 = np.mean(y_lat)
+        plt.text(x0, y0, id, fontsize=10)
+    
+    if (x_lim != None) & (y_lim != None):     
+        plt.xlim(x_lim)
+        plt.ylim(y_lim)
+
+#naming the id numbers of the cities to be coloured
+city_id = [0, 1, 2, 3, 4, 5, 6]
+plot_map_fill_multiples_ids(“Multiple Shapes”,
+city_id, sf, color = ‘g’)
+
+
 
