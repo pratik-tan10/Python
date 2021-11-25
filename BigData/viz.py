@@ -12,3 +12,11 @@ sns.set(style=”whitegrid”, palette=”pastel”, color_codes=True) sns.mpl.r
 shp_path = “\\District_Boundary.shp”
 #reading the shape file by using reader function of the shape lib
 sf = shp.Reader(shp_path)
+
+print(len(sf.shapes()))
+
+print(sf.records())
+
+print(sf.records()[1][0])
+
+Output= Barmer
