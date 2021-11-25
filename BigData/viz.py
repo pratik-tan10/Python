@@ -61,3 +61,32 @@ def plot_shape(id, s=None):
 # use bbox (bounding box) to set plot limits
     plt.xlim(shape_ex.bbox[0],shape_ex.bbox[2])
     
+#Setting city name
+DIST_NAME = ‘JAIPUR’
+#to get the id of the city map to be plotted
+com_id = df[df.DIST_NAME == ‘JAIPUR’].index.get_values()[0]
+plot_shape(com_id, DIST_NAME)
+sf.shape(com_id)
+
+#plotting the full map
+def plot_map(sf, x_lim = None, y_lim = None, figsize = (11,9)):
+    plt.figure(figsize = figsize)
+    id=0
+    for shape in sf.shapeRecords():
+        x = [i[0] for i in shape.shape.points[:]]
+        y = [i[1] for i in shape.shape.points[:]]
+        plt.plot(x, y, 'k')
+        
+        if (x_lim == None) & (y_lim == None):
+            x0 = np.mean(x)
+            y0 = np.mean(y)
+            plt.text(x0, y0, id, fontsize=10)
+        id = id+1
+    
+    if (x_lim != None) & (y_lim != None):     
+        plt.xlim(x_lim)
+        plt.ylim(y_lim)
+#calling the function and passing required parameters to plot the full map
+plot_map(sf)
+
+
