@@ -2,18 +2,17 @@ import arcpy
 import os
 import math
 fc = arcpy.GetParameterAsText(0)
-print "a"
 input_gdb =arcpy.GetParameterAsText(2)
-print "b.."
+#print "b.."
 output_folder =  arcpy.GetParameterAsText(3)
-print "c...."
-prj_file = arcpy.GetParameterAsText(4) or
-sr = arcpy.SpatialReference(prj_file)
+#print "c...."
+prj_file = arcpy.GetParameterAsText(4)
+#sr = arcpy.SpatialReference(prj_file)
 i = 1
 arcpy.AddMessage(str(i) + "Lets Begin...")
-fields = ['SHAPE@']
+fields = ['SHAPE@','SHEETNO']
 nameField = arcpy.GetParameterAsText(1)
-fields.append(nameField)
+#fields.extend(nameField)
 with arcpy.da.SearchCursor(fc, fields) as rows:
     for row in rows:
         arcpy.AddMessage( "Starting Sheet : " + str(row[1]))
@@ -27,7 +26,7 @@ with arcpy.da.SearchCursor(fc, fields) as rows:
         input_datasets = arcpy.ListDatasets('*', 'Feature')
         for ds in input_datasets:
             
-            print str(ds).lower()
+            print(str(ds).lower())
             gdb = output_folder + '/' + gdb_name
             if str(ds) == "ADMIN_LAYER":
                 continue
@@ -45,5 +44,6 @@ with arcpy.da.SearchCursor(fc, fields) as rows:
                     arcpy.Clip_analysis(str(fc), clipper, out_fc)
         
             arcpy.AddMessage("Success...")
-del rows
+
 arcpy.AddMessage(" All done !")
+        
