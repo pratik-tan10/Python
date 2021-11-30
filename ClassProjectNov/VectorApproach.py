@@ -62,3 +62,16 @@ print(P1[W1])
 checkM1 = 
 for each in W1:
     pass
+
+#arcpy.MakeFeatureLayer_management("C:/data/mexico.gdb/cities","cities_lyr",)
+a = 'hey'
+fname = 'name'
+print(f"{fname}='{a}'")
+
+def y(a,b):
+    op= ProbM[a-1,b-1]
+    if op>=0.7:
+        print( f"merge {op}")
+    else: print(f"Dont {op}")
+
+y(334,319)
