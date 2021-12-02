@@ -72,3 +72,12 @@ def f(x):
     time.sleep(2)
     return x**2
 results = Parallel(n_jobs=8)(delayed(f)(i) for i in range(10))
+
+#Using joblib with multiple params function
+from joblib import Parallel, delayed
+import time
+def f(x,y):
+    time.sleep(2)
+    return x**2 + y**2
+params = [[x,x] for x in range(10)]
+results = Parallel(n_jobs=8)(delayed(f)(x,y) for x,y in params)
