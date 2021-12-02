@@ -22,3 +22,14 @@ def runner(list_length):
     print(f"With multiprocessing we ran the function in {t1 - t0:0.4f} seconds")
     time_with_multiprocessing = t1-t0
     return time_without_multiprocessing, time_with_multiprocessing
+if __name__ ==  '__main__':
+    times_taken = []
+    for i in range(1,9):
+        list_length = 10**i
+        time_without_multiprocessing, time_with_multiprocessing = runner(list_length)
+        times_taken.append([list_length, 'No Mutiproc', time_without_multiprocessing])
+        times_taken.append([list_length, 'Multiproc', time_with_multiprocessing])
+
+    timedf = pd.DataFrame(times_taken,columns = ['list_length', 'type','time_taken'])
+    fig =  px.line(timedf,x = 'list_length',y='time_taken',color='type',log_x=True)
+    plotly.offline.plot(fig, filename='comparison_bw_multiproc.html')
