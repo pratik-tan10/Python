@@ -37,3 +37,29 @@ if __name__ ==  '__main__':
     timedf = pd.DataFrame(times_taken,columns = ['list_length', 'type','time_taken'])
     fig =  px.line(timedf,x = 'list_length',y='time_taken',color='type')
     plotly.offline.plot(fig, filename='comparison_bw_multiproc.html')
+    
+#Multiprocessing using multiple params function
+import random
+def model_runner(n_estimators, max_depth):
+    # Some code that runs and fits our model here using the   
+    # hyperparams in the argument.
+    # Proxy for this code with sleep.
+    time.sleep(random.choice([1,2,3])
+    # Return some model evaluation score
+    return random.choice([1,2,3])
+
+#using pool.map and magic
+def multi_run_wrapper(args):
+   return model_runner(*args)
+pool = Pool(4)
+hyperparams = [[100,4],[150,5],[200,6],[300,4]]
+results = pool.map(multi_run_wrapper,hyperparams)
+
+#Using pool.starmap
+pool = Pool(4)
+hyperparams = [[100,4],[150,5],[200,6],[300,4]]
+results = pool.starmap(model_runner,hyperparams)
+pool.close()
+
+
+pool.close()
