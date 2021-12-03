@@ -59,3 +59,4 @@ Map.setCenter(-122.1899, 37.5010, 10); // San Francisco Bay
 Map.addLayer(image, vizParams, 'false color composite');
 
 """
+geemap.js_snippet_to_py(js_snippet, add_new_cell=True, import_ee=True, import_geemap=True, show_map=True)
