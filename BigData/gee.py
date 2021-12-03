@@ -26,3 +26,16 @@ Map
 Map = geemap.Map()
 Map.add_basemap('HYBRID')
 Map
+
+from geemap.basemaps import basemaps
+Map.add_basemap(basemaps.OpenTopoMap)
+Map = geemap.Map()
+Map
+Map = geemap.Map()
+
+url = 'https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}'
+Map.add_tile_layer(url, name='Google Terrain', attribution='Google')
+Map
+naip_url = 'https://services.nationalmap.gov/arcgis/services/USGSNAIPImagery/ImageServer/WMSServer?'
+Map.add_wms_layer(url=naip_url, layers='0', name='NAIP Imagery', format='image/png', shown=True)
+
