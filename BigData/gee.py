@@ -82,3 +82,5 @@ Map.setCenter(-122.1899, 37.5010, 10); # San Francisco Bay
 Map.addLayer(image, vizParams, 'False color composite')
 Map
 
+Map = geemap.Map()
+Map
