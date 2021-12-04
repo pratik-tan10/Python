@@ -38,11 +38,17 @@ def deleteIfEmpty(item):
         arcpy.Delete_management(item)
         arcpy.AddMessage(f"features: {fcLength.getOutput(0)} so deleting {item}")
         writeMessage(f"features: {fcLength.getOutput(0)} so deleting {item}")
-
+        
+def projectDbase():
+    fileDirectory = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    scw = os.path.join(fileDirectory,'Scratch')
+    arcpy.AddMessage(f"features: {scw}")
+    
+projectDbase()
 with arcpy.da.SearchCursor(fc, fields) as rows:
     for row in rows:
-        arcpy.AddMessage( "Starting Sheet : " + str(row[1]))
-        writeMessage( "Starting Sheet : " + str(row[1]))
+        arcpy.AddMessage( "Starting Polygon : " + str(row[1]))
+        writeMessage( "Starting Polygon : " + str(row[1]))
         clipper = row[0]
         gdb_name = str(row[1]) + '.gdb'
         #xml_name= "Nagarkot25000TM81GridGraticule"+".xml"
