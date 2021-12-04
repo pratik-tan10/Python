@@ -9,29 +9,37 @@ input_gdb =arcpy.GetParameterAsText(1)
 
 output_folder =  arcpy.GetParameterAsText(2) or r'C:\Users\Research Lab\Desktop\Pratik\GY539\xnc'
 
-#prj_file = arcpy.GetParameterAsText(3) or r'D:\Pythoning\Nepal_Nagarkot_TM_84.prj'
 #xmlFile = arcpy.GetParameterAsText(4) or r'D:\Pythoning\Nagarkot25000TM84GridGraticule.xml'
 #fc_gcs = arcpy.GetParameterAsText(3)
 nameField = arcpy.GetParameterAsText(3)
 DIE = arcpy.GetParameter(4)
+prj_file = arcpy.GetParameterAsText(5)
 
-def writeMessage(message):
-    arcpy.AddMessage(str(message))
-    with open(outfname,'a') as of:
-        of.writelines(str(message) +" : " + str(datetime.now())+'\n')
-
-writeMessage(f" DIE: {DIE}, type: {type(DIE)}")
-#sr = arcpy.SpatialReference(prj_file)
-writeMessage("Lets Begin...")
-fields = ['SHAPE@',str(nameField)]
+def chk():
+    if prj_file:
+        return prj_file
+    else: return 'same as input'
 pname =  'log'+"_" + str(datetime.now())+'.txt'
 cname = pname.replace(':','_')
 cleanName = cname.replace(' ','_')
 
 outfname=os.path.join(output_folder,cleanName)
-writeMessage(f" Fielename: {outfname}")
+#writeMessage(f" Fielename: {outfname}")
 if os.path.exists(outfname):
     os.remove(outfname)
+def writeMessage(message):
+    arcpy.AddMessage(str(message))
+    with open(outfname,'a') as of:
+        of.writelines(str(message) +" : " + str(datetime.now())+'\n')
+
+writeMessage(f"Input Clipper: {fc}\t")
+writeMessage(f"Input Database: {input_gdb}\t")
+writeMessage(f"Output Folder: {output_folder}\t")
+writeMessage(f"Output CRS: {chk()}\t")
+writeMessage(f" DIE: {DIE}, type: {type(DIE)}")
+#sr = arcpy.SpatialReference(prj_file)
+writeMessage("Lets Begin...")
+fields = ['SHAPE@',str(nameField)]
 
 def deleteIfEmpty(item):
     fcLength = arcpy.GetCount_management(item)        
@@ -43,11 +51,13 @@ def projectDbase():
     fileDirectory = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     scw = os.path.join(fileDirectory,'Scratch')
     writeMessage(f"Scratch Workspace location: {scw}")
+    outCS = arcpy.SpatialReference(prj_file)
+    
     
 projectDbase()
 with arcpy.da.SearchCursor(fc, fields) as rows:
     for row in rows:
-        writeMessage( "Starting Polygon : " + str(row[1]))
+        writeMessage( "\nStarting Polygon : " + str(row[1]))
         clipper = row[0]
         gdb_name = str(row[1]) + '.gdb'
         #xml_name= "Nagarkot25000TM81GridGraticule"+".xml"
@@ -86,8 +96,8 @@ with arcpy.da.SearchCursor(fc, fields) as rows:
                         #arcpy.Copy_management(in_fc, out_fc)
             
                  
-            writeMessage("Success...")
+            writeMessage("\nSuccess...\n")
 del rows
 
-arcpy.AddMessage(" All done !")
+arcpy.AddMessage("\nAll done !")
         
