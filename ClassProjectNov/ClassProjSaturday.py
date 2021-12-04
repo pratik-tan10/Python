@@ -15,39 +15,38 @@ output_folder =  arcpy.GetParameterAsText(2) or r'C:\Users\Research Lab\Desktop\
 nameField = arcpy.GetParameterAsText(3)
 DIE = arcpy.GetParameter(4)
 
-arcpy.AddMessage(f" DIE: {DIE}, type: {type(DIE)}")
+def writeMessage(message):
+    arcpy.AddMessage(str(message))
+    with open(outfname,'a') as of:
+        of.writelines(str(message) +" : " + str(datetime.now())+'\n')
+
+writeMessage(f" DIE: {DIE}, type: {type(DIE)}")
 #sr = arcpy.SpatialReference(prj_file)
-i = 1
-arcpy.AddMessage(str(i) + "Lets Begin...")
+writeMessage("Lets Begin...")
 fields = ['SHAPE@',str(nameField)]
 pname =  'log'+"_" + str(datetime.now())+'.txt'
 cname = pname.replace(':','_')
 cleanName = cname.replace(' ','_')
 
 outfname=os.path.join(output_folder,cleanName)
-arcpy.AddMessage(f" Fielename: {outfname}")
+writeMessage(f" Fielename: {outfname}")
 if os.path.exists(outfname):
     os.remove(outfname)
-def writeMessage(message):
-    with open(outfname,'a') as of:
-        of.writelines(str(message) +" : " + str(datetime.now())+'\n')
 
 def deleteIfEmpty(item):
     fcLength = arcpy.GetCount_management(item)        
     if int(fcLength.getOutput(0)) == 0:            
         arcpy.Delete_management(item)
-        arcpy.AddMessage(f"features: {fcLength.getOutput(0)} so deleting {item}")
         writeMessage(f"features: {fcLength.getOutput(0)} so deleting {item}")
         
 def projectDbase():
     fileDirectory = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     scw = os.path.join(fileDirectory,'Scratch')
-    arcpy.AddMessage(f"features: {scw}")
+    writeMessage(f"Scratch Workspace location: {scw}")
     
 projectDbase()
 with arcpy.da.SearchCursor(fc, fields) as rows:
     for row in rows:
-        arcpy.AddMessage( "Starting Polygon : " + str(row[1]))
         writeMessage( "Starting Polygon : " + str(row[1]))
         clipper = row[0]
         gdb_name = str(row[1]) + '.gdb'
@@ -76,7 +75,6 @@ with arcpy.da.SearchCursor(fc, fields) as rows:
             arcpy.env.workspace = in_dataset
             in_feature_class = arcpy.ListFeatureClasses()
             for fc in in_feature_class:
-                arcpy.AddMessage("Clipping " + str(fc))
                 writeMessage("Clipping " + str(fc))
                 out_fc = os.path.join(str(out_dataset), str(fc))
                 arcpy.Clip_analysis(str(fc), clipper, out_fc)
@@ -88,7 +86,7 @@ with arcpy.da.SearchCursor(fc, fields) as rows:
                         #arcpy.Copy_management(in_fc, out_fc)
             
                  
-            arcpy.AddMessage("Success...")
+            writeMessage("Success...")
 del rows
 
 arcpy.AddMessage(" All done !")
