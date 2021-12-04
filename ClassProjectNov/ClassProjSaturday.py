@@ -14,6 +14,8 @@ output_folder =  arcpy.GetParameterAsText(2) or r'C:\Users\Research Lab\Desktop\
 #fc_gcs = arcpy.GetParameterAsText(3)
 nameField = arcpy.GetParameterAsText(3)
 DIE = arcpy.GetParameterAsText(4)
+
+arcpy.AddMessage(f" DIE: {DIE}, type: {type(DIE)}")
 #sr = arcpy.SpatialReference(prj_file)
 i = 1
 arcpy.AddMessage(str(i) + "Lets Begin...")
