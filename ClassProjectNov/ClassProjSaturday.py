@@ -13,6 +13,7 @@ output_folder =  arcpy.GetParameterAsText(2) or r'C:\Users\Research Lab\Desktop\
 #xmlFile = arcpy.GetParameterAsText(4) or r'D:\Pythoning\Nagarkot25000TM84GridGraticule.xml'
 #fc_gcs = arcpy.GetParameterAsText(3)
 nameField = arcpy.GetParameterAsText(3)
+DIE = arcpy.GetParameterAsText(4)
 #sr = arcpy.SpatialReference(prj_file)
 i = 1
 arcpy.AddMessage(str(i) + "Lets Begin...")
@@ -67,7 +68,7 @@ with arcpy.da.SearchCursor(fc, fields) as rows:
                 writeMessage("Clipping " + str(fc))
                 out_fc = os.path.join(str(out_dataset), str(fc))
                 arcpy.Clip_analysis(str(fc), clipper, out_fc)
-                deleteIfEmpty(out_fc)
+                if DIE: deleteIfEmpty(out_fc)
                 
                 #arcpy.AddMessage("Copying " + str(fc))
 			#in_fc = str(fc)
