@@ -13,15 +13,19 @@ output_folder =  arcpy.GetParameterAsText(2) or r'C:\Users\Research Lab\Desktop\
 #xmlFile = arcpy.GetParameterAsText(4) or r'D:\Pythoning\Nagarkot25000TM84GridGraticule.xml'
 #fc_gcs = arcpy.GetParameterAsText(3)
 nameField = arcpy.GetParameterAsText(3)
-DIE = arcpy.GetParameterAsText(4)
+DIE = arcpy.GetParameter(4)
 
 arcpy.AddMessage(f" DIE: {DIE}, type: {type(DIE)}")
 #sr = arcpy.SpatialReference(prj_file)
 i = 1
 arcpy.AddMessage(str(i) + "Lets Begin...")
 fields = ['SHAPE@',str(nameField)]
+pname =  'log'+"_" + str(datetime.now())+'.txt'
+cname = pname.replace(':','_')
+cleanName = cname.replace(' ','_')
 
-outfname=os.path.join(output_folder, 'log.txt')
+outfname=os.path.join(output_folder,cleanName)
+arcpy.AddMessage(f" Fielename: {outfname}")
 if os.path.exists(outfname):
     os.remove(outfname)
 def writeMessage(message):
