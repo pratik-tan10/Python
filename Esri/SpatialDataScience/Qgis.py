@@ -9,3 +9,11 @@ for layer in layers:
 # otherwise you'll get a syntax error.
 activeLayer = iface.activeLayer()
 print('active layer: ' + activeLayer.name())
+
+if activeLayer.type() == QgsMapLayer.VectorLayer: 
+    print('This is a vector layer!')
+
+if activeLayer.type() == QgsMapLayer.VectorLayer: 
+    if activeLayer.wkbType() == QgsWkbTypes.MultiPolygon: 
+        print('This layer contains multi-polygons!')
+
