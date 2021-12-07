@@ -11,3 +11,7 @@ sns.scatterplot(data=penguins, x="flipper_length_mm", y="bill_length_mm", hue="s
 sns.histplot(data=penguins, x="species", hue="species", shrink=.8, alpha=.8, legend=False, ax=axs[1])
 f.tight_layout()
 
+tips = sns.load_dataset("tips")
+g = sns.relplot(data=tips, x="total_bill", y="tip")
+g.ax.axline(xy1=(10, 2), slope=.2, color="b", dashes=(5, 2))
+
