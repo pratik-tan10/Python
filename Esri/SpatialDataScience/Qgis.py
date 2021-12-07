@@ -51,4 +51,11 @@ print(feature.geometry().asWkt())
 print(feature.geometry().asMultiPolygon())
 selectionPopulation = layer.getFeatures(QgsFeatureRequest().setFilterExpression('"POP2005" > 50000000'))
 
+layer.selectByIds([f.id() for f in selectionPopulation])
+QgsVectorFileWriter.writeAsVectorFormat(layer, r'C:\489\highPopulationCountries.gpkg', 'utf-8', layer.crs(),'GPKG', True)
+dataProvider = layer.dataProvider()
+populationColumnIndex = dataProvider.fieldNameIndex('POP2005')
+newValueDictionary = { populationColumnIndex : 1 } 
+dataProvider.changeAttributeValues( { feature.id(): newValueDictionary } )
+dataProvider.changeAttributeValues( { feature.id(): { populationColumnIndex : 32270507 } } )
 
