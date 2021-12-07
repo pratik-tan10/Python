@@ -32,3 +32,13 @@ layer.renderer().updateClasses(layer, QgsGraduatedSymbolRenderer.Jenks, 5)
 layer.renderer().updateColorRamp(QgsGradientColorRamp(Qt.white, Qt.red)) 
 iface.layerTreeView().refreshLayerSymbology(layer.id())
 iface.mapCanvas().refreshAllLayers()
+
+for feature in layer.getFeatures(): 
+    print(feature) 
+    print(feature.id()) 
+    print(feature['NAME']) 
+    print('-----') 
+
+layer.selectAll() 
+layer.removeSelection()
+
