@@ -23,3 +23,7 @@ f, ax = plt.subplots(1, 2, sharey=True)
 g = sns.FacetGrid(penguins)
 g = sns.FacetGrid(penguins, col="sex")
 g = sns.FacetGrid(penguins, col="sex", height=3.5, aspect=.75)
+
+sns.jointplot(data=penguins, x="flipper_length_mm", y="bill_length_mm", hue="species")
+sns.pairplot(data=penguins, hue="species")
+sns.jointplot(data=penguins, x="flipper_length_mm", y="bill_length_mm", hue="species", kind="hist")
