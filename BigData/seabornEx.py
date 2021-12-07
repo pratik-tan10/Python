@@ -27,3 +27,11 @@ g = sns.FacetGrid(penguins, col="sex", height=3.5, aspect=.75)
 sns.jointplot(data=penguins, x="flipper_length_mm", y="bill_length_mm", hue="species")
 sns.pairplot(data=penguins, hue="species")
 sns.jointplot(data=penguins, x="flipper_length_mm", y="bill_length_mm", hue="species", kind="hist")
+
+flights = sns.load_dataset("flights")
+flights.head()
+sns.relplot(data=flights, x="year", y="passengers", hue="month", kind="line")
+flights_wide = flights.pivot(index="year", columns="month", values="passengers")
+flights_wide.head()
+sns.relplot(data=flights_wide, kind="line")
+
