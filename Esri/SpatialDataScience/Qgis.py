@@ -17,3 +17,10 @@ if activeLayer.type() == QgsMapLayer.VectorLayer:
     if activeLayer.wkbType() == QgsWkbTypes.MultiPolygon: 
         print('This layer contains multi-polygons!')
 
+dir(iface) 
+dir(activeLayer)
+currentProject = QgsProject.instance() 
+print(currentProject.fileName())
+currentProject.removeMapLayer(activeLayer.id())
+layer = QgsVectorLayer(r'C:\489\TM_WORLD_BORDERS-0.3.shp', 'World borders') 
+currentProject.addMapLayer(layer)
