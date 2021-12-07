@@ -42,3 +42,13 @@ for feature in layer.getFeatures():
 layer.selectAll() 
 layer.removeSelection()
 
+layer.selectByExpression('"AREA" > 300000')
+selectionName = layer.getFeatures(QgsFeatureRequest().setFilterExpression('"NAME" = \'Canada\'')) 
+feature = selectionName.__next__() 
+print(feature['NAME'] + "-" + str(feature.id()))
+print(feature.geometry()) 
+print(feature.geometry().asWkt())
+print(feature.geometry().asMultiPolygon())
+selectionPopulation = layer.getFeatures(QgsFeatureRequest().setFilterExpression('"POP2005" > 50000000'))
+
+
