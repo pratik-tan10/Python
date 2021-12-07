@@ -15,3 +15,11 @@ tips = sns.load_dataset("tips")
 g = sns.relplot(data=tips, x="total_bill", y="tip")
 g.ax.axline(xy1=(10, 2), slope=.2, color="b", dashes=(5, 2))
 
+g = sns.relplot(data=penguins, x="flipper_length_mm", y="bill_length_mm", col="sex")
+g.set_axis_labels("Flipper length (mm)", "Bill length (mm)")
+
+f, ax = plt.subplots()
+f, ax = plt.subplots(1, 2, sharey=True)
+g = sns.FacetGrid(penguins)
+g = sns.FacetGrid(penguins, col="sex")
+g = sns.FacetGrid(penguins, col="sex", height=3.5, aspect=.75)
