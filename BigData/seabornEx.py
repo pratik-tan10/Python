@@ -35,3 +35,12 @@ flights_wide = flights.pivot(index="year", columns="month", values="passengers")
 flights_wide.head()
 sns.relplot(data=flights_wide, kind="line")
 
+sns.relplot(data=flights, x="month", y="passengers", hue="year", kind="line")
+sns.relplot(data=flights_wide.transpose(), kind="line")
+sns.catplot(data=flights_wide, kind="box")
+anagrams = sns.load_dataset("anagrams")
+anagrams
+anagrams_long = anagrams.melt(id_vars=["subidr", "attnr"], var_name="solutions", value_name="score")
+anagrams_long.head()
+sns.catplot(data=anagrams_long, x="solutions", y="score", hue="attnr", kind="point")
+
