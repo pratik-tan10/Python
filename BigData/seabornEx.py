@@ -1,8 +1,7 @@
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-sns.set_theme(style="darkgrid")
+import numpy as np; np.random.seed(0)
+import seaborn as sns; sns.set_theme()
+uniform_data = np.random.rand(10, 12)
+ax = sns.heatmap(uniform_data)
 
 tips = sns.load_dataset("tips")
 sns.relplot(x="total_bill", y="tip", data=tips);
