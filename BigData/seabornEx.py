@@ -3,11 +3,9 @@ import seaborn as sns; sns.set_theme()
 uniform_data = np.random.rand(10, 12)
 ax = sns.heatmap(uniform_data)
 
-tips = sns.load_dataset("tips")
-sns.relplot(x="total_bill", y="tip", data=tips);
-sns.relplot(x="total_bill", y="tip", hue="smoker", data=tips);
-sns.relplot(x="total_bill", y="tip", hue="smoker", style="smoker",
-            data=tips);
+normal_data = np.random.randn(10, 12)
+ax = sns.heatmap(normal_data, center=0)
+
 sns.relplot(x="total_bill", y="tip", hue="smoker", style="time", data=tips);
 sns.relplot(x="total_bill", y="tip", hue="size", data=tips);
 sns.relplot(x="total_bill", y="tip", hue="size", palette="ch:r=-.5,l=.75", data=tips);
