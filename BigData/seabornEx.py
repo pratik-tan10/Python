@@ -10,12 +10,8 @@ flights = sns.load_dataset("flights")
 flights = flights.pivot("month", "year", "passengers")
 ax = sns.heatmap(flights)
 
-g = sns.relplot(x="time", y="value", kind="line", data=df)
-g.figure.autofmt_xdate()
-df = pd.DataFrame(np.random.randn(500, 2).cumsum(axis=0), columns=["x", "y"])
-sns.relplot(x="x", y="y", sort=False, kind="line", data=df);
-fmri = sns.load_dataset("fmri")
-sns.relplot(x="timepoint", y="signal", kind="line", data=fmri);
+ax = sns.heatmap(flights, annot=True, fmt="d")
+ax = sns.heatmap(flights, linewidths=.5)
 
 sns.relplot(x="timepoint", y="signal", ci=None, kind="line", data=fmri);
 sns.relplot(x="timepoint", y="signal", kind="line", ci="sd", data=fmri);
