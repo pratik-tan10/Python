@@ -20,12 +20,15 @@ data = np.random.randn(50, 20)
 ax = sns.heatmap(data, xticklabels=2, yticklabels=False)
 ax = sns.heatmap(flights, cbar=False)
 
-dots = sns.load_dataset("dots").query("align == 'dots'")
-sns.relplot(x="time", y="firing_rate",
-            hue="coherence", style="choice",
-            kind="line", data=dots);
-palette = sns.cubehelix_palette(light=.8, n_colors=6)
-sns.relplot(x="time", y="firing_rate",
-            hue="coherence", style="choice",
-            palette=palette,
-            kind="line", data=dots);
+grid_kws = {"height_ratios": (.9, .05), "hspace": .3}
+f, (ax, cbar_ax) = plt.subplots(2, gridspec_kw=grid_kws)
+ax = sns.heatmap(flights, ax=ax,
+                 cbar_ax=cbar_ax,
+                 cbar_kws={"orientation": "horizontal"})
+
+corr = np.corrcoef(np.random.randn(10, 200))
+mask = np.zeros_like(corr)
+mask[np.triu_indices_from(mask)] = True
+with sns.axes_style("white"):
+    f, ax = plt.subplots(figsize=(7, 5))
+    ax = sns.heatmap(corr, mask=mask, vmax=.3, square=True)
