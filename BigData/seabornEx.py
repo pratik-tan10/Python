@@ -23,3 +23,9 @@ sns.relplot(x="x", y="y", sort=False, kind="line", data=df);
 fmri = sns.load_dataset("fmri")
 sns.relplot(x="timepoint", y="signal", kind="line", data=fmri);
 
+sns.relplot(x="timepoint", y="signal", ci=None, kind="line", data=fmri);
+sns.relplot(x="timepoint", y="signal", kind="line", ci="sd", data=fmri);
+sns.relplot(x="timepoint", y="signal", estimator=None, kind="line", data=fmri);
+sns.relplot(x="timepoint", y="signal", hue="event", kind="line", data=fmri);
+sns.relplot(x="timepoint", y="signal", hue="region", style="event",
+            kind="line", data=fmri);
