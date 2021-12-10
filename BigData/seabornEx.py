@@ -1,46 +1,11 @@
-penguins = sns.load_dataset("penguins")
-sns.histplot(data=penguins, x="flipper_length_mm", hue="species", multiple="stack")
-
-sns.kdeplot(data=penguins, x="flipper_length_mm", hue="species", multiple="stack")
-sns.displot(data=penguins, x="flipper_length_mm", hue="species", multiple="stack")
-sns.displot(data=penguins, x="flipper_length_mm", hue="species", multiple="stack", kind="kde")
-
-sns.displot(data=penguins, x="flipper_length_mm", hue="species", col="species")
-f, axs = plt.subplots(1, 2, figsize=(8, 4), gridspec_kw=dict(width_ratios=[4, 3]))
-sns.scatterplot(data=penguins, x="flipper_length_mm", y="bill_length_mm", hue="species", ax=axs[0])
-sns.histplot(data=penguins, x="species", hue="species", shrink=.8, alpha=.8, legend=False, ax=axs[1])
-f.tight_layout()
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+sns.set_theme(style="darkgrid")
 
 tips = sns.load_dataset("tips")
-g = sns.relplot(data=tips, x="total_bill", y="tip")
-g.ax.axline(xy1=(10, 2), slope=.2, color="b", dashes=(5, 2))
-
-g = sns.relplot(data=penguins, x="flipper_length_mm", y="bill_length_mm", col="sex")
-g.set_axis_labels("Flipper length (mm)", "Bill length (mm)")
-
-f, ax = plt.subplots()
-f, ax = plt.subplots(1, 2, sharey=True)
-g = sns.FacetGrid(penguins)
-g = sns.FacetGrid(penguins, col="sex")
-g = sns.FacetGrid(penguins, col="sex", height=3.5, aspect=.75)
-
-sns.jointplot(data=penguins, x="flipper_length_mm", y="bill_length_mm", hue="species")
-sns.pairplot(data=penguins, hue="species")
-sns.jointplot(data=penguins, x="flipper_length_mm", y="bill_length_mm", hue="species", kind="hist")
-
-flights = sns.load_dataset("flights")
-flights.head()
-sns.relplot(data=flights, x="year", y="passengers", hue="month", kind="line")
-flights_wide = flights.pivot(index="year", columns="month", values="passengers")
-flights_wide.head()
-sns.relplot(data=flights_wide, kind="line")
-
-sns.relplot(data=flights, x="month", y="passengers", hue="year", kind="line")
-sns.relplot(data=flights_wide.transpose(), kind="line")
-sns.catplot(data=flights_wide, kind="box")
-anagrams = sns.load_dataset("anagrams")
-anagrams
-anagrams_long = anagrams.melt(id_vars=["subidr", "attnr"], var_name="solutions", value_name="score")
-anagrams_long.head()
-sns.catplot(data=anagrams_long, x="solutions", y="score", hue="attnr", kind="point")
-
+sns.relplot(x="total_bill", y="tip", data=tips);
+sns.relplot(x="total_bill", y="tip", hue="smoker", data=tips);
+sns.relplot(x="total_bill", y="tip", hue="smoker", style="smoker",
+            data=tips);
