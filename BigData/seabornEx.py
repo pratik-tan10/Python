@@ -29,3 +29,10 @@ sns.relplot(x="timepoint", y="signal", estimator=None, kind="line", data=fmri);
 sns.relplot(x="timepoint", y="signal", hue="event", kind="line", data=fmri);
 sns.relplot(x="timepoint", y="signal", hue="region", style="event",
             kind="line", data=fmri);
+sns.relplot(x="timepoint", y="signal", hue="region", style="event",
+            dashes=False, markers=True, kind="line", data=fmri);
+sns.relplot(x="timepoint", y="signal", hue="event", style="event",
+            kind="line", data=fmri);
+sns.relplot(x="timepoint", y="signal", hue="region",
+            units="subject", estimator=None,
+            kind="line", data=fmri.query("event == 'stim'"));
