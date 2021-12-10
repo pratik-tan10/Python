@@ -36,3 +36,7 @@ sns.relplot(x="timepoint", y="signal", hue="event", style="event",
 sns.relplot(x="timepoint", y="signal", hue="region",
             units="subject", estimator=None,
             kind="line", data=fmri.query("event == 'stim'"));
+dots = sns.load_dataset("dots").query("align == 'dots'")
+sns.relplot(x="time", y="firing_rate",
+            hue="coherence", style="choice",
+            kind="line", data=dots);
