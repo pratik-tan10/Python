@@ -40,3 +40,8 @@ dots = sns.load_dataset("dots").query("align == 'dots'")
 sns.relplot(x="time", y="firing_rate",
             hue="coherence", style="choice",
             kind="line", data=dots);
+palette = sns.cubehelix_palette(light=.8, n_colors=6)
+sns.relplot(x="time", y="firing_rate",
+            hue="coherence", style="choice",
+            palette=palette,
+            kind="line", data=dots);
