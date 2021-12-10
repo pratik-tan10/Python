@@ -13,12 +13,9 @@ ax = sns.heatmap(flights)
 ax = sns.heatmap(flights, annot=True, fmt="d")
 ax = sns.heatmap(flights, linewidths=.5)
 
-sns.relplot(x="timepoint", y="signal", ci=None, kind="line", data=fmri);
-sns.relplot(x="timepoint", y="signal", kind="line", ci="sd", data=fmri);
-sns.relplot(x="timepoint", y="signal", estimator=None, kind="line", data=fmri);
-sns.relplot(x="timepoint", y="signal", hue="event", kind="line", data=fmri);
-sns.relplot(x="timepoint", y="signal", hue="region", style="event",
-            kind="line", data=fmri);
+ax = sns.heatmap(flights, cmap="YlGnBu")
+ax = sns.heatmap(flights, center=flights.loc["Jan", 1955])
+
 sns.relplot(x="timepoint", y="signal", hue="region", style="event",
             dashes=False, markers=True, kind="line", data=fmri);
 sns.relplot(x="timepoint", y="signal", hue="event", style="event",
