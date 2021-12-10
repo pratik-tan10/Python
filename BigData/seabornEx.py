@@ -16,13 +16,10 @@ ax = sns.heatmap(flights, linewidths=.5)
 ax = sns.heatmap(flights, cmap="YlGnBu")
 ax = sns.heatmap(flights, center=flights.loc["Jan", 1955])
 
-sns.relplot(x="timepoint", y="signal", hue="region", style="event",
-            dashes=False, markers=True, kind="line", data=fmri);
-sns.relplot(x="timepoint", y="signal", hue="event", style="event",
-            kind="line", data=fmri);
-sns.relplot(x="timepoint", y="signal", hue="region",
-            units="subject", estimator=None,
-            kind="line", data=fmri.query("event == 'stim'"));
+data = np.random.randn(50, 20)
+ax = sns.heatmap(data, xticklabels=2, yticklabels=False)
+ax = sns.heatmap(flights, cbar=False)
+
 dots = sns.load_dataset("dots").query("align == 'dots'")
 sns.relplot(x="time", y="firing_rate",
             hue="coherence", style="choice",
