@@ -5,9 +5,16 @@ m = folium.Map(location=[45.5236, -122.6750])
 
 m
 
-flights = sns.load_dataset("flights")
-flights = flights.pivot("month", "year", "passengers")
-ax = sns.heatmap(flights)
+m.save("index.html")
+folium.Map(location=[45.5236, -122.6750], zoom_start=13)
+
+folium.Map(location=[45.5236, -122.6750],
+           tiles='Mapbox',
+           API_key='your.API.key')
+folium.Map(location=[45.372, -121.6972],
+           zoom_start=12,
+           tiles='http://{s}.tiles.yourtiles.com/{z}/{x}/{y}.png',
+           attr='My Data Attribution')
 
 ax = sns.heatmap(flights, annot=True, fmt="d")
 ax = sns.heatmap(flights, linewidths=.5)
