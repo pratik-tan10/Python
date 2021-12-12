@@ -75,15 +75,71 @@ folium.CircleMarker(
 
 
 m
-grid_kws = {"height_ratios": (.9, .05), "hspace": .3}
-f, (ax, cbar_ax) = plt.subplots(2, gridspec_kw=grid_kws)
-ax = sns.heatmap(flights, ax=ax,
-                 cbar_ax=cbar_ax,
-                 cbar_kws={"orientation": "horizontal"})
+m = folium.Map(location=[46.1991, -122.1889], tiles="Stamen Terrain", zoom_start=13)
+m.add_child(folium.LatLngPopup())
 
-corr = np.corrcoef(np.random.randn(10, 200))
-mask = np.zeros_like(corr)
-mask[np.triu_indices_from(mask)] = True
-with sns.axes_style("white"):
-    f, ax = plt.subplots(figsize=(7, 5))
-    ax = sns.heatmap(corr, mask=mask, vmax=.3, square=True)
+m
+m = folium.Map(location=[46.8527, -121.7649], tiles="Stamen Terrain", zoom_start=13)
+folium.Marker([46.8354, -121.7325], popup="Camp Muir").add_to(m)
+m.add_child(folium.ClickForMarker(popup="Waypoint"))
+m
+
+import json
+
+import requests
+
+url = (
+    "https://raw.githubusercontent.com/python-visualization/folium/master/examples/data"
+)
+vis1 = json.loads(requests.get(f"{url}/vis1.json").text)
+vis2 = json.loads(requests.get(f"{url}/vis2.json").text)
+vis3 = json.loads(requests.get(f"{url}/vis3.json").text)
+
+m = folium.Map(location=[46.3014, -123.7390], zoom_start=7, tiles="Stamen Terrain")
+
+folium.Marker(
+    location=[47.3489, -124.708],
+    popup=folium.Popup(max_width=450).add_child(
+        folium.Vega(vis1, width=450, height=250)
+    ),
+).add_to(m)
+
+folium.Marker(
+    location=[44.639, -124.5339],
+    popup=folium.Popup(max_width=450).add_child(
+        folium.Vega(vis2, width=450, height=250)
+    ),
+).add_to(m)
+
+folium.Marker(
+    location=[46.216, -124.1280],
+    popup=folium.Popup(max_width=450).add_child(
+        folium.Vega(vis3, width=450, height=250)
+    ),
+).add_to(m)
+m
+
+#geojson and topojson
+url = (
+    "https://raw.githubusercontent.com/python-visualization/folium/master/examples/data"
+)
+antarctic_ice_edge = f"{url}/antarctic_ice_edge.json"
+antarctic_ice_shelf_topo = f"{url}/antarctic_ice_shelf_topo.json"
+
+
+m = folium.Map(
+    location=[-59.1759, -11.6016],
+    tiles="cartodbpositron",
+    zoom_start=2,
+)
+
+folium.GeoJson(antarctic_ice_edge, name="geojson").add_to(m)
+
+folium.TopoJson(
+    json.loads(requests.get(antarctic_ice_shelf_topo).text),
+    "objects.antarctic_ice_shelf",
+    name="topojson",
+).add_to(m)
+
+folium.LayerControl().add_to(m)
+m
