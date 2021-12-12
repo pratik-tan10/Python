@@ -16,11 +16,43 @@ folium.Map(location=[45.372, -121.6972],
            tiles='http://{s}.tiles.yourtiles.com/{z}/{x}/{y}.png',
            attr='My Data Attribution')
 
-ax = sns.heatmap(flights, annot=True, fmt="d")
-ax = sns.heatmap(flights, linewidths=.5)
+#Markers
+m = folium.Map(location=[45.372, -121.6972], zoom_start=12, tiles="Stamen Terrain")
 
-ax = sns.heatmap(flights, cmap="YlGnBu")
-ax = sns.heatmap(flights, center=flights.loc["Jan", 1955])
+tooltip = "Click me!"
+
+folium.Marker(
+    [45.3288, -121.6625], popup="<i>Mt. Hood Meadows</i>", tooltip=tooltip
+).add_to(m)
+folium.Marker(
+    [45.3311, -121.7113], popup="<b>Timberline Lodge</b>", tooltip=tooltip
+).add_to(m)
+
+m
+
+#Color and marker icon
+m = folium.Map(location=[45.372, -121.6972], zoom_start=12, tiles="Stamen Terrain")
+
+folium.Marker(
+    location=[45.3288, -121.6625],
+    popup="Mt. Hood Meadows",
+    icon=folium.Icon(icon="cloud"),
+).add_to(m)
+
+folium.Marker(
+    location=[45.3311, -121.7113],
+    popup="Timberline Lodge",
+    icon=folium.Icon(color="green"),
+).add_to(m)
+
+folium.Marker(
+    location=[45.3300, -121.6823],
+    popup="Some Other Location",
+    icon=folium.Icon(color="red", icon="info-sign"),
+).add_to(m)
+
+
+m
 
 data = np.random.randn(50, 20)
 ax = sns.heatmap(data, xticklabels=2, yticklabels=False)
