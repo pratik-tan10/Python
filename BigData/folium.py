@@ -54,10 +54,27 @@ folium.Marker(
 
 m
 
-data = np.random.randn(50, 20)
-ax = sns.heatmap(data, xticklabels=2, yticklabels=False)
-ax = sns.heatmap(flights, cbar=False)
+m = folium.Map(location=[45.5236, -122.6750], tiles="Stamen Toner", zoom_start=13)
 
+folium.Circle(
+    radius=100,
+    location=[45.5244, -122.6699],
+    popup="The Waterfront",
+    color="crimson",
+    fill=False,
+).add_to(m)
+
+folium.CircleMarker(
+    location=[45.5215, -122.6261],
+    radius=50,
+    popup="Laurelhurst Park",
+    color="#3186cc",
+    fill=True,
+    fill_color="#3186cc",
+).add_to(m)
+
+
+m
 grid_kws = {"height_ratios": (.9, .05), "hspace": .3}
 f, (ax, cbar_ax) = plt.subplots(2, gridspec_kw=grid_kws)
 ax = sns.heatmap(flights, ax=ax,
