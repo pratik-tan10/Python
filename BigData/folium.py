@@ -1,10 +1,9 @@
-import numpy as np; np.random.seed(0)
-import seaborn as sns; sns.set_theme()
-uniform_data = np.random.rand(10, 12)
-ax = sns.heatmap(uniform_data)
+import folium
 
-normal_data = np.random.randn(10, 12)
-ax = sns.heatmap(normal_data, center=0)
+
+m = folium.Map(location=[45.5236, -122.6750])
+
+m
 
 flights = sns.load_dataset("flights")
 flights = flights.pivot("month", "year", "passengers")
