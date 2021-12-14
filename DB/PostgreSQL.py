@@ -50,75 +50,11 @@ def execute_query(connection, query):
 create_users_table = """
 CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
-  name TEXT NOT NULL, 
-  age INTEGER,
-  gender TEXT,
-  nationality TEXT
+  FullName TEXT NOT NULL, 
+  Age INTEGER,
+  Sex TEXT,
+  Country TEXT
 )
 """
 
 execute_query(connection, create_users_table)
-
-create_posts_table = """
-CREATE TABLE IF NOT EXISTS posts (
-  id SERIAL PRIMARY KEY, 
-  title TEXT NOT NULL, 
-  description TEXT NOT NULL, 
-  user_id INTEGER REFERENCES users(id)
-)
-"""
-
-execute_query(connection, create_posts_table)
-
-users = [
-    ("James", 25, "male", "USA"),
-    ("Leila", 32, "female", "France"),
-    ("Brigitte", 35, "female", "England"),
-    ("Mike", 40, "male", "Denmark"),
-    ("Elizabeth", 21, "female", "Canada"),
-]
-
-user_records = ", ".join(["%s"] * len(users))
-
-insert_query = (
-    f"INSERT INTO users (name, age, gender, nationality) VALUES {user_records}"
-)
-
-connection.autocommit = True
-cursor = connection.cursor()
-cursor.execute(insert_query, users)
-
-posts = [
-    ("Happy", "I am feeling very happy today", 1),
-    ("Hot Weather", "The weather is very hot today", 2),
-    ("Help", "I need some help with my work", 2),
-    ("Great News", "I am getting married", 1),
-    ("Interesting Game", "It was a fantastic game of tennis", 5),
-    ("Party", "Anyone up for a late-night party today?", 3),
-]
-
-post_records = ", ".join(["%s"] * len(posts))
-
-insert_query = (
-    f"INSERT INTO posts (title, description, user_id) VALUES {post_records}"
-)
-
-connection.autocommit = True
-cursor = connection.cursor()
-cursor.execute(insert_query, posts)
-
-def execute_read_query(connection, query):
-    cursor = connection.cursor()
-    result = None
-    try:
-        cursor.execute(query)
-        result = cursor.fetchall()
-        return result
-    except OperationalError as e:
-        print(f"The error '{e}' occurred")
-
-select_users = "SELECT * FROM users"
-users = execute_read_query(connection, select_users)
-
-for user in users:
-    print(user)
