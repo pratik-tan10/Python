@@ -16,3 +16,9 @@ def test_args_kwargs(arg1, arg2, arg3):
     print("arg3:", arg3)
     
     
+# first with *args
+args = ("two", 3, 5)
+test_args_kwargs(*args)
+arg1: two
+arg2: 3
+arg3: 5
