@@ -29,3 +29,9 @@ arg1: 5
 arg2: two
 arg3: 3
 
+import someclass
+
+def get_info(self, *args):
+    return "Test data"
+
+someclass.get_info = get_info
