@@ -8,3 +8,11 @@ test_var_args('yasoob', 'python', 'eggs', 'test')
 def greet_me(**kwargs):
     for key, value in kwargs.items():
         print("{0} = {1}".format(key, value))
+greet_me(name="yasoob")
+
+def test_args_kwargs(arg1, arg2, arg3):
+    print("arg1:", arg1)
+    print("arg2:", arg2)
+    print("arg3:", arg3)
+    
+    
