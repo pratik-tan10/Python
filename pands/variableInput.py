@@ -5,3 +5,6 @@ def test_var_args(f_arg, *argv):
 
 test_var_args('yasoob', 'python', 'eggs', 'test')
 
+def greet_me(**kwargs):
+    for key, value in kwargs.items():
+        print("{0} = {1}".format(key, value))
