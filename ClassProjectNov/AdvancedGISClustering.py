@@ -39,3 +39,7 @@ def prob(a,b,w1=0.7):
         return p
     except: return 0
 
+ProbM = np.zeros((i,i))
+ProbM.shape
+
+
