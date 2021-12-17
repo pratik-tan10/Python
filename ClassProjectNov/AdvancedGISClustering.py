@@ -42,4 +42,12 @@ def prob(a,b,w1=0.7):
 ProbM = np.zeros((i,i))
 ProbM.shape
 
+for each in vectorList:
+    ii = each[0]-1
+    a = np.array(each[1])
+    for col in vectorList:
+        jj = col[0]-1
+        b = np.array(col[1])
+        ProbM[ii,jj]=prob(a,b)
+
 
