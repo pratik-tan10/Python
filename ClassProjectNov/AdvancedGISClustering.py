@@ -51,3 +51,15 @@ for each in vectorList:
         ProbM[ii,jj]=prob(a,b)
 
 
+P1 = ProbM[178]
+M1 = np.mean(P1)
+MX1 = np.max(P1)
+MD1 = np.median(P1)
+C1 = M1+ 0.5*(MX1-MD1)
+W1 = np.where(P1>C1)
+print(W1)
+i1 = len(W1[0])
+print(P1[W1])
+#checkM1 = 
+for each in W1:
+    pass
