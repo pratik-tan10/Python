@@ -27,3 +27,6 @@ from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 import matplotlib.pyplot as plt
 % matplotlib inline
 
+# Load in the dataframe
+df = pd.read_csv("data/winemag-data-130k-v2.csv", index_col=0)
+
