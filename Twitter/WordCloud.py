@@ -40,3 +40,11 @@ print("There are {} types of wine in this dataset such as {}... \n".format(len(d
 
 print("There are {} countries producing wine in this dataset such as {}... \n".format(len(df.country.unique()),
                                                                                       ", ".join(df.country.unique()[0:5])))
+df[["country", "description","points"]].head()
+
+# Groupby by country
+country = df.groupby("country")
+
+# Summary statistic of all countries
+country.describe().head()
+
