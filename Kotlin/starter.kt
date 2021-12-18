@@ -1,6 +1,8 @@
 fun main() {
+    val name = "Rosh"
+    val amount = 500000
     println("Congratulaiotns!")
-    println("Rosh")
+    println("${name}")
     //start printing cake
     println("   ,,,,,   ")
     println("   |||||   ")
@@ -9,5 +11,5 @@ fun main() {
     println("{~@~@~@~@~}")
     println("@@@@@@@@@@@")
     println("") //empty line print
-    println("You won the lottery!")
+    println("You won the lottery of ${amount}!")
 }
