@@ -13,3 +13,8 @@ fun main() {
     println("") //empty line print
     println("You won the lottery of ${amount}!")
 }
+fun printBorder(n: Int){
+    repeat(n){
+        println("==================")
+    }
+}
