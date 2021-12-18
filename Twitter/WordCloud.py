@@ -55,3 +55,15 @@ plt.xticks(rotation=50)
 plt.xlabel("Country of Origin")
 plt.ylabel("Number of Wines")
 plt.show()
+
+?WordCloud
+# Start with one review:
+text = df.description[0]
+
+# Create and generate a word cloud image:
+wordcloud = WordCloud().generate(text)
+
+# Display the generated image:
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis("off")
+plt.show()
