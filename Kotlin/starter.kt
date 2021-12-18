@@ -17,6 +17,7 @@ fun main() {
     println("You won the lottery of ${amount}!")
 }
 fun printBorder(n: Int, x: String){
+    println("--------Congratulations---------")
     repeat(n){
         repeat(23){
         print(x)
