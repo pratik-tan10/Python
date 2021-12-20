@@ -140,8 +140,11 @@ def matfmt(themat,fmt):
     return string.join([vectfmt(x,fmt)+'\n' for x in themat],'')
 
 import numpy as np
-a = np.array([[3,1], [1,2]])
-b = np.array([9,8])
-x = np.linalg.solve(a, b)
-x
-array([ 2.,  3.])
+#eqn 1: 3 * x1 + x2 = 9
+#eqn 2: x1 + 2 * x2 = 8
+#matrix A = for each eqn[coeff of x1, coeff x2]
+#matrix B = array of constants
+A = np.array([[3,1], [1,2]])
+B = np.array([9,8])
+X = np.linalg.solve(a, b)
+X
