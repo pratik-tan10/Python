@@ -131,3 +131,5 @@ sum(v[i]*v[i] for i in range(len(v)))  # the dot product v.v
 
 [sum(A[i][j]*v[j] for j in range(len(v))) for i in range(len(A))]  # the vector A*v
 
+[[sum(A[i][k]*B[k][j] for k in range(len(b))) for j in range(len(B[0]))] for i in range(len(A))]  # the matrix A*B
+
