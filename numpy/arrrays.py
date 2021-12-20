@@ -133,3 +133,9 @@ sum(v[i]*v[i] for i in range(len(v)))  # the dot product v.v
 
 [[sum(A[i][k]*B[k][j] for k in range(len(b))) for j in range(len(B[0]))] for i in range(len(A))]  # the matrix A*B
 
+import string
+def vectfmt(thevect,fmt):
+    return string.join(['[']+[fmt.format(x) for x in thevect]+[']'],'')
+def matfmt(themat,fmt):
+    return string.join([vectfmt(x,fmt)+'\n' for x in themat],'')
+
