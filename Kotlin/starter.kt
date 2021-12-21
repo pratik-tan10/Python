@@ -27,20 +27,18 @@ fun printBorder(n: Int, x: String){
 }
 
 fun main() {
-   
-    val myFirstDice = Dice()
+    val myFirstDice = Dice(6)
     val diceRoll = myFirstDice.roll()
-    println("Your ${myFirstDice.sides} sided dice rolled ${diceRoll}!")
-
-    myFirstDice.sides = 20
-    println("Your ${myFirstDice.sides} sided dice rolled ${myFirstDice.roll()}!")
+    println("Your ${myFirstDice.numSides} sided dice rolled ${diceRoll}!")
+    
+    val mySecondDice = Dice(20)
+    println("Your ${mySecondDice.numSides} sided dice rolled ${mySecondDice.roll()}!")
 }
 
-class Dice {
-    var sides = 6
+class Dice (val numSides: Int) {
 
     fun roll(): Int {
-        val randomNumber = (1..sides).random()
+        val randomNumber = (1..numSides).random()
         return randomNumber
     }
 }
