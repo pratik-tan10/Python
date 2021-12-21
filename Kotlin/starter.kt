@@ -27,7 +27,10 @@ fun printBorder(n: Int, x: String){
 }
 
 fun main() {
-    val diceRange = 1..6
-     val randomNumber = diceRange.random()
-     println("Random number: ${randomNumber}")     
+    val myFirstDice = Dice()
+    println(myFirstDice.sides)
+}
+
+class Dice {
+    var sides = 6
 }
