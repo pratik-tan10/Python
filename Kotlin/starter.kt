@@ -61,3 +61,10 @@ class Dice(val numSides: Int) {
         return (1..numSides).random()
     }
 }
+
+@Test
+fun generates_number() {
+   val dice = Dice(6)
+}
+
+
