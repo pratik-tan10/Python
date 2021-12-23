@@ -75,3 +75,8 @@ private const val TAG = "MainActivity"
 fun logging() {
     Log.v(TAG, "Hello, world!")
 }
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
+    logging()
+}
