@@ -63,6 +63,7 @@ class Dice(val numSides: Int) {
 }
 
 #Unit test function is annotated with @Test keyword
+import org.junit.Assert.assertTrue
 @Test
 fun generates_number() {
    val dice = Dice(6)
