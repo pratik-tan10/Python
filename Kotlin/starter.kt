@@ -62,9 +62,10 @@ class Dice(val numSides: Int) {
     }
 }
 
+#Unit test function is annotated with @Test keyword
 @Test
 fun generates_number() {
    val dice = Dice(6)
+   val rollResult = dice.roll()
 }
-
 
