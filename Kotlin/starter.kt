@@ -71,3 +71,7 @@ fun generates_number() {
    assertTrue("The value of rollResult was not between 1 and 6", rollResult in 1..6)
 }
 
+private const val TAG = "MainActivity"
+fun logging() {
+    Log.v(TAG, "Hello, world!")
+}
