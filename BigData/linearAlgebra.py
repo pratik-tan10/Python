@@ -37,4 +37,9 @@ d = np.eye(2)
 #random matrix
 e = np.random.random((2,2))
 
+v1 = np.arange(3)
+v2 = np.array([4,5,6])
+v3 = np.array((1,6,8))
+#vertical concatenation
+Matrix = np.vstact([v1,v2,v3])
 
