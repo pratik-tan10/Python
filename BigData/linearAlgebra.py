@@ -10,17 +10,17 @@ v = np.array([[1],
  [3]])
 
 #Shape of matrix or 2d array
-print M.shape
+print (M.shape)
 
 #Shape of Vector or 1d array
-print v.shape
+print (v.shape)
 
 v_single_dim = np.array([1, 2, 3])
-print v_single_dim.shape
+print (v_single_dim.shape)
 
-print v + v
+print (v + v)
 
-print 3*v
+print (3*v)
 
 #zeros matrix
 a = np.zeros((2,2))
@@ -48,5 +48,13 @@ M1 = np.matrix([[1,2,3],[4,5,6],[7,8,9]])
 M2 = 2*np.array([[1, 2, 3],
  [4, 5, 6],
  [7, 8, 9]]) + np.full((3,3),6)
+
+np.multiply(M1, M2)
+M1.dot(M2)
 np.cross(M1, M2, axisa=0, axisb=1).T
+M1.T
+np.linalg.det(M1)
+
+#Eigenvals and eigvecs
+eigvals, eigvecs = np.linalg.eig(M)
 
