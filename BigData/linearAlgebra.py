@@ -43,3 +43,10 @@ v3 = np.array((1,6,8))
 #vertical concatenation
 Matrix = np.vstact([v1,v2,v3])
 
+import numpy as np
+M1 = np.matrix([[1,2,3],[4,5,6],[7,8,9]])
+M2 = 2*np.array([[1, 2, 3],
+ [4, 5, 6],
+ [7, 8, 9]]) + np.full((3,3),6)
+np.cross(M1, M2, axisa=0, axisb=1).T
+
