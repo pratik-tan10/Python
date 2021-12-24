@@ -5,3 +5,11 @@ M = np.array([[1, 2, 3],
 v = np.array([[1],
  [2],
  [3]])
+
+print M.shape
+
+print v.shape
+
+v_single_dim = np.array([1, 2, 3])
+print v_single_dim.shape
+
