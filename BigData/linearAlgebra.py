@@ -21,3 +21,20 @@ print v_single_dim.shape
 print v + v
 
 print 3*v
+
+#zeros matrix
+a = np.zeros((2,2))
+
+#ones matrix
+b = np.ones((2,2))
+
+#constant matrix
+c = np.full((2,2), 5)
+
+#identity matrix
+d = np.eye(2)
+
+#random matrix
+e = np.random.random((2,2))
+
+
