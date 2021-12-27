@@ -10,7 +10,8 @@ class ToolValidator(object):
   def initializeParameters(self):
     """Refine the properties of a tool's parameters.  This method is
     called when the tool is opened."""
-    self.params[3].filter.list=[]
+    self.params[3].filter.list='Select a field'
+    f1 = []
     return
 
   def updateParameters(self):
