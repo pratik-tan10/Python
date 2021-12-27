@@ -20,7 +20,7 @@ class ToolValidator(object):
     has been changed."""
     if self.params[0].altered:
       x = arcpy.ListFields(arcpy.Describe(self.params[0].value).catalogPath)
-      self.params[3].filter.list = [str(i) for i in x]
+      self.params[3].filter.list = [i.name for i in x]
     return
 
   def updateMessages(self):
