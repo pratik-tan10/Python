@@ -10,7 +10,8 @@ class ToolValidator(object):
   def initializeParameters(self):
     """Refine the properties of a tool's parameters.  This method is
     called when the tool is opened."""
-    self.params[3].filter.list='Select a field'
+    self.params[3].value = 'Select the Field'
+    self.params[3].filter.list=[]
     f1 = []
     return
 
@@ -19,8 +20,11 @@ class ToolValidator(object):
     validation is performed.  This method is called whenever a parameter
     has been changed."""
     if self.params[0].altered:
-      x = arcpy.ListFields(arcpy.Describe(self.params[0].value).catalogPath)
-      self.params[3].filter.list = [i.name for i in x]
+      self.params[3].clearMessage()
+      cp = arcpy.Describe(self.params[0].value).catalogPath
+      fl = arcpy.ListFields(cp)
+      self.params[3].filter.list = [s.name for s in fl]
+      self.params[3].clearMessage()      
     return
 
   def updateMessages(self):
