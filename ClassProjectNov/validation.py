@@ -19,7 +19,8 @@ class ToolValidator(object):
     validation is performed.  This method is called whenever a parameter
     has been changed."""
     if self.params[0].altered:
-      self.params[3].filter.list = arcpy.ListFields(arcpy.Describe(self.params[0].value).catalogPath)
+      x = arcpy.ListFields(arcpy.Describe(self.params[0].value).catalogPath)
+      self.params[3].filter.list = [str(i) for i in x]
     return
 
   def updateMessages(self):
