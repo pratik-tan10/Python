@@ -131,23 +131,16 @@ class MainActivity : AppCompatActivity() {
     private fun setViewElements() {
         val textAction: TextView = findViewById(R.id.text_action)
         // TODO: set up a conditional that tracks the lemonadeState
-        when (lemonadeState) {
-            SELECT -> {
-                textAction.text = getString(R.string.lemon_select)
-                lemonImage?.setImageResource(R.drawable.lemon_tree)
-            }
-
-            SQUEEZE -> {
+        if lemonadeState==SELECT {
+            textAction.text = getString(R.string.lemon_select)
+            lemonImage?.setImageResource(R.drawable.lemon_tree)
+            }else if lemonadeState==SQUEEZE {
                 textAction.text = getString(R.string.lemon_squeeze)
                 lemonImage?.setImageResource(R.drawable.lemon_squeeze)
-            }
-
-            DRINK -> {
+            } else if lemonadeState== DRINK {
                 textAction.text = getString(R.string.lemon_drink)
                 lemonImage?.setImageResource(R.drawable.lemon_drink)
-            }
-
-            RESTART -> {
+            } else if lemonadeState == RESTART -> {
                 textAction.text = getString(R.string.lemon_empty_glass)
                 lemonImage?.setImageResource(R.drawable.lemon_restart)
             }
