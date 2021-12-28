@@ -153,6 +153,6 @@ class MainActivity : AppCompatActivity() {
  */
 class LemonTree {
     fun pick(): Int {
-        return (2..7).random()
+        return (2..4).random()
     }
 }
