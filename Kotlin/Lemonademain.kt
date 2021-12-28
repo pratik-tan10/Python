@@ -90,7 +90,32 @@ class MainActivity : AppCompatActivity() {
      * This method determines the state and proceeds with the correct action.
      */
     private fun clickLemonImage() {
-      False
+      val textAction: TextView = findViewById(R.id.text_action)
+      // TODO: set up a conditional that tracks the lemonadeState
+      val textAction: TextView = findViewById(R.id.text_action)
+      // TODO: set up a conditional that tracks the lemonadeState
+      when (lemonadeState) {
+        SELECT -> {
+            textAction.text = getString(R.string.lemon_select)
+            lemonImage?.setImageResource(R.drawable.lemon_tree)
+            }
+
+        SQUEEZE -> {
+            textAction.text = getString(R.string.lemon_squeeze)
+            lemonImage?.setImageResource(R.drawable.lemon_squeeze)
+            }
+
+        DRINK -> {
+            textAction.text = getString(R.string.lemon_drink)
+            lemonImage?.setImageResource(R.drawable.lemon_drink)
+            }
+
+        RESTART -> {
+            textAction.text = getString(R.string.lemon_empty_glass)
+            lemonImage?.setImageResource(R.drawable.lemon_restart)
+            }
+        }
+        }
         }
 
 //        println("State: $lemonadeState, SqueezeCount: $squeezeCount, LemonSize: $lemonSize")
