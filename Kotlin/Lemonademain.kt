@@ -144,7 +144,12 @@ class MainActivity : AppCompatActivity() {
      * Long clicking the lemon image will show how many times the lemon has been squeezed.
      */
     private fun showSnackbar(): Boolean {
-        False
+        if (lemonadeState != SQUEEZE) {
+            return false
+        }
+        val squeezeText = getString(R.string.squeeze_count, squeezeCount)
+       //yet to change squeeze text
+        return true
 }
 
 /**
