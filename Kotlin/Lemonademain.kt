@@ -148,7 +148,11 @@ class MainActivity : AppCompatActivity() {
             return false
         }
         val squeezeText = getString(R.string.squeeze_count, squeezeCount)
-       //yet to change squeeze text
+        Snackbar.make(
+            findViewById(R.id.constraint_Layout),
+            squeezeText,
+            Snackbar.LENGTH_SHORT
+        ).show()
         return true
 }
 
