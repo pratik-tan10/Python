@@ -13,4 +13,23 @@ fun main() {
         println("Floor area: %.2f".format(floorArea()))
         println("Carpet size: %.2f".format(length))
     }
+    with (roundHut){
+	println("\nSquare Cabin\n============")
+        println("Capacity: ${capacity}")
+        println("Material: ${squareCabin.buildingMaterial}")
+        println("Has room? ${hasRoom()}")
+        getRoom()
+        println("Floor area: %.2f".format(floorArea()))
+        println("Carpet size: ${calculateMaxCarpetSize()}")
+    }
+
+    with (roundTower){
+        println("\nSquare Cabin\n============")
+        println("Capacity: ${capacity}")
+        println("Material: ${squareCabin.buildingMaterial}")
+        println("Has room? ${hasRoom()}")
+        getRoom()
+        println("Floor area: %.2f".format(floorArea()))
+        println("Carpet size: ${calculateMaxCarpetSize()}")
+    }
 }
