@@ -4,7 +4,7 @@ import pandas as pd
 df = pd.read_csv(r"C:\Users\Research Lab\Desktop\Pratik\ClassProj\neighbour.csv")
 
 #Get maximum row and colums in csv
-r = max(df['OID_'])
+r = max(df['src_OBJECTID_1'])
 
 #Initialize a zero square matrix with size of no of polygons
 import numpy as np
