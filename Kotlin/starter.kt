@@ -1,32 +1,17 @@
 fun main() {
-    val entrees = mutableListOf<String>()
-    println("Entrees: $entrees")
+    val ordersList = mutableListOf<Order>()
+    
+    val order1 = Order(1)
+    order1.addItem(Noodles())
+    ordersList.add(order1)
 
-    // Add individual items using add()
-    println("Add noodles: ${entrees.add("noodles")}")
-    println("Entrees: $entrees")
-    println("Add spaghetti: ${entrees.add("spaghetti")}")
-    println("Entrees: $entrees")
+    val order2 = Order(2)
+    order2.addItem(Noodles())
+    order2.addItem(Vegetables())
+    ordersList.add(order2)
 
-    // Add a list of items using addAll()
-    val moreItems = listOf("ravioli", "lasagna", "fettuccine")
-    println("Add list: ${entrees.addAll(moreItems)}")
-    println("Entrees: $entrees")
-
-    // Remove an item using remove()
-    println("Remove spaghetti: ${entrees.remove("spaghetti")}")
-    println("Entrees: $entrees")
-    println("Remove item that doesn't exist: ${entrees.remove("rice")}")
-    println("Entrees: $entrees")
-
-    // Remove an item using removeAt() with an index
-    println("Remove first element: ${entrees.removeAt(0)}")
-    println("Entrees: $entrees")
-
-    // Clear out the list
-    entrees.clear()
-    println("Entrees: $entrees")
-
-    // Check if the list is empty
-    println("Empty? ${entrees.isEmpty()}")
+    val order3 = Order(3)
+    val items = listOf(Noodles(), Vegetables("Carrots", "Beans", "Celery"))
+    order3.addAll(items)
+    ordersList.add(order3)
 }
