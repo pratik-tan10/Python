@@ -8,4 +8,10 @@ fun main() {
     val set2 = mutableSetOf(3,2,1)
     println("$set1 == $set2: ${set1 == set2}")
     println("contains 7: ${setOfNumbers.contains(7)}")
+    
+    val peopleAges = mutableMapOf<String, Int>(
+        "Fred" to 30,
+        "Ann" to 23
+    )
+    println(peopleAges
 }
