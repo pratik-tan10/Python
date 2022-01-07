@@ -1,3 +1,11 @@
-val numbersMap = mapOf("key1" to 1, "key2" to 2, "key3" to 3, "key11" to 11)
-println(numbersMap.mapKeys { it.key.uppercase() })
-println(numbersMap.mapValues { it.value + it.key.length })
+fun main() {
+    val numbers = listOf(0, 3, 8, 4, 0, 5, 5, 8, 9, 2)
+    println("list:   ${numbers}")
+    println("sorted: ${numbers.sorted()}")
+    val setOfNumbers = numbers.toSet()
+    println("set:    ${setOfNumbers}")
+    val set1 = setOf(1,2,3)
+    val set2 = mutableSetOf(3,2,1)
+    println("$set1 == $set2: ${set1 == set2}")
+    println("contains 7: ${setOfNumbers.contains(7)}")
+}
