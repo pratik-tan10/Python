@@ -13,5 +13,8 @@ fun main() {
         "Fred" to 30,
         "Ann" to 23
     )
-    println(peopleAges
+    peopleAges.put("Barbara", 42)
+    peopleAges["Joe"] = 51
+    println(peopleAges)
+    println(peopleAges)
 }
