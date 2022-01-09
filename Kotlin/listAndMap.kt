@@ -30,4 +30,12 @@ peopleAges.filter { it.key.length < 4 }
 val peopleNames = listOf("Fred", "Ann", "Barbara", "Joe")
 println(peopleNames.sorted()
 println(peopleNames.sortedWith { str1: String, str2: String -> str1.length - str2.length })
+
+val words = listOf("about", "acute", "awesome", "balloon", "best", "brief", "class", "coffee", "creative")
+val filteredWords = words.filter { it.startsWith("b", ignoreCase = true) }
+    .shuffled()
+    .take(2)
+    .sorted()
+
 }
+
