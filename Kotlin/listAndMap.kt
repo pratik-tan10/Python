@@ -37,5 +37,9 @@ val filteredWords = words.filter { it.startsWith("b", ignoreCase = true) }
         .take(2)
         .sorted()
 println(filteredWords)
+val filteredWords = words.filter { it.startsWith("c", ignoreCase = true) }
+    .shuffled()
+    .take(1)
+    
 }
 
