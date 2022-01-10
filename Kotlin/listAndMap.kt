@@ -41,5 +41,10 @@ val filteredWords = words.filter { it.startsWith("c", ignoreCase = true) }
     .shuffled()
     .take(1)
     
+val languageName = "Kotlin"
+val upperCaseName = languageName.toUpperCase()
+
+// Fails to compile
+languageName.inc()
 }
 
