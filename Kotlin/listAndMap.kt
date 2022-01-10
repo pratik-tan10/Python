@@ -42,10 +42,8 @@ val filteredWords = words.filter { it.startsWith("c", ignoreCase = true) }
     .take(1)
     
 val languageName: String? = null
-//the String? is null safety which will handle nullable variables
-val upperCaseName = languageName.toUpperCase()
-
-// Fails to compile
-languageName.inc()
+if (languageName != null) {
+    // No need to write languageName?.toUpperCase()
+    println(languageName.toUpperCase())
 }
 
