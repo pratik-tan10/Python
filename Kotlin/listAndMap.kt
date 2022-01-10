@@ -41,7 +41,8 @@ val filteredWords = words.filter { it.startsWith("c", ignoreCase = true) }
     .shuffled()
     .take(1)
     
-val languageName = "Kotlin"
+val languageName: String? = null
+//the String? is null safety which will handle nullable variables
 val upperCaseName = languageName.toUpperCase()
 
 // Fails to compile
