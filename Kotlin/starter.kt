@@ -1,8 +1,11 @@
 fun main (){
-    val languageName: String? = null
-    if (languageName != null) {
-    // No need to write languageName?.toUpperCase()
-    println(languageName.toUpperCase())
+    fun generateAnswerString(): String {
+    val answerString = if (count == 42) {
+        "I have the answer."
+    } else {
+        "The answer eludes me"
+    }
+
+    return answerString
 }
-println(answerString)
 }
