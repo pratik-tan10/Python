@@ -26,5 +26,20 @@ df = merge(x=df1,y=df2,by="CountryId",all.x=TRUE)
 #Right outer join
 df = merge(x=df1,y=df2,by="CountryId",all.y=TRUE)
 
+##To download Landsat Images in R
+### run this chunk from the console - line-by-line
+#   install.package("devtools")
+#   devtools::install_github("16EAGLE/getSpatialData")
+## Load packages
+library(getSpatialData)
+library(raster)
+library(sf)
+library(sp)
+library(tidyverse)
+
+## Use st_read function from the  sf library
+regions <- st_read("./datos/Montes.geojson")
+
+
 
 
