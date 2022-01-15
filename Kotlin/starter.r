@@ -40,6 +40,15 @@ library(tidyverse)
 ## Use st_read function from the  sf library
 regions <- st_read("./datos/Montes.geojson")
 
+str(regions)
+# texts and labels
+p <- ggplot(regions) +
+  geom_sf(aes(fill = MPIO_NAREA), colour="white")
+
+p + geom_sf_label(aes(label = MPIO_CNMBR), colour = "black", size = 2.0)
+montes <-
+  regions %>%
+  summarise(area = sum(MPIO_NAREA))
 
 
 
