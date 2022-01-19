@@ -42,3 +42,45 @@ unique_vals
 sapply(unique_vals,length)
 sapply(flags, unique)
 lapply(unique_vals, function(elem)elem[2])
+
+
+###########################
+vapply(flags, unique, numeric(1))
+sapply(flags, class)
+vapply(flags, class, character(1))
+?tapply
+sapply(flags, class)
+table(flags$animate)
+tapply(flags$animate, flags$landmass,mean)
+tapply(flags$population,flags$red,summary)
+
+###########################
+a <-ls();a
+class(plants)
+dim(plants)
+ncol(plants);nrow(plants)
+ncol(plants)
+object.size(plants)/1024^2
+names(plants)
+head(plants)
+head(plants,10)
+tail(plants, 15)
+summary(plants)
+table(plants$Active_Growth_Period)
+str(plants)
+
+###########################
+sample(1:20,10)
+LETTERS
+sample(LETTERS)
+sample(c(0,1),100,replace = TRUE, prob = c(0.3,0.7)) ->flips
+flips
+mean(flips)
+flips2 <-rbinom(100,size = 1, prob = 0.7)
+flips2
+sum(flips2)
+rnorm(10, mean = 100, sd =25)
+rpois(5,10)
+replicate(100, rpois(5,10)) -> my_pois
+cm <- colMeans(my_pois)
+hist(cm)
