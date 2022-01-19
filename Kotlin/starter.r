@@ -1,11 +1,22 @@
-# Create two vectors of different lengths.
-v1 <- c(5,9,3)
-v2 <- c(10,11,12,13,14,15)
-column.names <- c("COL1","COL2","COL3")
-row.names <- c("ROW1","ROW2","ROW3")
-matrix.names <- c("Matrix1","Matrix2")
-
-# Take these vectors as input to the array.
-result <- array(c(v1,v2),dim = c(3,3,2),dimnames = list(row.names,column.names,
-   matrix.names))
-print(result)
+#matrices and data frames
+my_vector <- 1:20
+my_vector
+dim(my_vector)
+length(my_vector)
+dim(my_vector) <- c(4,5)
+dim(my_vector)
+attributes(my_vector)
+my_vector
+class(my_vector)
+my_matrix <- my_vector
+?matrix
+my_matrix2 <- matrix(1:20,4,5)
+identical(my_matrix, my_matrix2)
+patients <- c("Bill", "Gina","Kelly","Sean")
+cbind(patients, my_matrix)
+my_data <-data.frame(patients, my_matrix)
+my_data
+class(my_data)
+cnames <- c("patient", "age", "weight", "bp", "rating", "test")
+colnames(my_data) <- cnames
+my_data
