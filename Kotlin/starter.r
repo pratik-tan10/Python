@@ -24,3 +24,26 @@ class(t4)
 Sys.time() > t1
 Sys.time()-t1
 difftime(Sys.time(), t1, units = 'days')
+
+data(cars)
+?cars
+head(cars)
+dim(cars);names(cars);summary(cars)
+plot(cars)
+plot(x = cars$speed, y = cars$dist)
+
+plot(x = cars$speed, y = cars$dist, xlab = "Speed", ylab = "Stopping Distance")
+plot(cars, main = "My Plot")
+plot(cars, sub = "My Plot Subtitle")
+plot(cars, col =6)
+plot(cars, xlim = c(10,15))
+plot(cars, pch = 2)
+data(mtcars)
+play()
+dim(mtcars)
+names(mtcars)
+head(mtcars)
+str(mtcars)
+summary(mtcars)
+nxt()
+?boxplot
