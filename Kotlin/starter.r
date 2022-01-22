@@ -2,7 +2,6 @@
 library(tidyverse)
 summary(mpg)
 head(mpg)
-ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy, color = class))
-ggplot(data = mpg) + 
-  geom_smooth(mapping = aes(x = displ, y = hwy, linetype = class, color = class))
+ggplot(data = mpg, mapping = aes(x=displ, y=hwy, color = drv))+
+  geom_point(mapping = aes(shape = drv, alpha = (1-displ) ))+
+  geom_smooth(mapping = aes(linetype=drv),se=FALSE) 
