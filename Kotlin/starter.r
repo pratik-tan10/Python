@@ -34,15 +34,16 @@ ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut, fill = clarity))
 
 ggplot(data = mpg, mapping = aes(x = class, y = hwy)) + 
-  geom_boxplot()
+  geom_boxplot() +
+  coord_flip()
 
 ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy), position = "jitter")
+  geom_jitter(mapping = aes(x = displ, y = hwy))
 
 nz <- map_data("nz")
-
 ggplot(nz, aes(long, lat, group = group)) +
-  geom_polygon(fill = "white", colour = "black")
+  geom_polygon(fill = "white", colour = "black") +
+  coord_quickmap()
 
 bar <- ggplot(data = diamonds) + 
   geom_bar(
@@ -55,3 +56,8 @@ bar <- ggplot(data = diamonds) +
 
 bar + coord_flip()
 bar + coord_polar()
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_point() + 
+  geom_abline() +
+  coord_fixed()
