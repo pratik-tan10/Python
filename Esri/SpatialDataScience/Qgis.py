@@ -1,61 +1,16 @@
-layers = iface.mapCanvas().layers() 
-for layer in layers:
-    print(layer)
-    print(layer.name())
-    print(layer.id())
-    print('------')
-# If you copy/paste the code - run the part above
-# before you run the part below 
-# otherwise you'll get a syntax error.
-activeLayer = iface.activeLayer()
-print('active layer: ' + activeLayer.name())
+import os, sys 
+import qgis 
+import qgis.core
+qgis_prefix = os.getenv("QGIS_PREFIX_PATH")      
+qgis.core.QgsApplication.setPrefixPath(qgis_prefix, True) 
+qgs = qgis.core.QgsApplication([], False)
+qgs.initQgis()
+layer = qgis.core.QgsVectorLayer('#filepath')
+centroidLayer = qgis.core.QgsVectorLayer("Point?crs=" + layer.crs().authid() + "&field=NAME:string(255)", "temporary_points", "memory") 
+bufferLayer = qgis.core.QgsVectorLayer("Polygon?crs=" + layer.crs().authid() + "&field=NAME:string(255)", "temporary_buffers", "memory")
 
-if activeLayer.type() == QgsMapLayer.VectorLayer: 
-    print('This is a vector layer!')
-
-if activeLayer.type() == QgsMapLayer.VectorLayer: 
-    if activeLayer.wkbType() == QgsWkbTypes.MultiPolygon: 
-        print('This layer contains multi-polygons!')
-
-dir(iface) 
-dir(activeLayer)
-currentProject = QgsProject.instance() 
-print(currentProject.fileName())
-currentProject.removeMapLayer(activeLayer.id())
-layer = QgsVectorLayer(r'C:\489\TM_WORLD_BORDERS-0.3.shp', 'World borders') 
-currentProject.addMapLayer(layer)
-
-renderer = QgsGraduatedSymbolRenderer() 
-renderer.setClassAttribute('POP2005') 
-layer.setRenderer(renderer) 
-layer.renderer().updateClasses(layer, QgsGraduatedSymbolRenderer.Jenks, 5) 
-layer.renderer().updateColorRamp(QgsGradientColorRamp(Qt.white, Qt.red)) 
-iface.layerTreeView().refreshLayerSymbology(layer.id())
-iface.mapCanvas().refreshAllLayers()
-
-for feature in layer.getFeatures(): 
-    print(feature) 
-    print(feature.id()) 
-    print(feature['NAME']) 
-    print('-----') 
-
-layer.selectAll() 
-layer.removeSelection()
-
-layer.selectByExpression('"AREA" > 300000')
-selectionName = layer.getFeatures(QgsFeatureRequest().setFilterExpression('"NAME" = \'Canada\'')) 
-feature = selectionName.__next__() 
-print(feature['NAME'] + "-" + str(feature.id()))
-print(feature.geometry()) 
-print(feature.geometry().asWkt())
-print(feature.geometry().asMultiPolygon())
-selectionPopulation = layer.getFeatures(QgsFeatureRequest().setFilterExpression('"POP2005" > 50000000'))
-
-layer.selectByIds([f.id() for f in selectionPopulation])
-QgsVectorFileWriter.writeAsVectorFormat(layer, r'C:\489\highPopulationCountries.gpkg', 'utf-8', layer.crs(),'GPKG', True)
-dataProvider = layer.dataProvider()
-populationColumnIndex = dataProvider.fieldNameIndex('POP2005')
-newValueDictionary = { populationColumnIndex : 1 } 
-dataProvider.changeAttributeValues( { feature.id(): newValueDictionary } )
-dataProvider.changeAttributeValues( { feature.id(): { populationColumnIndex : 32270507 } } )
-
+centroidProvider = centroidLayer.dataProvider() 
+bufferProvider = bufferLayer.dataProvider() 
+ 
+centroidFeatures = []
+bufferFeatures = []
