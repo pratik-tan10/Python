@@ -49,3 +49,31 @@ q = list(map(subt,l))
 #Eval function dynamically changes the variable to appropriate number type
 num1 = eval(input("Input a number."))
       
+def anagram(x,y):
+    def dix(st):
+        d = {}
+        s = st.lower()
+        for each in s:
+            if each in d: d[each]+=1
+            else: d[each]=1
+        return d
+    
+    if dix(x)==dix(y):print("YES")
+    else: print("NO")
+
+anagram('hi?','?ih')
+
+def vc(s):
+    v = 'aeiou'
+    c = 0
+    sl = s.lower()
+    i = 0
+    for each in sl:
+        if each in v:
+            c+=1
+            print(i)
+        i+=1
+            
+    print(f'vowel count = {c}')
+
+vc('monseur malla')
