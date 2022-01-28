@@ -77,3 +77,16 @@ def vc(s):
     print(f'vowel count = {c}')
 
 vc('monseur malla')
+#urlify
+x = ['h', 'i', ' ', 'b', 'u', 'd', ' ', ' ']
+y=[]
+c = 0
+for a in x:
+    if a !=" ":
+        y.append(a)
+    else:
+        y.extend(['%','2','0'])
+    c+=1
+    if c==6:break
+print(x,y)
+    
