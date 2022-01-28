@@ -89,4 +89,23 @@ for a in x:
     c+=1
     if c==6:break
 print(x,y)
-    
+
+#string compression
+x = 'aaaaaabbbbbbbchdeen'
+def stc(x):
+    cs = []
+    f = x[0]
+    i = 1
+    for c in x[1:]:
+        if c == f:
+            i+=1
+        else:
+            cs.extend([f,str(i)])
+            f = c
+            i=1
+    cs.extend([c,str(i)])
+    css = "".join(cs)
+    return css if len(css)<len(x) else x
+print(stc('aaaabbccd'))
+            
+        
