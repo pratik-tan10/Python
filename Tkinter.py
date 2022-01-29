@@ -6,28 +6,31 @@ def convert():
     kilometers.set(str(miles * 1.60934)) 
  
 # create the GUI 
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QGridLayout, QLineEdit, QPushButton 
  
-rootWindow = Tk() # create main window 
-rootWindow.title("Miles to kilometers") 
-rootWindow.geometry('500x200+0+0') 
-rootWindow.grid_columnconfigure(1, weight = 1) 
+class ConverterWidget(QWidget): 
  
-labelMiles = Label(rootWindow, text='Distance in miles:') # create label for miles field 
-labelMiles.grid(row=0, column=0) 
+    def __init__(self): 
+        super(ConverterWidget,self).__init__() 
  
-labelKm = Label(rootWindow, text='Distance in kilometers:') # create label for km field 
-labelKm.grid(row=2, column=0) 
+        self.setWindowTitle("Miles to kilometers") 
+        self.resize(500, 200) 
  
-entryMiles = Entry(rootWindow) # create entry field for miles 
-entryMiles.grid(row=0, column=1, sticky='w,e') 
+        self.gridLayout = QGridLayout(self) 
  
-kilometers = StringVar() # create entry field for displaying km 
-entryKm = Entry(rootWindow, textvariable = kilometers, state=DISABLED) 
-entryKm.grid(row=2, column=1, sticky='w,e') 
+        self.labelMiles = QLabel('Distance in miles:') 
+        self.gridLayout.addWidget(self.labelMiles, 0, 0) 
  
-convertButton = Button(rootWindow, text='Convert', command = convert) # create button for running conversion 
-convertButton.grid(row=1, column=1) 
+        self.labelKm = QLabel('Distance in kilometers:') 
+        self.gridLayout.addWidget(self.labelKm, 2, 0) 
  
-# run the event processing loop  
+        self.entryMiles = QLineEdit() 
+        self.gridLayout.addWidget(self.entryMiles, 0, 1) 
  
-rootWindow.mainloop() 
+        self.entryKm = QLineEdit() 
+        self.gridLayout.addWidget(self.entryKm, 2, 1) 
+ 
+        self.convertButton = QPushButton('Convert') 
+        self.gridLayout.addWidget(self.convertButton, 1, 1) 
+ 
+        self.convertButton.clicked.connect(self.convert)
