@@ -1,11 +1,3 @@
-from tkinter import Tk, Label, Entry, Button, DISABLED, StringVar 
- 
-def convert(): 
-    """Takes miles entered, converts them to km, and displays the result"""
-    miles = float(entryMiles.get()) 
-    kilometers.set(str(miles * 1.60934)) 
- 
-# create the GUI 
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QGridLayout, QLineEdit, QPushButton 
  
 class ConverterWidget(QWidget): 
@@ -33,4 +25,14 @@ class ConverterWidget(QWidget):
         self.convertButton = QPushButton('Convert') 
         self.gridLayout.addWidget(self.convertButton, 1, 1) 
  
-        self.convertButton.clicked.connect(self.convert)
+        self.convertButton.clicked.connect(self.convert) 
+ 
+    def convert(self): 
+         miles = float(self.entryMiles.text()) 
+         self.entryKm.setText(str(miles * 1.60934)) 
+ 
+app = QApplication([]) 
+converter = ConverterWidget() 
+ 
+converter.show() 
+app.exec_() 
