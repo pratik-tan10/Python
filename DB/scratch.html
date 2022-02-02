@@ -1,73 +1,18 @@
-<head>
-  <style type="text/css">
-    hr {color: sienna}
-    p {margin-left: 20px}
-    body {background-color: smokewhite}
-    table {
-      background-color:#FFFFFF;
-      border: solid #000 3px;
-      width: 400px;
-      border-collapse: collapse;
-      empty-cells:show;
-    }
-
-    table td {
-        padding: 5px;
-        border: solid #000 1px;
-    }
-
-    .data {
-        color: #000000;
-        text-align: right;
-        background-color: #CCCCCC;
-    }
-
-    .toprow {
-        font-style: italic;
-        text-align: center;
-        background-color: #FFFFCC;
-    }
-
-    .leftcol {
-        font-weight: bold;
-        text-align: left;
-        width: 150px;
-        background-color: #CCCCCC;
-    }
-  </style>
-</head>
+<!DOCTYPE html>
+<html>
 <body>
-  <p style="color: sienna; margin: 10px 50px; font-weight:900; border:2px solid black"> This is a paragraph </p>
-  <table cellspacing="2">
-  <tr class="toprow">
-    <td>&nbsp;</td>
-    <td>John</td>
-    <td>Jane</td>
-    <td>Total</td>
-  </tr>
-  <tr>
-    <td class="leftcol">January</td>
-    <td class="data">123</td>
-    <td class="data">234</td>
-    <td class="data">357</td>
-  </tr>
-  <tr>
-    <td class="leftcol">February</td>
-    <td class="data">135</td>
-    <td class="data">246</td>
-    <td class="data">381</td>
-  </tr>
-  <tr>
-    <td class="leftcol">March</td>
-    <td class="data">257</td>
-    <td class="data">368</td>
-    <td class="data">625</td>
-  </tr>
-  <tr>
-    <td class="leftcol">Total</td>
-    <td class="data">515</td>
-    <td class="data">848</td>
-    <td class="data"></td>
-  </tr>
-</table>
+
+<h2>What Can JavaScript Do?</h2>
+
+<p>JavaScript can change HTML attribute values.</p>
+
+<p>In this case JavaScript changes the value of the src (source) attribute of an image.</p>
+
+<button onclick="document.getElementById('myImage').src='pic_bulbon.gif'">Turn on the light</button>
+
+<img id="myImage" src="pic_bulboff.gif" style="width:100px">
+
+<button onclick="document.getElementById('myImage').src='pic_bulboff.gif'">Turn off the light</button>
+
 </body>
+</html>
