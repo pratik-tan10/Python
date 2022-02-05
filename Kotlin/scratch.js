@@ -18,7 +18,7 @@ const Car = {
 
 // Display some data from the object:
 document.getElementById("demo").innerHTML =
-car.owner + " has " + car.model + " of " + car.color + " color that gives " + car.milage + "milage.";
+Car.owner + " has a " + Car.model + " of " + Car.color + " color, that gives " + Car.milage + "milage.";
 </script>
 
 </body>
