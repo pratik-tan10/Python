@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html>
+
 <body>
 
 <h2>JavaScript String Methods</h2>
 
-<p>Search a string for "W3Schools", and display the position of the match:</p>
+<p>Replace "mysite" with "W3Schools" in the paragraph below:</p>
 
-<p id="demo"></p>
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo">Please visit mysite!</p>
 
 <script>
-let text = "Visit W3Schools!"; 
-let n = text.search("W3Schools");
-document.getElementById("demo").innerHTML = n;
+function myFunction() {
+  let text = document.getElementById("demo").innerHTML;
+  document.getElementById("demo").innerHTML =
+  text.replace(/mysite/i, "W3Schools");
+}
 </script>
 
 </body>
