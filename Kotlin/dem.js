@@ -80,3 +80,31 @@ function maskLandsatclouds(image) {
 }
 
 
+//Landsat 5 TM, available from 1984-2012
+//1985-1986
+var L5 = ee.ImageCollection("LANDSAT/LT05/C01/T1_TOA") 
+  .filterDate('1985-01-01', '1987-12-30') // you can change date here
+  .filter(ee.Filter.lt("CLOUD_COVER", 0.1))
+  .filterBounds(geometry)
+  .map(maskLandsatclouds)
+  .select(L5bands)
+  
+var mosaic_L5 = L5.median().clip(geometry); // here we are taking the median at each pixel in the collection
+Map.addLayer(mosaic_L5, L5vis, "mosaic_L5")
+
+
+
+
+//Landsat 7, available from 1999. 
+//Nb striping is due to the scan line corrector
+// on the satellite failing, median compositor smooths that out but be aware
+var L7 = ee.ImageCollection("LANDSAT/LE07/C01/T1_TOA")
+  .filterDate('2002-01-01', '2003-12-30') // you can change date here
+  .filter(ee.Filter.lt("CLOUD_COVER", 0.1))
+  .filterBounds(geometry)
+  .map(maskLandsatclouds)
+  .select(L7bands)
+  
+var mosaic_L7 = L7.median().clip(geometry); // here we are taking the median at each pixel in the collection
+Map.addLayer(mosaic_L7, L7vis, "mosaic_L7")
+
