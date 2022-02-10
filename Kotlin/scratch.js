@@ -1,22 +1,27 @@
 <!DOCTYPE html>
 <html>
-
 <body>
+<h2>JavaScript Sets</h2>
+<p>Add variables to a Set:</p>
 
-<h2>JavaScript String Methods</h2>
-
-<p>Replace "mysite" with "W3Schools" in the paragraph below:</p>
-
-<button onclick="myFunction()">Try it</button>
-
-<p id="demo">Please visit mysite!</p>
+<p id="demo"></p>
 
 <script>
-function myFunction() {
-  let text = document.getElementById("demo").innerHTML;
-  document.getElementById("demo").innerHTML =
-  text.replace(/mysite/i, "W3Schools");
-}
+// Create a Set
+const letters = new Set();
+
+// Create Variables
+const a = "a";
+const b = "b";
+const c = "c";
+
+// Add the Variables to the Set
+letters.add(a);
+letters.add(b);
+letters.add(c);
+
+// Display set.size
+document.getElementById("demo").innerHTML = letters.size;
 </script>
 
 </body>
