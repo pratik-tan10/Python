@@ -2,26 +2,21 @@
 <html>
 <body>
 <h2>JavaScript Sets</h2>
-<p>Add variables to a Set:</p>
+<p>forEach() calls a function for each element:</p>
 
 <p id="demo"></p>
 
 <script>
 // Create a Set
-const letters = new Set();
+const letters = new Set(["a","b","c"]);
 
-// Create Variables
-const a = "a";
-const b = "b";
-const c = "c";
+// List all Elements
+let text = "";
+letters.forEach (function(value) {
+  text += value + "<br>";
+})
 
-// Add the Variables to the Set
-letters.add(a);
-letters.add(b);
-letters.add(c);
-
-// Display set.size
-document.getElementById("demo").innerHTML = letters.size;
+document.getElementById("demo").innerHTML = text;
 </script>
 
 </body>
