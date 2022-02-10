@@ -1,4 +1,3 @@
-##############################
 set.seed(0)
 d<- rnorm(20,mean = 2,sd=sqrt(2))
 M <-matrix(d,4,5,TRUE)
@@ -22,3 +21,10 @@ a<- solve(P)%*%d;a
 a<-solve(P,d);a
 Q <-solve(P); Q
 ##############################
+A[ifelse((which(A==max(A))%%4==0),4,which(A==max(A))%%4),]
+A[ifelse((which(A==max(A))%%nrow(A)==0),nrow(A),which(A==max(A))%%nrow(A)),]
+A[,ceiling(which(A==min(A))/4)]
+A[,ceiling(which(A==min(A))/nrow(A))]
+
+##############################
+Cars93[Cars93$MPG.highway<25&Cars93$Weight>3500,c("Model","Min.Price","Max.Price","MPG.highway","Weight")]
