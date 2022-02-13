@@ -24,7 +24,32 @@
     />
 
     <script src="https://js.arcgis.com/4.22/"></script>
+   <script>
+      require(["esri/views/MapView", "esri/WebMap"], (MapView, WebMap) => {
+        /************************************************************
+         * Creates a new WebMap instance. A WebMap must reference
+         * a PortalItem ID that represents a WebMap saved to
+         * arcgis.com or an on-premise portal.
+         *
+         * To load a WebMap from an on-premise portal, set the portal
+         * url with esriConfig.portalUrl.
+         ************************************************************/
+        const webmap = new WebMap({
+          portalItem: {
+            // autocasts as new PortalItem()
+            id: "7fdf1c35740640cfbd88794a82e08e6b"
+          }
+        });
 
+        /************************************************************
+         * Set the WebMap instance to the map property in a MapView.
+         ************************************************************/
+        const view = new MapView({
+          map: webmap,
+          container: "viewDiv"
+        });
+      });
+    </script>
  
   </head>
 
