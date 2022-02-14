@@ -25,20 +25,17 @@
 
     <script src="https://js.arcgis.com/4.22/"></script>
    <script>
-      require([
+     require([
       "esri/views/SceneView",
-      "esri/WebScene",
-      "esri/portal/PortalItem"
+      "esri/WebScene"
     ], function(
-      SceneView, WebScene, PortalItem
+      SceneView, WebScene
     ) {
-
-      var myPortalItem = new PortalItem({
-        id: "3a9976baef9240ab8645ee25c7e9c096"
-      }); 
        
       var scene = new WebScene({
-        portalItem: myPortalItem
+        portalItem: {
+          id: "3a9976baef9240ab8645ee25c7e9c096"
+        } 
       });
 
       var view = new SceneView({
