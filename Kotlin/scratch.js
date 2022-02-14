@@ -10,15 +10,10 @@ MapView) {
     basemap: "streets"
   });
 
-  var pt = new Point({
-    latitude: 27,
-    longitude: 84
-  })
-
   var view = new MapView({
     container: "viewDiv",
     map: map,
     zoom: 4,
-    center: pt
+    center: [84,27]
   });
 });
