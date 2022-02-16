@@ -1,44 +1,93 @@
 ---
-title: "MyFirstRMarkDown"
-author: "Me"
-date: "2/14/2022"
-output:
-  html_document:
-    df_print: paged
-  pdf_document: default
+title: "R baiscs"
+author: "Pratik Dhungana"
+date: "2/15/2022"
+output: html_document
 ---
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+# ---------------------------------------------------------------------------
+##### 1. Using the state.x77 data matrix, find the state with the minimum per capita income in the New England region as defined by the factor state.division. Use the vector state.name to get the state name.
+```{r}
+state.name[which(state.x77[,"Income"]==min(state.x77[state.division =="New England",][,"Income"]))]
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+# ---------------------------------------------------------------------------
+##### 2. Generate a random sample of size 20 from the normal distribution with mean 2 and variance 4.Construct a 4 × 5 matrix from this data vector so that the data fills the matrix in row order. Write single expressions to do each of the following. Print the result in a separate expression if needed for checking.
+##### (a) How many elements is this matrix are less than 2?
+##### (b) Extract the elements that are less than 2 in this matrix.
+##### (c) Make a copy of the original matrix and set the elements that are less than 2 to zero.
+##### (d) Make a copy of the original matrix and set the elements that are less than 2 in columns 1 and 3 to zero.
+##### (e) Append the vector (1, 2, 3, 4) to the right hand side of the matrix resulting from the previous operation. Call the result X.
+##### (f) Calculate the sum of squares of the elements of X.
+##### (g) Form the matrix product X^T^X and calculate the sum of its diagonal elements.
+##### (h) Find the eigen values of X^T^X and calculate their sum.
+##### (i) Subtract the means of each column of X from the elements of the corresponding columns.
 
 ```{r}
-print("Hello World")
+set.seed(0)
+d<- rnorm(20,mean = 2,sd=sqrt(4));d
+M <-matrix(d,4,5,TRUE);M
+sum(M<2)
+M[which(M<2)]
+MM <-M; MM[which(MM<2)]<-0; MM
+MN <-M; ifelse(MN[,c(1,3)]<2,0,MN[,c(1,3)]) -> MN[,c(1,3)]; MN
+X <- cbind(MN,c(1,2,3,4));X
+sum(X^2)
+sum(diag(t(X)%*%(X)))
+ev<-eigen(t(X)%*%(X))$values;ev;sum(ev)
+X-rep(colMeans(X),rep(nrow(X),ncol(X)))
 ```
 
-- Try  
-- Making  
-- Your   
-- Own  
-- Bullet  
-- List  
+
+# ---------------------------------------------------------------------------
+##### 3. Create an R matrix object named A using the following data:
+                    4.5 −2.1 6.3 2.7 1.6
+                    −2.6 3.6 8.4 5.2 8.3
+                    2.5 1.7 3.7 −4.4 3.7
+                    3.8 5.8 5.2 1.9 −4.2
+##### Do this by creating a text file outside of R and reading it using the scan() function. Perform the following computations and print the results:
+##### (a) Extract to a vector y the middle three elements of row 3 of A.
+##### (b) Create B using the following 3 × 3 submatrix:
+                    3.6 5.2 8.3
+                    1.7 −4.4 3.7
+                    5.8 1.9 −4.2
+
+##### (c) Post-multiply B by y (i.e., multiply B on the right by y) to form the vector d.
+##### (d) Append the data vector (9.4, 10.5, −11.5) to the left hand side of B to form W.
+##### (e) Form P = WW^T^.
+##### (f) Find Q, the inverse of P.
+##### (g) Solve the equation P a = d for a using a = P^-1^d.
+##### (h) Solve the equation P a = d for a using solve() function.
+
+```{r}
+A<-matrix(scan("mat.txt"),ncol=5,byrow=TRUE);A
+A<- matrix(c(4.5,-2.1,6.3,2.7,1.6,−2.6,3.6,8.4,5.2,8.3,2.5,1.7,3.7,−4.4,3.7,3.8,5.8,5.2,1.9,−4.2),4,5,TRUE)
+A
+y<-A[3,2:4];y
+B<-A[2:4,c(2,4,5)];B
+d <- B %*% y; y
+W <-cbind(c(9.4,10.5,-11.5),B);W
+P<-W%*%t(W);P
+a<- solve(P)%*%d;a
+a<-solve(P,d);a
+Q <-solve(P); Q
+```
+# ---------------------------------------------------------------------------
+##### 4. Use the matrix A created in the previous problem to write a single expression to extract the following:
+##### (a). the row of A that contains the largest value of the matrix;
+##### (b). the column of A that contains the smallest value of the matrix.
+```{r}
+A[ifelse((which(A==max(A))%%4==0),4,which(A==max(A))%%4),]
+A[ifelse((which(A==max(A))%%nrow(A)==0),nrow(A),which(A==max(A))%%nrow(A)),]
+A[,ceiling(which(A==min(A))/4)]
+A[,ceiling(which(A==min(A))/nrow(A))]
+```
+
+# ---------------------------------------------------------------------------
+##### 5. Elements of an R data frame can also be accessed the same way elements of a matrix are accessed using subscripts. Subsets of a data frame extracted this way will themselves be data frames, except when they are single rows, columns, or scalars. Load the package named MASS and the data frame named Cars93 available in the package using data(Cars93, package = “MASS”)
+##### Use subscripting operations on Cars93 to find the vehicles with highway mileage of less than 25 miles per gallon (variable MPG.highway) and weight (variable Weight) over 3500 lbs. Print the model name, the price range (low, high), highway mileage, and the weight of the cars that satisfy these conditions. This can be done in a single R expression; however, you may simplify the extraction to several steps.
+```{r}
+data(Cars93, package = "MASS")
+Cars93[Cars93$MPG.highway<25&Cars93$Weight>3500,c("Model","Min.Price","Max.Price","MPG.highway","Weight")]
+
+```
