@@ -108,12 +108,9 @@ def stc(x):
     return css if len(css)<len(x) else x
 print(stc('aaaabbccd'))
 
-numbers = [45, 22, 14, 65, 97, 72]
-for i in range(len(numbers)):
-  if numbers[i] % 3 == 0 and numbers[i] % 5 == 0:
-      numbers[i] = 'fizzbuzz'
-  elif numbers[i] % 3 == 0:
-      numbers[i] = 'fizz'
-  elif numbers[i] % 5 == 0:
-    numbers[i] = 'buzz'
-  numbers
+def get_unique_words():
+  words = []
+    for _ in range(1000):
+      words.append(get_random_word())
+  return set(words)
+get_unique_words()
