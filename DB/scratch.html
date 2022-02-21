@@ -1,56 +1,24 @@
+<!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="initial-scale=1,maximum-scale=1,user-scalable=no"
-    />
-    <title>Load a basic WebMap | Sample | ArcGIS API for JavaScript 4.22</title>
+<head>
+<script>
+function validateForm() {
+  let x = document.forms["myForm"]["fname"].value;
+  if (x == "") {
+    alert("Must fill Name");
+    return false;
+  }
+}
+</script>
+</head>
+<body>
 
-    <style>
-      html,
-      body,
-      #viewDiv {
-        padding: 0;
-        margin: 0;
-        height: 100%;
-        width: 100%;
-      }
-    </style>
+<h2>JavaScript Validation</h2>
 
-    <link
-      rel="stylesheet"
-      href="https://js.arcgis.com/4.22/esri/themes/light/main.css"
-    />
+<form name="myForm" action="/action_page.php" onsubmit="return validateForm()" method="post">
+  Name: <input type="text" name="fname">
+  <input type="submit" value="Submit">
+</form>
 
-    <script src="https://js.arcgis.com/4.22/"></script>
-   <script>
-     require([
-      "esri/views/SceneView",
-      "esri/WebScene"
-    ], function(
-      SceneView, WebScene
-    ) {
-       
-      var scene = new WebScene({
-        portalItem: {
-          id: "3a9976baef9240ab8645ee25c7e9c096"
-        } 
-      });
-
-      var view = new SceneView({
-        map: scene,
-        container: "viewDiv",
-        padding: {
-          top: 40
-        }
-      });
-    });
-    </script>
- 
-  </head>
-
-  <body>
-    <div id="viewDiv"></div>
-  </body>
+</body>
 </html>
