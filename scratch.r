@@ -1,8 +1,19 @@
-if (!file.exists("Downloads")){
-  dir.create("Downloads")
-}
-dUrl <- "https://www2.census.gov/geo/tiger/TIGER2017/EDGES/tl_2017_01125_edges.zip"
-download.file(dUrl, dfile = "tiger17.zip",method="curl")
-dateDownloaded <- date()
-tTable <- read.table("./data/census.csv", sep =",", header =TRUE)
-head(tTable)
+read.csv(path2csv, stringsAsFactors =  FALSE) -> mydf
+dim(mydf)
+head(mydf)
+library(dplyr)
+packageVersion("dplyr")
+cran <- tbl_df(mydf)
+rm("mydf")
+cran
+select(cran, ip_id, package,country)
+select(cran, r_arch:country)
+select(cran, country:r_arch)
+select(cran, -time)
+-(5:20)
+select(cran, -(X:size))
+filter(cran, package == "swirl")
+filter(cran, r_version=="3.1.1", country=="US")
+filter(cran, r_version<="3.0.2", country=="IN")
+filter(cran, country == "IN" | country=="US")
+filter(cran, size>100500, r_os == "linux-gnu")
