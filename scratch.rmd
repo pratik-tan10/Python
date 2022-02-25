@@ -1,0 +1,141 @@
+---
+title: "Assignment 3"
+author: "Pratik Dhungana"
+date: "2/25/2022"
+output: html_document
+---
+1. Use an if command to find the median of the three numbers (x, y, and z) as efficiently as possible. Illustrate your code using two examples.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+myMedian<- function (x,y,z) {
+  a = x-y; b = y-z; c = x-z
+  if(a*b > 0){ ans<- y;}
+  else if(a*c >0) { ans<- z;}
+  else {ans<- x;}
+  ans
+}
+
+myMedian(-1,-100,-17)
+myMedian(21,100,38)
+
+```
+
+2. Generate a random sample of size 20 from the normal distribution with mean 2 and variance 4.
+Construct a 4 × 5 matrix from this data vector so that the data fills the matrix in row order. Use the
+ifelse() function to set the elements that are less than 2 to zero.
+
+```{r}
+rs = rnorm(20, mean = 2, sd = sqrt(4));rs
+M <-matrix(rs,4,5,TRUE);M
+M<-ifelse(M<2,0,M); M
+```
+
+3. Suppose x and y are numeric vectors of the same length. Use a for loop to compute the scalar product x^T^y. Illustrate your code using an example.
+
+```{r}
+myDot<- function(x,y){
+sum = 0
+for (i in 1: length(x)){
+  sum<- sum+ x[i]*y[i]
+}
+sum
+}
+
+x<- c(3,7,5); y<- c(7,6,2)
+myDot(x,y)
+```
+
+4. Use a repeat loop to compute the cosine of 2.345 correct to 5 decimal places. Use the Taylor series expansion for cos(x): cos(x) = 1 − x^2^/2! + x^4^/4! − x^6^/6! + . . ..
+
+```{r}
+x <- 2.345
+n <- 0
+comp <- 0
+repeat{
+  n <- n + 1
+  strt <- (-1)^(n - 1)
+  pow <- x^(2*(n - 1))
+  dvidor <- factorial(2*(n - 1))
+  term <- (strt*pow)/dvidor
+  comp <- comp + term
+  if(abs((cos(x) - comp)/cos(x))*100 < 0.00001) break
+}
+comp
+cos(x)
+```
+
+5. For values of x in the range 0.1 through 1.0, an approximate value of the logarithm to the base
+10 of x is given by the formula log(x) = −0.076 + 0.281x −
+0.238/x+0.15 . Write an R while loop that
+will print the values of log(x) using this formula, the built-in R function log10, and the absolute
+difference between the two values, for the following values of x: x = 0.1, 0.2, . . . , 0.9, 1.0.
+
+```{r}
+x <- seq(0.1, 1, by=0.1)
+i <- 0
+while(i<length(x)){
+  if(i==0){cat(sprintf("  x     Computed     From R  Absolute Difference\n"))}
+  i <- i+1
+  calculated<- -0.076 + 0.281*x[i] - 0.238/(x[i] + 0.15)
+  fromR<- log10(x[i])
+  difference <- abs(calculated-fromR)
+  #print(c(calculated, fromR, difference))
+  cat(sprintf("%*.2f,%*.6f, %*.6f, %*.6f\n",5,x[i],10,calculated,10,fromR,10,difference))
+}
+```
+
+6. Form a matrix object named mycars from the variables Min.Price, Max.Price, MPG.city, MPG.highway, EngineSize, Length, and Weight of the data frame Cars93 from MASS package. Use it to create a list object named cars.stats containing the following named components for all variables:
+(a) a vector of means named Cars.Means;
+(b) a vector of standard errors of the means, named Cars.Std.Errors;
+(c) a matrix with 2 rows containing lower and upper limits of 99% confidence intervals for the means, named Cars.CI.99.
+Note: (1 − α)100% large sample confidence interval for$µ:\overline{x} ± Z_{1− α/2}*\sqrt{s^2/n}$. You are expected to use functions apply(), list(), and rbind().
+
+```{r}
+data(Cars93, package = "MASS")
+myMatrix <- Cars93[,c("Min.Price", "Max.Price", "MPG.city", "MPG.highway", "EngineSize", "Length", "Weight")]
+head(myMatrix)
+cars.stats<-list("Cars.Means" = apply(myMatrix,2, mean),
+                 "Cars.Std.Errors" = apply(myMatrix,2, function(x2) sd(x2)/sqrt(length(x2))),
+                 "Cars.CI.99" =apply(myMatrix,2,
+                                     function(x2){
+                                       lim<- 2.576*sd(x2)/sqrt(length(x2));
+                                       me<-mean(x2);
+                                       rbind(me-lim,me+lim)
+                                       }))
+cars.stats
+```
+
+7. Use the apply() function on the three-dimensional array iris3 to compute
+(a) sample means of the variables Sepal Length, Sepal Width, Petal Length, and Petal Width for each of the three species: Setosa, Versicolor, and Virginica;
+(b) sample means of the variables Sepal Length, Sepal Width, Petal Length, and Petal Width for the 1 entire dataset.
+(c) covariance matrices of the variables Sepal Length, Sepal Width, Petal Length, and Petal Width for each of the three species (Setosa, Versicolor, and Virginica), expressed as a three-dimensional array. Hint: use function var().
+
+```{r}
+apply(iris3,c(3,2),mean)
+apply(iris3, 2, mean)
+sapply(1:dim(iris3)[3], function(i) var(iris3[,,i]), simplify="array")
+```
+
+8. Use the state.x77 data matrix and the tapply() function to obtain
+(a) the mean per capita income of the states in each of the four regions defined by the factor state.region;
+(b) the maximum illiteracy rates for states in each of the nine divisions defined by the factor state.division;
+(c) the number of states in each region;
+(d) the names of the states in each division;
+(e) the median high school graduation rates for groups of states defined by combinations of the factors state.region and state.size.
+Note: to create the state.size factor, use the following R statement: > state.size <- cut(state.x77[,"Population"], breaks = c(0, 2000, 10000, Inf), labels = c("Small", "Medium", "Large"))
+
+```{r}
+tapply(state.x77[,"Income"],state.region,mean)
+tapply(state.x77[,"Illiteracy"],state.division,max)
+
+cbind(state.abb,data.frame(state.x77),state.region) ->combd
+tapply(combd[,"state.abb"],combd[,"state.region"],function(x2) length(x2))
+
+tapply(rownames(state.x77),combd[,"state.region"],function(x2) x2)
+state.size <- cut(state.x77[,"Population"],
+                  breaks = c(0, 2000,10000, Inf), labels = c("Small", "Medium", "Large"))
+tapply(combd[,"HS.Grad"],list(state.region,state.size),median)
+```
