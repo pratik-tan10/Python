@@ -27,3 +27,16 @@ while(i < 10) {
   ab[i] <- abs(lg[i] - LOG[i])
   cat("i = ", i, "LOG = ", LOG, "log = ", lg, "abs = ", ab, fill = TRUE)
 }
+
+x <- 2.345
+n <- 0
+Sum <- 0
+repeat{
+  n <- n + 1
+  initial <- (-1)^(n - 1)
+  numerator <- x^(2*(n - 1))
+  denominator <- factorial(2*(n - 1))
+  total <- (initial*numerator)/denominator
+  Sum <- Sum + total
+  if(abs((cos(x) - Sum)/cos(x))*100 < 0.00001) break
+}
