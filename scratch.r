@@ -16,3 +16,14 @@ for ( i in 1:dim(x)[1]){
   }
 }
 head(x)
+
+LOG <- lg <- ab <- numeric(length(x))
+x <- seq(0.1, 1, by = 0.1)
+i <- 0
+while(i < 10) {
+  i <- i + 1
+  LOG[i] <- -0.076 + 0.281*x[i] - 0.238/(x[i] + 0.15)
+  lg[i] <- log10(x[i])
+  ab[i] <- abs(lg[i] - LOG[i])
+  cat("i = ", i, "LOG = ", LOG, "log = ", lg, "abs = ", ab, fill = TRUE)
+}
