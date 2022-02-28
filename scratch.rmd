@@ -116,7 +116,7 @@ cars.stats
 ```{r}
 apply(iris3,c(3,2),mean)
 apply(iris3, 2, mean)
-sapply(1:dim(iris3)[3], function(i) var(iris3[,,i]), simplify="array")
+array(apply(iris3, 3, var), dim(iris3)[c(2, 2, 3)], dimnames(iris3)[c(2, 2, 3)])
 ```
 
 8. Use the state.x77 data matrix and the tapply() function to obtain
