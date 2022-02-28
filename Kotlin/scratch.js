@@ -1,50 +1,61 @@
 <!DOCTYPE html>
 <html>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<head>
 <style>
-body {font-family: Arial, Helvetica, sans-serif;}
-
-.navbar {
-  width: 100%;
-  background-color: #555;
-  overflow: auto;
+.places {
+  margin: 0;
+  padding: 5px;
+  background-color: lightgray;
 }
 
-.navbar a {
-  float: left;
-  padding: 12px;
+.placess > h1, .place {
+  margin: 10px;
+  padding: 5px;
+}
+
+.place {
+  background: white;
+}
+
+.place > h2, p {
+  margin: 4px;
+  font-size: 90%;
+}
+
+footer {
+  text-align: center;
+  padding: 3px;
+  background-color: DarkSalmon;
   color: white;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-.navbar a:hover {
-  background-color: #000;
-}
-
-.active {
-  background-color: #04AA6D;
-}
-
-@media screen and (max-width: 500px) {
-  .navbar a {
-    float: none;
-    display: block;
-  }
 }
 </style>
+</head>
 <body>
 
-<h2>Responsive Navigation Bar with Icons</h2>
-<p>Try to resize the browser window to see the responsive effect.</p>
+<h1>The article and footer elements + CSS</h1>
 
-<div class="navbar">
-  <a class="active" href="#"><i class="fa fa-fw fa-home"></i> Home</a> 
-  <a href="#"><i class="fa fa-fw fa-search"></i> Search</a> 
-  <a href="#"><i class="fa fa-fw fa-envelope"></i> Contact</a> 
-  <a href="#"><i class="fa fa-fw fa-user"></i> Login</a>
-</div>
+<article class="places">
+  <h1>Places to visit</h1>
+  <article class="place">
+    <h2>Hukahm Dehi</h2>
+    <p>Hukahm Dehi is the mountain inhabited by tribes of Endura, who are proficient with harnessing the power of lightening.</p>
+  </article>
+  <article class="place">
+    <h2>Mubakaabaad</h2>
+    <p>Mubakabad is inhabited by fierce ice dragons known as Agasthrumum who are natural enemies of fire breating Agnisherum of Hemiodaar. </p>
+  </article>
+  <article class="place">
+    <h2>Hemiodaar</h2>
+    <p>Hemiodaar is the current nations of Agnisherum after the destruction of Yagnashina from the war with Agasthrumus. </p>
+  </article>
+</article>
+
+<footer>
+  <p>Author: Agabbaram Krichkoff<br>
+  <a href="mailto:akri@example.com">someone@example.com</a>
+  </p>
+  <p>Solmorone, Magnolia</p>
+</footer>
 
 </body>
-</html> 
+</html>
