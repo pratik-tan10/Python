@@ -12,3 +12,11 @@ data.frame(notNull) ->notNulldf
 data.frame(SumNull) ->sumNulldf
 cbind(notNulldf,sumNulldf) ->exdf
 save(exdf,file ="exdf.csv")
+#-------------------------------
+rv <- 1:10
+rv2 <- 11:20
+
+l <- list(a = rv, b = rv2) 
+sapply(l, mean)
+lapply(l, mean)
+sapply(rv, function(f) f ^ 2)
