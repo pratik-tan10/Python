@@ -1,22 +1,13 @@
-install.packages("rgdal");install.packages("RSQLite")
-library(rgdal)
-library(RSQLite)
-dta <- src_sqlite("al_tuscaloosa.gpkg/al_tuscaloosa.gpkg") 
-tbldata <- tbl(dta, "al_tuscaloosa") #Create a table from a data source
-tbldf <- as.data.frame (tbldata) #Create a data frame
-colnames(tbldf)
-summary(tbldf[,-2])
-apply(tbldf[,-2],2, function(x2) l-sum(is.na(x2)))->notNull
-apply(tbldf[,-2],2, function(x2) sum(is.na(x2)))->SumNull
-data.frame(notNull) ->notNulldf
-data.frame(SumNull) ->sumNulldf
-cbind(notNulldf,sumNulldf) ->exdf
-save(exdf,file ="exdf.csv")
-#-------------------------------
-rv <- 1:10
-rv2 <- 11:20
+connection <- url("http://biostat.jhsph.edu/~jleek/contact.html")
+htmlCode <- readLines(connection)
+close(connection)
+c(nchar(htmlCode[10]), nchar(htmlCode[20]), nchar(htmlCode[30]), nchar(htmlCode[100]))
 
-l <- list(a = rv, b = rv2) 
-sapply(l, mean)
-lapply(l, mean)
-sapply(rv, function(f) f ^ 2)
+url <- "https://d396qusza40orc.cloudfront.net/getdata%2Fwksst8110.for"
+lines <- readLines(url, n = 10)
+w <- c(1, 9, 5, 4, 1, 3, 5, 4, 1, 3, 5, 4, 1, 3, 5, 4, 1, 3)
+colNames <- c("filler", "week", "filler", "sstNino12", "filler", "sstaNino12", "filler", "sstNino3", "filler", "sstaNino3", "filler", "sstNino34", "filler", "sstaNino34", "filler", "sstNino4", "filler", "sstaNino4")
+d <- read.fwf(url, w, header = FALSE, skip = 4, col.names = colNames)
+d <- d[, grep("^[^filler]", names(d))]
+sum(d[, 4])
+?read.fwf
