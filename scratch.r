@@ -18,3 +18,12 @@ colNames <- c("filler", "week", "filler", "sstNino12", "filler", "sstaNino12", "
 d <- read.fwf(url, w, header = FALSE, skip = 4, col.names = colNames)
 d <- d[, grep("^[^filler]", names(d))]
 sum(d[, 4])
+
+pairs(state.x77)
+pairs(state.x77[,2:6])
+pairs(state.x77[,2:6], panel = function(x, y){points(x, y); lines(lowess(x, y))})
+stars(mtcars, cex = 0.5)
+murder<-state.x77[,5]
+illit<-state.x77[,3]
+income <- state.x77[,2]
+coplot(murder ~ illit | income)
