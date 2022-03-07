@@ -13,6 +13,9 @@ var mapProp= {
   zoom:5,
 };
 var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+var marker = new google.maps.Marker({position: myCenter});
+
+marker.setMap(map);
 }
 </script>
 
