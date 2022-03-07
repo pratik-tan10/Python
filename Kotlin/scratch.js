@@ -1,10 +1,22 @@
-var dict = {"R1":"1981 to 1991",
-            "R2" : "1991 to 2001",
-            "R3" : "2001 to 2011",
-            "Ra" : "1981 to 2011"
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>My First Google Map</h1>
+
+<div id="googleMap" style="width:100%;height:400px;"></div>
+
+<script>
+function myMap() {
+var mapProp= {
+  center:new google.maps.LatLng(51.508742,-0.120850),
+  zoom:5,
+};
+var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
 }
-var a = dict[$feature.WhenTime];
-var b = $feature.V2D.toFixed(3);
-Concatenate("Rate of population change of ",$feature.DISTRICT, " from ",a," was ",b," per year per 1000 thousand.")
-Concatenate("Year : ",$feature.Years, " Population : ",$feature.Po2D)
-Concatenate("Year : ",$feature.Years, " Population Density : ",$feature.PopDensity, " person per square Kilometers")
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY&callback=myMap"></script>
+
+</body>
+</html>
