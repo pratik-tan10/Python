@@ -12,3 +12,10 @@ apply(my_data, 2, sum)
 lapply(my_list, length)
 sapply(my_list, length) 
 vapply(my_list, length, integer(1))  
+
+input_values <- 1:10
+input_values
+input_factor <- rep(letters[1:5], 2)
+input_factor
+tapply(input_values, input_factor, sum) 
+mapply(rep, times = 1:5, letters[1:5]) 
