@@ -1,21 +1,9 @@
-my_data <- data.frame(x1 = 1:5,
-                      x2 = 2:6,
-                      x3 = 3)
-my_data
-
-my_list <- list(1:5,
-                letters[1:3],
-                777)
-my_list
-apply(my_data, 1, sum)
-apply(my_data, 2, sum)
-lapply(my_list, length)
-sapply(my_list, length) 
-vapply(my_list, length, integer(1))  
-
-input_values <- 1:10
-input_values
-input_factor <- rep(letters[1:5], 2)
-input_factor
-tapply(input_values, input_factor, sum) 
-mapply(rep, times = 1:5, letters[1:5]) 
+data(Cars93, package = "MASS")
+sum = 0
+for (each in Cars93[,"Horsepower"]){
+  sum = sum+ each
+}
+m = sum/length(Cars93[,"Horsepower"])
+mean(Cars93[,"Horsepower"])
+tapply(Cars93[,"EngineSize"],list(Cars93[,"Type"],Cars93[,"Origin"]),median)
+sweep(Cars93[,c("Min.Price","Price","Max.Price")],2,apply(Cars93[,c("Min.Price","Price","Max.Price")],2,median))
