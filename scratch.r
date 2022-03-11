@@ -1,24 +1,10 @@
-install.packages("shiny")
-# Define server logic required to draw a histogram ----
-server <- function(input, output) {
+colnames(state.x77)
+head(state.x77[,"Income"])
+par(oma = c(5, 0, 0, 0), las = 2) 
+plot(state.division,state.x77[,"Income"])
 
-  # Histogram of the Old Faithful Geyser Data ----
-  # with requested number of bins
-  # This expression that generates a histogram is wrapped in a call
-  # to renderPlot to indicate that:
-  #
-  # 1. It is "reactive" and therefore should be automatically
-  #    re-executed when inputs (input$bins) change
-  # 2. Its output type is a plot
-  output$distPlot <- renderPlot({
-
-    x    <- faithful$waiting
-    bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-    hist(x, breaks = bins, col = "#75AADB", border = "white",
-         xlab = "Waiting time to next eruption (in mins)",
-         main = "Histogram of waiting times")
-
-    })
-
-}
+par(mfrow = c(2, 2), mar = rep(4, 4))
+hist(rnorm(30,mean=4,sd=2))
+plot(dexp(5),type = "l")
+boxplot(rgamma(30,3,scale=2))
+qqnorm(rchisq(30,df=3))
