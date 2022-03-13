@@ -22,3 +22,8 @@ hist(rg)
 plot(density(rg))
 boxplot(rg)
 qqnorm(rg)
+
+# Load and plot the scanned map
+require(raster)
+iraq.img <- brick("iraq_oil_2003.jpg")
+plotRGB(iraq.img)
