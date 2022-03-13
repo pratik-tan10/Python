@@ -27,3 +27,18 @@ qqnorm(rg)
 require(raster)
 iraq.img <- brick("iraq_oil_2003.jpg")
 plotRGB(iraq.img)
+
+# Load images with the (pre-classified) training data
+training.ppl.img <- brick("iraq_pipelines_train.jpg")
+training.noppl.img <- brick("iraq_nopipelines_train.jpg")
+
+# Put training data into data frame
+training.ppl.df <- data.frame(getValues(training.ppl.img))
+names(training.ppl.df) <- c("r", "g", "b")
+# Remove white background pixels
+training.ppl.df <- training.ppl.df[(training.ppl.df$r < 254 & training.ppl.df$g < 254 & training.ppl.df$b < 254),]
+# Create new variable indicating pipeline pixels
+training.ppl.df$pipeline <- "P"
+# Do the same for the non-pipeline image
+training.noppl.df <- data.frame(getValues(training.noppl.img))
+# etc...
