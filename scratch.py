@@ -1,11 +1,23 @@
-Str1= "food"
-Str2 = "dorm"
-count1,count2 = 0,0
-for letter in Str1:
-	if letter in Str2:
-		count1+=1
-for letter in Str2:
-	if letter in Str1:
-		count2+=1
-Count = count1+count2
-print(f"{Str1}:{count1},{Str2}:{count2},Total = {Count}")
+import numpy as np
+import cv2
+from matplotlib import pyplot as plt]
+from copy import deepcopy
+
+img = cv2.imread("im0.png",0)
+img
+
+def wind(imgage)
+    cv2.namedWindow("image",cv2.WINDOW_NORMAL)
+    cv2.imshow("window",image)
+    cv2.watiKey(10000)
+    cv2.destroyAllWindows()
+wind(img)
+imgCol = cv2.imread("im0.png",1)
+wind(imgCol)
+
+imgCol1 = deepcopy(imgCol)
+cv2.circle(imgCol, (127,1200),100,(125,130,14),20)
+wind(circle)
+
+imgN1 = cv2.imread("double.png",1)
+wind(imgN)
