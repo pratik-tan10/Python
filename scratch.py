@@ -86,3 +86,26 @@ for iterator in lines:
     cv2.line(bbal,(x1,y1),(x2,y2),(0,0,255),2)
 
 wind(bbal)
+
+#---------------------------------------------------------
+imgN1 = cv2.imread("double.png",1)
+diffs = np.array([[538,109],[1203,739],[758,137],[1240,467]])
+def eucliD(x1,y1,x2,y2):
+    return int(np.sqrt((x1-x2)**2+(y1-y2)**2))
+
+imgN = deepcopy(imgN1)
+def click2circle(event,x,y,flags,params):
+    if event == cv2.EVENT_LBUTTONDBCLIK:
+        for diff in diffs:
+            if euclidD(x,diff[0],y,diff[1])<15:
+                cv2.circle(imgN,(x,y),50,(225,0,0),4)
+    
+cv2.namedWindow("differences", cv2.WINDOW_NORMAL)
+cv2.setMouseCallback("differences")
+
+while True:
+    cv2.imshow("differences",imgN)
+    a = cv2.waitKey(1)
+    if a==27:
+        break
+cv2.destroyAllWindows()
