@@ -50,3 +50,39 @@ cv2.destroyAllWindows()
 cropped = imgres[210:368,300,570]
 wind(cropped)
 cv2.imwrite("cropped.png",cropped)
+
+crops = cv2.imread("crops.png",0)
+wind(crops)
+sobelx = cv2.Sobel(crops,cv2.CV_8U,1,0,ksize=3)
+sobely = cv2.Sobel(crops,cv2.CV_8U,0,1,ksize=3)
+wind(sobelx)
+wind(sobely)
+
+laplacian = cv2.Laplacian(crops, cv2.CV_8U)
+wind(laplacian)
+
+edges = cv2.Canny(crops,100,200)
+wind(edges)
+
+bbal = cv2.imread("basketball.jpg",1)
+wind(bbal)
+edges = cv2.Canny(bbal,150,400)
+wind(edges)
+
+lines = cv2.HoughLines(edges, 1,np.pi/180,200)
+lines
+
+for iterator in lines:
+    rho = iterator[0][0]
+    theta = iterator[0][1]
+    a = np.cos(theta)
+    b = np.sin(theta)
+    x0 = a*rho
+    y0 = b*rho
+    x1 = int(x0+1000*(-b))
+    y1 = int(y0+1000*(a))
+    x2 = int(x0-1000*(-b))
+    y1 = int(y0-1000*(a))
+    cv2.line(bbal,(x1,y1),(x2,y2),(0,0,255),2)
+
+wind(bbal)
