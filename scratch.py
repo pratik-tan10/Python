@@ -129,3 +129,19 @@ equ = cv2.eualizeHist(lena)
 res = np.hstack(lena,equ)
 wind(res)
 
+blur = cv2.blur(lena,(7,7))
+wind(blur)
+blurG = cv2.GaussianBlur(lena,(5,5),0)
+res = np.hstack(lena,blurG)
+wind(res)
+
+img = cv2.imread("mbike.jpg",1)
+imgCL = np.float32(img.reshape((-1,3)))
+criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER,15,1.0)
+k = 4
+ret,lab,center = cv2.kmeans(imgCL,K,None,10,cv2.KMEANS_RANDOM_CENTERS)
+center = np.uint8(center)
+res = center[lab.flatten()]
+res2 = res.reshape((img.shape))
+wind(res2)
+
