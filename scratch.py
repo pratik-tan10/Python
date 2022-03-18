@@ -109,3 +109,23 @@ while True:
     if a==27:
         break
 cv2.destroyAllWindows()
+
+hsv = cv2.cvtColor(imgN1, cv2.COLOR_BGR2HSV)
+gray = cv2.cvtColor(imgN1, cv2.COLOR_BGR2GRAY)
+wind(hsv)
+wind(gray)
+r,t = cv2.threshold(gray,100,255,cv2.THRESH_BINARY)
+wind(t)
+
+lena = cv2.imread("lena.jpg",0)
+wind(lena)
+hist = calcHist([lena],[0],None,[256],[0,256])
+hist
+xaxis = np.arange(256).reshape(256,1)
+hist = np.hstack([xaxis,hist]).astype(int)
+plt.hist(lena.flatten(),256,[0,256])
+plt.show
+equ = cv2.eualizeHist(lena)
+res = np.hstack(lena,equ)
+wind(res)
+
