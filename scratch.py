@@ -145,3 +145,28 @@ res = center[lab.flatten()]
 res2 = res.reshape((img.shape))
 wind(res2)
 
+pathB = "c:/Users/Alome/Documents/Before/"
+pathA = "c:/Users/Alome/Documents/After/"
+BEF = []
+AFT = []
+for i in range(1,8):
+    BEF.append(cv2.imread(pathB+"B"+str(i)+".tif",0)[4200:4700,2900:3500])
+    BEF.append(cv2.imread(pathA+"B"+str(i)+".tif",0)[4200:4700,2900:3500])
+    
+BEF32 = []
+AFT32 = []
+for i in range(7):
+    BEF332.append(np.float32(cv2.equalizeHist(BEF[i])))
+    AFT332.append(np.float32(cv2.equalizeHist(AFT[i])))
+wind(cv2.equalizeHist(BEF[0]))
+
+before = cv2.merge((BEF32[0],BEF32[1],BEF32[1],BEF32[3],BEF32[4],BEF32[5],BEF32[6]))
+beforeReady = before.reshape((-1,7))
+criteria = (cv2.TERM_CRITERIA_EPS+cv2.TERM_CRITERIA_MAX_ITER,30,1)
+ret,label,center = cv2.kmeans(beforeReady,6,None,criteria,10,cv2.KMEANS_RANDOM_CENTERS)
+center = np.uint8(center)
+res = center[label.flatten()]
+res2 = res.reshape((before.shape))
+beforeF = deepcopy(res2[:][:,:,:3])
+wind(beforeF)
+
