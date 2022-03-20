@@ -170,3 +170,25 @@ res2 = res.reshape((before.shape))
 beforeF = deepcopy(res2[:][:,:,:3])
 wind(beforeF)
 
+
+after = cv2.merge((AFT32[0],AFT32[1],AFT32[1],AFT32[3],AFT32[4],AFT32[5],AFT32[6]))
+afterReady = after.reshape((-1,7))
+criteria = (cv2.TERM_CRITERIA_EPS+cv2.TERM_CRITERIA_MAX_ITER,30,1)
+ret,label,center = cv2.kmeans(afterReady,6,None,criteria,10,cv2.KMEANS_RANDOM_CENTERS)
+center = np.uint8(center)
+res = center[label.flatten()]
+res2 = res.reshape((after.shape))
+afterF = deepcopy(res2[:][:,:,:3])
+wind(afterF)
+
+beforeafter = np.hstack(beforeF,afterH)
+
+d = 0; q=0
+for i in range(len(afterF)):
+    for j in range(len(afterF[i])):
+        if np.sum(afterF[i][j])==510:
+            d+=1
+            if (np.sum(beforeF[i][j])==369 or np.sum(beforeF[i][j])==251):
+                q+=1
+print("Total burned area:",d*900,"square meters.")
+print("Forest burned area:",q*900,"square meters.")
