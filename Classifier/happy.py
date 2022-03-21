@@ -22,3 +22,18 @@ data.show_batch(rows=3, figsize=(7,6))
 print(data.classes)
 len(data.classes),data.c
 
+learn = cnn_learner(data, models.resnet34, metrics=error_rate)
+learn.fit_one_cycle(4)
+learn.save('stage-1')
+
+interp = ClassificationInterpretation.from_learner(learn)
+
+losses,idxs = interp.top_losses()
+
+len(data.valid_ds)==len(losses)==len(idxs)
+
+interp.plot_top_losses(9, figsize=(15,11))
+
+doc(interp.plot_top_losses)
+interp.plot_confusion_matrix(figsize=(12,12), dpi=60)
+interp.most_confused(min_val=2)
