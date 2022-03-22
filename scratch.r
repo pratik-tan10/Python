@@ -1,29 +1,11 @@
-# The mtcars dataset:
-data <- as.matrix(mtcars)
+confirmedraw <- read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_c…")
+str(confirmedraw) # Check latest date at the end of data
+deathsraw <- read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_c…")
+recoveredraw <- read.csv("https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_c…")
+# Note differences in the number of rows/columns
 
-# Default Heatmap
-heatmap(data)
-
-# No dendrogram nor reordering for neither column or row
-heatmap(data, Colv = NA, Rowv = NA, scale="column")
-
-# 1: native palette from R
-heatmap(data, scale="column", col = cm.colors(256))
-heatmap(data, scale="column", col = terrain.colors(256))
-
-# 2: Rcolorbrewer palette
-library(RColorBrewer)
-coul <- colorRampPalette(brewer.pal(8, "PiYG"))(25)
-heatmap(data, scale="column", col = coul)
-
-# Add classic arguments like main title and axis title
-heatmap(data, Colv = NA, Rowv = NA, scale="column", col = coul, xlab="variable", ylab="car", main="heatmap")
-
-# Custom x and y labels with cexRow and labRow (col respectively)
-heatmap(data, scale="column", cexRow=1.5, labRow=paste("new_", rownames(data),sep=""), col= colorRampPalette(brewer.pal(8, "Blues"))(25))
-
-# Example: grouping from the first letter:
-my_group <- as.numeric(as.factor(substr(rownames(data), 1 , 1)))
-colSide <- brewer.pal(9, "Set1")[my_group]
-colMain <- colorRampPalette(brewer.pal(8, "Blues"))(25)
-heatmap(data, Colv = NA, Rowv = NA, scale="column" , RowSideColors=colSide, col=colMain   )
+# DATA CLEANING: To create country level and global combined data
+# Convert each data set from wide to long AND aggregate at country level
+library(tidyr)
+library(dplyr)
+confirmed <- confirmedraw %>% gather(key="date", value="confirmed", -c(Country.Region, Province.State, Lat, Long)) %>% group_by(Country.Region, date) %>% summarize(confirmed=sum(confirmed))
