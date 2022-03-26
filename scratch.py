@@ -90,3 +90,23 @@ def fixRowThree(A) :
     # Transform the row to set the diagonal element to one.
     A[3]=A[3]/A[3,3]
     return A
+
+A = np.array([
+        [2, 0, 0, 0],
+        [0, 3, 0, 0],
+        [0, 0, 4, 4],
+        [0, 0, 5, 5]
+    ], dtype=np.float_)
+isSingular(A)
+
+A = np.array([
+        [0, 7, -5, 3],
+        [2, 8, 0, 4],
+        [3, 12, 0, 5],
+        [1, 3, 1, 3]
+    ], dtype=np.float_)
+fixRowZero(A)
+
+fixRowOne(A)
+fixRowTwo(A)
+fixRowThree(A)
