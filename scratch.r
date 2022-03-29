@@ -15,3 +15,13 @@ Category X1.22.20 X1.23.20 X1.24.20 X1.25.20 X1.26.20 X1.27.20 X1.28.20 X1.29.20
 37 China 548 643 920 1406 2075 2877 5509 6087 8141
 80 India 0 0 0 0 0 0 0 0 1
 head(dfCountryGroupSum[dfCountryGroupSum$Category %in% c("China","India"),c(1:5)])
+
+dfCountryGroupSum$Total <- apply(dfCountryGroupSum[,c(2:ncol(dfCountryGroupSum))],1,sum,na.omit=T)
+head(dfCountryGroupSum[with(dfCountryGroupSum, Category %in% c("China","India")),c(1,ncol(dfCountryGroupSum))])
+
+names(dfCountryGroupSum)[1]<-c("Country")
+TotConfirmedCase <- dfCountryGroupSum[,c(1,ncol(dfCountryGroupSum))]
+View(TotConfirmedCase)
+p<-ggplot(TotConfirmedCase, aes(x=Country,y=log(TotCase))) +
+geom_bar(stat="identity")
+p
