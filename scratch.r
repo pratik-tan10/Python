@@ -31,3 +31,10 @@ alpha0<-1
 beta0<-1
 pars<-c(alpha0,beta0)
 A<-optim(pars,logL,gr=NULL,x=x);A
+
+p <- xyplot(y ~ x | f, panel = function(x, y, ...) {
+  panel.xyplot(x, y, ...)  ## First call the default panel function for 'xyplot'
+  panel.abline(h = median(y), lty = 2)  ## Add a horizontal line at the median
+})
+print(p)
+invisible()
