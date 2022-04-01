@@ -1,23 +1,9 @@
-#magic
-%reload_ext autoreload
-%autoreload 2
-%matplotlib inline
+from tensorflow.keras.models import Sequential 
+from tensorflow.keras.backend import set_image_data_format 
+from tensorflow.keras.layers import Conv2D, MaxPool2D, BatchNormalization 
+from tensorflow.keras.layers import Activation, Dropout, Flatten, Dense 
+from tensorflow.keras import optimizers, losses, utils 
+from livelossplot import keras_plot 
+set_image_data_format(‘channels_first’) 
+model = Sequential()
 
-#imports
-from fastai.imports import *
-from fastai.conv_learner import *
-from fastai.model import *
-from fastai.plots import *
-
-import rasterio
-from rasterio import plot
-import matplotlib.pyplot as plt
-
-#path setup
-
-#classes and size
-#images
-#Model
-#Check results
-#Individual prediction
-#Confusion matrix
