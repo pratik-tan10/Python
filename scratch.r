@@ -1,11 +1,3 @@
-# Download the shapefile. (note that I store it in a folder called DATA. You have to change that if needed.)
-download.file("http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip" , destfile="world_shape_file.zip")
-# You now have it in your current working directory, have a look!
-
-# Unzip this file. You can do it with R (as below), or clicking on the object you downloaded.
-system("unzip world_shape_file.zip")
-#  -- > You now have 4 files. One of these files is a .shp file! (TM_WORLD_BORDERS_SIMPL-0.3.shp)
-
 # Read this shape file with the rgdal library. 
 library(rgdal)
 my_spdf <- readOGR( 
@@ -33,3 +25,16 @@ africa@data$POP2005 <- as.numeric( africa@data$POP2005 )
 africa@data %>% 
   ggplot( aes(x=as.numeric(POP2005))) + 
   geom_histogram(bins=20, fill='#69b3a2', color='white')
+
+
+# Palette of 30 colors
+library(RColorBrewer)
+my_colors <- brewer.pal(9, "Reds") 
+my_colors <- colorRampPalette(my_colors)(30)
+
+# Attribute the appropriate color to each country
+class_of_country <- cut(africa@data$POP2005, 30)
+my_colors <- my_colors[as.numeric(class_of_country)]
+
+# Make the plot
+plot(africa , xlim=c(-20,60) , ylim=c(-40,40), col=my_colors ,  bg = "#A6CAE0")
