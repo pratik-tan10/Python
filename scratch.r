@@ -37,19 +37,18 @@ for(jj in seq_along(nepal@data[["DISTRICT"]])){
 #Export dataframe to csv
 write.csv(nbrInfo[,-1],"nbrInfo.csv")
 
-## Create data for the graph.
-x <-  c(21, 62, 10,53)
-labels <-  c("London","New York","Singapore","Mumbai")
+### Get the library.
+library(plotrix)
 
-piepercent<- round(100*x/sum(x), 1)
+# Create data for the graph.
+x <-  c(21, 62, 10,53)
+lbl <-  c("London","New York","Singapore","Mumbai")
 
 # Give the chart file a name.
-png(file = "city_percentage_legends.jpg")
+png(file = "3d_pie_chart.jpg")
 
 # Plot the chart.
-pie(x, labels = piepercent, main = "City pie chart",col = rainbow(length(x)))
-legend("topright", c("London","New York","Singapore","Mumbai"), cex = 0.8,
-   fill = rainbow(length(x)))
+pie3D(x,labels = lbl,explode = 0.1, main = "Pie Chart of Countries ")
 
 # Save the file.
 dev.off()
