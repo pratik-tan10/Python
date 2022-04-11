@@ -52,3 +52,15 @@ pie3D(x,labels = lbl,explode = 0.1, main = "Pie Chart of Countries ")
 
 # Save the file.
 dev.off()
+
+                           
+                           
+mydata <- read.csv("https://stats.idre.ucla.edu/stat/data/binary.csv")
+## view the first few rows of the data
+head(mydata)
+mydata$rank <- factor(mydata$rank)
+mylogit <- glm(admit ~ gre + gpa + rank, data = mydata, family = "binomial")
+summary(mylogit)
+confint(mylogit)
+confint.default(mylogit)
+exp(cbind(OR = coef(mylogit), confint(mylogit)))
