@@ -1,12 +1,32 @@
-# First set up the network.
-sigma = np.tanh
-W = np.array([[-2, 4, -1],[6, 0, -3]])
-b = np.array([0.1, -2.5])
+import dash
+from dash import dcc
+from dash import html
+import pandas as pd
 
-# Define our input vector
-x = np.array([0.3, 0.4, 0.1])
+data = pd.read_csv("myLog.csv")
+ 
+data['Date'] = pd.to_datetime(data['Date']).dt.strftime('%d-%m-%Y')
 
-# Calculate the values by hand,
-# and replace a1_0 and a1_1 here (to 2 decimal places)
-# (Or if you feel adventurous, find the values with code!)
-a1 = np.matmul(W,x)+b
+app = dash.Dash(__name__)
+ 
+app.layout=html.Div(
+    children=[
+        html.H1(children="Nifty 50 Crash and Recovery",),
+        html.P(
+            children="Analyzing day wise high and low prices of Nifty50 when first wave of Covid-19 hit.",
+        ),
+        dcc.Graph(
+            figure={
+                "data":[
+                    {
+                        "x":data["Date"],
+                        "y":data["High"],
+                        "type":"lines",
+                    },
+                ],
+                "layout":{"title":"Day-wise highest prices of index"},
+                    },
+        ),
+]
+if __name__ == "__main__":
+    app.run_server(debug=True)
