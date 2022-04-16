@@ -1,17 +1,19 @@
 library(shiny)
 
-ui <- basicPage(
-  plotOutput("plot1", click = "plot_click"),
-  verbatimTextOutput("info")
+ui <- fluidPage(
+  actionButton("go", "Go"),
+  numericInput("n", "n", 50),
+  plotOutput("plot")
 )
 
 server <- function(input, output) {
-  output$plot1 <- renderPlot({
-    plot(mtcars$wt, mtcars$mpg)
+
+  randomVals <- eventReactive(input$go, {
+    runif(input$n)
   })
 
-  output$info <- renderText({
-    paste0("x=", input$plot_click$x, "\ny=", input$plot_click$y)
+  output$plot <- renderPlot({
+    hist(randomVals())
   })
 }
 
