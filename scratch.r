@@ -1,20 +1,13 @@
 library(shiny)
+library(leaflet)
 
-ui <- fluidPage(
-  actionButton("go", "Go"),
-  numericInput("n", "n", 50),
-  plotOutput("plot")
-)
+inputPanel(actionButton
+(inputId="resetMap",
+	label="Reset view", 
+	style="color: #fff; background-color: #990000; border-style: solid; border-color: #999999; margin: 5px")
+	 )
 
-server <- function(input, output) {
+leafletOutput("londonMap",
+	height=600,
+	width="100%")
 
-  randomVals <- eventReactive(input$go, {
-    runif(input$n)
-  })
-
-  output$plot <- renderPlot({
-    hist(randomVals())
-  })
-}
-
-shinyApp(ui, server)
