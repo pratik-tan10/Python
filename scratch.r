@@ -1,23 +1,24 @@
-# NOT RUN {
-x <- 1:4
-fft(x)
-fft(fft(x), inverse = TRUE)/length(x)
+x <- c(0.103, 0.528, 0.221, 0.260, 0.091,
+            1.314, 1.732, 0.244, 1.981, 0.273,
+            0.461, 0.366, 1.407, 0.079, 2.266)
 
-## Slow Discrete Fourier Transform (DFT) - e.g., for checking the formula
-fft0 <- function(z, inverse=FALSE) {
-  n <- length(z)
-  if(n == 0) return(z)
-  k <- 0:(n-1)
-  ff <- (if(inverse) 1 else -1) * 2*pi * 1i * k/n
-  vapply(1:n, function(h) sum(z * exp(ff*(h-1))), complex(1))
-}
+# Histogram of the data
+hist(x)
+# install.packages(MASS)
+library(MASS)
 
-relD <- function(x,y) 2* abs(x - y) / abs(x + y)
-n <- 2^8
-z <- complex(n, rnorm(n), rnorm(n))
-# }
-# NOT RUN {
-## relative differences in the order of 4*10^{-14} :
-summary(relD(fft(z), fft0(z)))
-summary(relD(fft(z, inverse=TRUE), fft0(z, inverse=TRUE)))
-# }
+boxcox(lm(x ~ 1))
+# Transformed data
+new_x <- log(x)
+
+# Histogram
+hist(new_x)
+shapiro.test(new.x)
+# install.packages(MASS)
+library(MASS)
+
+b <- boxcox(lm(x ~ 1))
+
+# Exact lambda
+lambda <- b$x[which.max(b$y)] # -0.02
+new_x_exact <- (x ^ lambda - 1) / lambda
