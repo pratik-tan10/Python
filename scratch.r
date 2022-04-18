@@ -1,24 +1,21 @@
-library(shiny)
-library(leaflet)
+install.packages('multcomp')
+library(multcomp)
+str(cholesterol)
+attach(cholesterol)
+aov_model <- aov(response ~ trt)
 
-inputPanel(actionButton
-(inputId="resetMap",
-	label="Reset view", 
-	style="color: #fff; background-color: #990000; border-style: solid; border-color: #999999; margin: 5px")
-	 )
+install.packages('gplots')
+library(gplots)
+plotmeans(response ~ trt, xlab="Treatment", ylab="Response",
+main="Mean Plot\nwith 95% CI")
 
-leafletOutput("londonMap",
-	height=600,
-	width="100%")
+update.packages(checkBuilt = TRUE)
+install.packages("car", dependencies = TRUE)
+library(car)
+outlierTest(aov_model)
 
-output$londonMap <- renderLeaflet({
-theMap <- leaflet(options = leafletOptions(zoomSnap=0.1)) %>%
-addTiles() %>%
-setView(lng=-0.128034, lat=51.508047, zoom = 12) %>% 
-addMarkers(lng=-0.128034, lat=51.508047,popup="Trafalgar Square, London") 
-})
+df <- read.csv(“file.csv”)
+df
+anova_two_way <- aov(response ~ trt + BP, data = df)
+summary(anova_two_way)
 
-observeEvent(input$resetMap, 
-	{leafletProxy("londonMap") %>%
-setView(lng=-0.128034, lat=51.508047, zoom = 12)
-})
