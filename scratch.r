@@ -1,24 +1,20 @@
-x <- c(0.103, 0.528, 0.221, 0.260, 0.091,
-            1.314, 1.732, 0.244, 1.981, 0.273,
-            0.461, 0.366, 1.407, 0.079, 2.266)
+library(raster)
+library(ggplot2)
+## Load example data-set
+data(lsat) 
 
-# Histogram of the data
-hist(x)
-# install.packages(MASS)
-library(MASS)
+## Sample endmember spectra 
+## First location is water, second is open agricultural vegetation
+pts <- data.frame(x = c(624720, 627480), y = c(-414690, -411090))
+endmembers <- extract(lsat, pts)
+rownames(endmembers) <- c("water", "vegetation")
 
-boxcox(lm(x ~ 1))
-# Transformed data
-new_x <- log(x)
+## Calculate spectral angles
+lsat_sam <- sam(lsat, endmembers, angles = TRUE)
+plot(lsat_sam)
 
-# Histogram
-hist(new_x)
-shapiro.test(new.x)
-# install.packages(MASS)
-library(MASS)
+## Classify based on minimum angle
+lsat_sam <- sam(lsat, endmembers, angles = FALSE)
 
-b <- boxcox(lm(x ~ 1))
-
-# Exact lambda
-lambda <- b$x[which.max(b$y)] # -0.02
-new_x_exact <- (x ^ lambda - 1) / lambda
+ggR(lsat_sam, forceCat = TRUE, geom_raster=TRUE) + 
+        scale_fill_manual(values = c("blue", "green"), labels = c("water", "vegetation"))
