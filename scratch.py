@@ -30,3 +30,24 @@ app.layout=html.Div(
 ]
 if __name__ == "__main__":
     app.run_server(debug=True)
+ 
+from PIL import Image 
+# your loop here
+img = Image.open('img.png') 
+img = img.convert("RGBA") 
+datas = img.getdata() 
+newData = [] 
+for item in datas: 
+    if item[0] == 255 and item[1] == 255 and item[2] == 255: 
+        newData.append((255, 255, 255, 0)) 
+    else: 
+        newData.append(item) 
+
+img.putdata(newData) 
+img.save("mod_img1.png", "PNG")
+ 
+background = Image.open("mod_img1.png") 
+foreground = Image.open("mod_img2.png") 
+
+background.paste(foreground, (0, 0), foreground) 
+background.show()
