@@ -1,44 +1,32 @@
 library(tidyverse)
 library(caret)
-# Load the data and remove NAs
-data("PimaIndiansDiabetes2", package = "mlbench")
-PimaIndiansDiabetes2 <- na.omit(PimaIndiansDiabetes2)
+library(nnet)
+# Load the data
+data("iris")
 # Inspect the data
-sample_n(PimaIndiansDiabetes2, 3)
+sample_n(iris, 3)
 # Split the data into training and test set
 set.seed(123)
-training.samples <- PimaIndiansDiabetes2$diabetes %>% 
+training.samples <- iris$Species %>% 
   createDataPartition(p = 0.8, list = FALSE)
-train.data  <- PimaIndiansDiabetes2[training.samples, ]
-test.data <- PimaIndiansDiabetes2[-training.samples, ]
-################################
-library(MASS)
-# Fit the model
-model <- glm(diabetes ~., data = train.data, family = binomial) %>%
-  stepAIC(trace = FALSE)
-# Summarize the final selected model
-summary(model)
-# Make predictions
-probabilities <- model %>% predict(test.data, type = "response")
-predicted.classes <- ifelse(probabilities > 0.5, "pos", "neg")
+train.data  <- iris[training.samples, ]
+test.data <- iris[-training.samples, ]
+
+#################### without variable selection
+modelx <- nnet::multinom(Species ~., data = train.data)
+summary(modelx)
+
+predicted.classes <- modelx %>% predict(test.data)
+head(predicted.classes)
 # Model accuracy
-mean(predicted.classes==test.data$diabetes)
+mean(predicted.classes == test.data$Species)
 
-full.model <- glm(diabetes ~., data = train.data, family = binomial)
-coef(full.model)
-step.model <- full.model %>% stepAIC(trace = TRUE)
-coef(step.model)
+################## with variable selection
+model <- nnet::multinom(Species ~., data = train.data)%>%
+  stepAIC(trace = FALSE)
+summary(model)
 
-# Make predictions
-probabilities <- full.model %>% predict(test.data, type = "response")
-predicted.classes <- ifelse(probabilities > 0.5, "pos", "neg")
-# Prediction accuracy
-observed.classes <- test.data$diabetes
-mean(predicted.classes == observed.classes)
-
-# Make predictions
-probabilities <- predict(step.model, test.data, type = "response")
-predicted.classes <- ifelse(probabilities > 0.5, "pos", "neg")
-# Prediction accuracy
-observed.classes <- test.data$diabetes
-mean(predicted.classes == observed.classes)
+predicted.classes <- model %>% predict(test.data)
+head(predicted.classes)
+# Model accuracy
+mean(predicted.classes == test.data$Species)
