@@ -58,3 +58,10 @@ foreground = Image.open("mod_img2.png")
 
 background.paste(foreground, (0, 0), foreground) 
 background.show()
+
+###################################
+URL = "https://comms.info.nearmap.com/rs/133-OSS-335/images/nearmap-on-screens.jpg"
+from urllib import request
+
+response = request.urlretrieve(URL, "someImg.jpg")
+  
