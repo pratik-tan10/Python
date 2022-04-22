@@ -65,3 +65,23 @@ from urllib import request
 
 response = request.urlretrieve(URL, "someImg.jpg")
   
+from fimage import FImage
+from fimage.filters import Contrast, Brightness, Saturation
+
+
+def main():
+    image = FImage('my_picture.jpg')
+
+    # apply the mutiple filters to the image
+    image.apply(
+        Saturation(20),
+        Contrast(25),
+        Brightness(15)
+    )
+
+    # save the image with the applied filter
+    image.save('my_picture_mixed.jpg')
+
+
+if __name__ == "__main__":
+    main()
