@@ -5,83 +5,21 @@ arcpy.env.workspace = "C:/Users/Research Lab/BoxPratik/Box Sync/Pratik/sem2/Thes
 arcpy.FeatureToPoint_management("main.al_tuscaloosa", "parcels_center.shp", 
                                 "INSIDE")
 ###################################
-import dash
-from dash import dcc
-from dash import html
-import pandas as pd
+class Node:
+   def __init__(self, dataval=None):
+      self.dataval = dataval
+      self.nextval = None
 
-data = pd.read_csv("myLog.csv")
- 
-data['Date'] = pd.to_datetime(data['Date']).dt.strftime('%d-%m-%Y')
+class SLinkedList:
+   def __init__(self):
+      self.headval = None
 
-app = dash.Dash(__name__)
- 
-app.layout=html.Div(
-    children=[
-        html.H1(children="Nifty 50 Crash and Recovery",),
-        html.P(
-            children="Analyzing day wise high and low prices of Nifty50 when first wave of Covid-19 hit.",
-        ),
-        dcc.Graph(
-            figure={
-                "data":[
-                    {
-                        "x":data["Date"],
-                        "y":data["High"],
-                        "type":"lines",
-                    },
-                ],
-                "layout":{"title":"Day-wise highest prices of index"},
-                    },
-        ),
-]
-if __name__ == "__main__":
-    app.run_server(debug=True)
- 
-from PIL import Image 
-# your loop here
-img = Image.open('img.png') 
-img = img.convert("RGBA") 
-datas = img.getdata() 
-newData = [] 
-for item in datas: 
-    if item[0] == 255 and item[1] == 255 and item[2] == 255: 
-        newData.append((255, 255, 255, 0)) 
-    else: 
-        newData.append(item) 
+list1 = SLinkedList()
+list1.headval = Node("Mon")
+e2 = Node("Tue")
+e3 = Node("Wed")
+# Link first Node to second node
+list1.headval.nextval = e2
 
-img.putdata(newData) 
-img.save("mod_img1.png", "PNG")
- 
-background = Image.open("mod_img1.png") 
-foreground = Image.open("mod_img2.png") 
-
-background.paste(foreground, (0, 0), foreground) 
-background.show()
-
-###################################
-URL = "https://comms.info.nearmap.com/rs/133-OSS-335/images/nearmap-on-screens.jpg"
-from urllib import request
-
-response = request.urlretrieve(URL, "someImg.jpg")
-  
-from fimage import FImage
-from fimage.filters import Contrast, Brightness, Saturation
-
-
-def main():
-    image = FImage('my_picture.jpg')
-
-    # apply the mutiple filters to the image
-    image.apply(
-        Saturation(20),
-        Contrast(25),
-        Brightness(15)
-    )
-
-    # save the image with the applied filter
-    image.save('my_picture_mixed.jpg')
-
-
-if __name__ == "__main__":
-    main()
+# Link second Node to third node
+e2.nextval = e3
