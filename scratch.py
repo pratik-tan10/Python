@@ -12,16 +12,17 @@ class Node:
 class SLinkedList:
    def __init__(self):
       self.headval = None
-# Function to add newnode
-   def AtEnd(self, newdata):
-      NewNode = Node(newdata)
-      if self.headval is None:
-         self.headval = NewNode
+
+# Function to add node
+   def Inbetween(self,middle_node,newdata):
+      if middle_node is None:
+         print("The mentioned node is absent")
          return
-      laste = self.headval
-      while(laste.nextval):
-         laste = laste.nextval
-      laste.nextval=NewNode
+
+      NewNode = Node(newdata)
+      NewNode.nextval = middle_node.nextval
+      middle_node.nextval = NewNode
+
 # Print the linked list
    def listprint(self):
       printval = self.headval
@@ -32,11 +33,11 @@ class SLinkedList:
 list = SLinkedList()
 list.headval = Node("Mon")
 e2 = Node("Tue")
-e3 = Node("Wed")
+e3 = Node("Thu")
 
 list.headval.nextval = e2
 e2.nextval = e3
 
-list.AtEnd("Thu")
+list.Inbetween(list.headval.nextval,"Fri")
 
 list.listprint()
