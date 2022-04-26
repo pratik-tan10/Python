@@ -44,3 +44,11 @@ class SLinkedList:
       while (printval):
          print(printval.data),
          printval = printval.next
+
+llist = SLinkedList()
+llist.Atbegining("Mon")
+llist.Atbegining("Tue")
+llist.Atbegining("Wed")
+llist.Atbegining("Thu")
+llist.RemoveNode("Tue")
+llist.LListprint()
