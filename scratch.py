@@ -9,17 +9,18 @@ import dash
 from dash import dcc
 from dash import html
 import pandas as pd
-data = pd.read_csv("covid1.csv")
  
+# initialisation and manipulation of data
+data = pd.read_csv("covid1.csv")
 data['Date'] = pd.to_datetime(data['Date']).dt.strftime('%d-%m-%Y')
-
 app = dash.Dash(__name__)
  
+# Initialising the application.
 app.layout=html.Div(
     children=[
         html.H1(children="Covid cases and recovery",),
         html.P(
-            children="First wave of covid.",
+            children="First wave of covid",
         ),
         dcc.Graph(
             figure={
@@ -31,8 +32,46 @@ app.layout=html.Div(
                     },
                 ],
                 "layout":{"title":"Day-wise highest prices of index"},
-                    },
+                   },
         ),
-]
+        dcc.Graph(
+            figure={
+                "data":[
+                    {
+                        "x":data["Date"],
+                        "y":data["Low"],
+                        "type":"lines",
+                    },
+                ],
+                "layout": {"title": "Day-wise lowest prices of index"},
+            },
+        ),
+        dcc.Graph(
+            figure={
+                "data": [
+                    {
+                        "x": data["Date"],
+                        "y": data["Close"],
+                        "type": "lines",
+                    },
+                ],
+                "layout": {"title": "Day-wise closing prices of index"},
+            },
+        ),
+        dcc.Graph(
+            figure={
+                "data": [
+                    {
+                        "x": data["Date"],
+                        "y": data["Open"],
+                        "type": "lines",
+                    },
+                ],
+                "layout": {"title": "Day-wise opening prices of index"},
+            },
+        ),
+] )
+ 
+# deploying server
 if __name__ == "__main__":
     app.run_server(debug=True)
