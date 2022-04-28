@@ -5,73 +5,30 @@ arcpy.env.workspace = "C:/Users/Research Lab/BoxPratik/Box Sync/Pratik/sem2/Thes
 arcpy.FeatureToPoint_management("main.al_tuscaloosa", "parcels_center.shp", 
                                 "INSIDE")
 ###################################
-import dash
-from dash import dcc
-from dash import html
 import pandas as pd
- 
-# initialisation and manipulation of data
-data = pd.read_csv("covid1.csv")
-data['Date'] = pd.to_datetime(data['Date']).dt.strftime('%d-%m-%Y')
-app = dash.Dash(__name__)
- 
-# Initialising the application.
-app.layout=html.Div(
-    children=[
-        html.H1(children="Covid cases and recovery",),
-        html.P(
-            children="First wave of covid",
-        ),
-        dcc.Graph(
-            figure={
-                "data":[
-                    {
-                        "x":data["Date"],
-                        "y":data["High"],
-                        "type":"lines",
-                    },
-                ],
-                "layout":{"title":"Day-wise highest prices of index"},
-                   },
-        ),
-        dcc.Graph(
-            figure={
-                "data":[
-                    {
-                        "x":data["Date"],
-                        "y":data["Low"],
-                        "type":"lines",
-                    },
-                ],
-                "layout": {"title": "Day-wise lowest prices of index"},
-            },
-        ),
-        dcc.Graph(
-            figure={
-                "data": [
-                    {
-                        "x": data["Date"],
-                        "y": data["Close"],
-                        "type": "lines",
-                    },
-                ],
-                "layout": {"title": "Day-wise closing prices of index"},
-            },
-        ),
-        dcc.Graph(
-            figure={
-                "data": [
-                    {
-                        "x": data["Date"],
-                        "y": data["Open"],
-                        "type": "lines",
-                    },
-                ],
-                "layout": {"title": "Day-wise opening prices of index"},
-            },
-        ),
-] )
- 
-# deploying server
-if __name__ == "__main__":
-    app.run_server(debug=True)
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+df = pd.DataFrame({
+    'x': [12, 20, 28, 18, 29, 33, 24, 45, 45, 52, 51, 52, 55, 53, 55, 61, 64, 69, 72],
+    'y': [39, 36, 30, 52, 54, 46, 55, 59, 63, 70, 66, 63, 58, 23, 14, 8, 19, 7, 24]
+})
+
+
+np.random.seed(200)
+k = 3
+# centroids[i] = [x, y]
+centroids = {
+    i+1: [np.random.randint(0, 80), np.random.randint(0, 80)]
+    for i in range(k)
+}
+    
+fig = plt.figure(figsize=(5, 5))
+plt.scatter(df['x'], df['y'], color='k')
+colmap = {1: 'r', 2: 'g', 3: 'b'}
+for i in centroids.keys():
+    plt.scatter(*centroids[i], color=colmap[i])
+plt.xlim(0, 80)
+plt.ylim(0, 80)
+plt.show()
