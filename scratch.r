@@ -9,3 +9,4 @@ summary(lmx)
 plot(lmx,pch=19,col="blue",chx = 2)
 plot(tid_mean~gage_mean,pch=19,col="blue",chx = 2)
 abline(lmx,col="green")
+
