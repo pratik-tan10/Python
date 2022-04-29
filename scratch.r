@@ -1,32 +1,11 @@
-library(tidyverse)
-library(caret)
-library(nnet)
-# Load the data
-data("iris")
-# Inspect the data
-sample_n(iris, 3)
-# Split the data into training and test set
-set.seed(123)
-training.samples <- iris$Species %>% 
-  createDataPartition(p = 0.8, list = FALSE)
-train.data  <- iris[training.samples, ]
-test.data <- iris[-training.samples, ]
-
-#################### without variable selection
-modelx <- nnet::multinom(Species ~., data = train.data)
-summary(modelx)
-
-predicted.classes <- modelx %>% predict(test.data)
-head(predicted.classes)
-# Model accuracy
-mean(predicted.classes == test.data$Species)
-
-################## with variable selection
-model <- nnet::multinom(Species ~., data = train.data)%>%
-  stepAIC(trace = FALSE)
-summary(model)
-
-predicted.classes <- model %>% predict(test.data)
-head(predicted.classes)
-# Model accuracy
-mean(predicted.classes == test.data$Species)
+a<-"C:/Users/12058/Desktop/dv.txt"
+heading <- read.table("dv.txt",skip=36 header = TRUE, sep ="\t", stringsAsFactors = FALSE)
+data<- read.table("dv.txt",header = TRUE, sep = "\t", stringsAsFactors = FALSE, skip = 37)
+heading<- read.table("dv.txt",header = TRUE, sep = "\t", stringsAsFactors = FALSE, skip = 35, nrows=1)
+nam<-c("agency_cd","site_np","dateime",	"gage_max",	"gage_max_cd",	"gage_mean",	"gage_mean_cd",	"tid_max",	"tid_max_cd",	"tid_min",	"tid_min_cd",	"tid_mean",	"tid_mean_cd",	"gage_min",	"gage_min_cd",	"vel_mean",	"vel_mean_cd",	"vel_min",	"vel_min_cd",	"vel_max",	"vel_max_cd")
+colnames(data)<-nam
+lm(vel_mean~gage_mean, data= data)->lmx
+summary(lmx)
+plot(lmx,pch=19,col="blue",chx = 2)
+plot(tid_mean~gage_mean,pch=19,col="blue",chx = 2)
+abline(lmx,col="green")
