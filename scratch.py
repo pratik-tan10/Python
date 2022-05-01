@@ -19,3 +19,22 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 ax = sns.boxplot(x='treatments', y='value', data=df_melt, color='#99c2a2')
 ax = sns.swarmplot(x="treatments", y="value", data=df_melt, color='#7d0013')
+
+import scipy.stats as stats
+# stats f_oneway functions takes the groups as input and returns ANOVA F and p value
+fvalue, pvalue = stats.f_oneway(df['A'], df['B'], df['C'], df['D'])
+print(fvalue, pvalue)
+# 17.492810457516338 2.639241146210922e-05
+
+# get ANOVA table as R like output
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
+
+# Ordinary Least Squares (OLS) model
+model = ols('value ~ C(treatments)', data=df_melt).fit()
+anova_table = sm.stats.anova_lm(model, typ=2)
+anova_table
+from bioinfokit.analys import stat
+res = stat()
+res.anova_stat(df=df_melt, res_var='value', anova_model='value ~ C(treatments)')
+res.anova_summary
