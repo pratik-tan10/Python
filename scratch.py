@@ -6,55 +6,16 @@ arcpy.FeatureToPoint_management("main.al_tuscaloosa", "parcels_center.shp",
                                 "INSIDE")
 ###################################
 import pandas as pd
-import numpy as np
+# load data file
+df = pd.read_csv("C/anova/test.txt", sep="\t")
+# reshape the d dataframe suitable for statsmodels package 
+df_melt = pd.melt(df.reset_index(), id_vars=['index'], value_vars=['A', 'B', 'C', 'D'])
+# replace column names
+df_melt.columns = ['index', 'treatments', 'value']
+
+# generate a boxplot to see the data distribution by treatments. Using boxplot, we can 
+# easily detect the differences between different treatments
 import matplotlib.pyplot as plt
-%matplotlib inline
-
-df = pd.DataFrame({
-    'x': [12, 20, 28, 18, 29, 33, 24, 45, 45, 52, 51, 52, 55, 53, 55, 61, 64, 69, 72],
-    'y': [39, 36, 30, 52, 54, 46, 55, 59, 63, 70, 66, 63, 58, 23, 14, 8, 19, 7, 24]
-})
-
-
-np.random.seed(200)
-k = 3
-# centroids[i] = [x, y]
-centroids = {
-    i+1: [np.random.randint(0, 80), np.random.randint(0, 80)]
-    for i in range(k)
-}
-    
-fig = plt.figure(figsize=(5, 5))
-plt.scatter(df['x'], df['y'], color='k')
-colmap = {1: 'r', 2: 'g', 3: 'b'}
-for i in centroids.keys():
-    plt.scatter(*centroids[i], color=colmap[i])
-plt.xlim(0, 80)
-plt.ylim(0, 80)
-plt.show()
-
-def assignment(df, centroids):
-    for i in centroids.keys():
-        # sqrt((x1 - x2)^2 - (y1 - y2)^2)
-        df['distance_from_{}'.format(i)] = (
-            np.sqrt(
-                (df['x'] - centroids[i][0]) ** 2
-                + (df['y'] - centroids[i][1]) ** 2
-            )
-        )
-    centroid_distance_cols = ['distance_from_{}'.format(i) for i in centroids.keys()]
-    df['closest'] = df.loc[:, centroid_distance_cols].idxmin(axis=1)
-    df['closest'] = df['closest'].map(lambda x: int(x.lstrip('distance_from_')))
-    df['color'] = df['closest'].map(lambda x: colmap[x])
-    return df
-
-df = assignment(df, centroids)
-print(df.head())
-
-fig = plt.figure(figsize=(5, 5))
-plt.scatter(df['x'], df['y'], color=df['color'], alpha=0.5, edgecolor='k')
-for i in centroids.keys():
-    plt.scatter(*centroids[i], color=colmap[i])
-plt.xlim(0, 80)
-plt.ylim(0, 80)
-plt.show()
+import seaborn as sns
+ax = sns.boxplot(x='treatments', y='value', data=df_melt, color='#99c2a2')
+ax = sns.swarmplot(x="treatments", y="value", data=df_melt, color='#7d0013')
