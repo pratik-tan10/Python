@@ -22,3 +22,16 @@ for img in path: #running a loop to iterate through every image in the file
     pic = plt.imread(img) #reading the image using matplotlib
     imgs.append(pic) #adding the image to the list
     
+pic=misc.face(gray=True) # getting the image in grayscale format
+type(pic)
+l=int(len(pic)/4)
+crop_pic=pic[l:3*l,2*l:4*l] #taking oly some values of the matrix pic
+plt.imshow(crop_pic,cmap='gray')
+pic=misc.face(gray=True)
+print("Mean:",pic.mean())
+print("Max:",pic.max())
+print("Min:",pic.min())
+from scipy import ndimage
+
+rot_pic=ndimage.rotate(pic,45)
+plt.imshow(rot_pic,cmap='gray')
