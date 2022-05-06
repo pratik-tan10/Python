@@ -1,28 +1,46 @@
-<!DOCTYPE html>
-<html>
-<body>
+//IMPORT SEN2 IMAGE
+var S2 = ee.ImageCollection('COPERNICUS/S2_SR') 
+  .filterDate('2019-09-01','2019-09-30')
+  .filterBounds(poly)
 
-<h2>JavaScript Validation</h2>
+// Define an index function (return only NDVI).
+var NDVI = function(image) {
+  return image.expression(
+    '(NIR - RED) / (NIR + RED)', 
+    {
+      'NIR': image.select('B8'), 
+      'RED': image.select('B4'), 
+    }).rename('NDVI').copyProperties(image, image.propertyNames());
+};
 
-<p>Enter a number and click OK:</p>
+// Calculate NDVI for each image
+var NDVIS2 = S2.map(NDVI)
 
-<input id="id1" type="number" min="100" max="300" required>
-<button onclick="myFunction()">OK</button>
+// Empty Collection to fill
+var ft = ee.FeatureCollection(ee.List([]))
 
-<p>If the number is less than 100 or greater than 300, an error message will be displayed.</p>
+var fill = function(img, ini) {
+  // type cast
+  var inift = ee.FeatureCollection(ini)
 
-<p id="demo"></p>
+  // gets the values for the points in the current img
+  var ft2 = img.reduceRegions(poly, ee.Reducer.first(),30)
 
-<script>
-function myFunction() {
-  const inpObj = document.getElementById("id1");
-  if (!inpObj.checkValidity()) {
-    document.getElementById("demo").innerHTML = inpObj.validationMessage;
-  } else {
-    document.getElementById("demo").innerHTML = "Input OK";
-  } 
-} 
-</script>
+  // gets the date of the img
+  var date = img.date().format()
 
-</body>
-</html>
+  // writes the date in each feature
+  var ft3 = ft2.map(function(f){return f.set("date", date)})
+
+  // merges the FeatureCollections
+  return inift.merge(ft3)
+}
+
+// Iterates over the ImageCollection
+var newft = ee.FeatureCollection(NDVIS2.iterate(fill, ft))
+
+// Export
+Export.table.toDrive(newft,
+"anyDescription",
+"anyFolder",
+"anyNameYouWant")
