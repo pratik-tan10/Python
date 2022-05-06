@@ -6,19 +6,16 @@ arcpy.FeatureToPoint_management("main.al_tuscaloosa", "parcels_center.shp",
                                 "INSIDE")
 ###################################
 # IMPORTING DATA
+# Get the individual colour components of the image b, g, r = cv2.split(image)
 
-uri = '/Users/ep9k/Desktop/TestZipCodes/TestZipCodes.shp'
-join_layer = iface.addVectorLayer(uri, 'Patients by Zip Code', 'ogr')	#adds layer to map
-target_field = 'PatCNT'
+            [#start](/tag/start) video capture
+            ret, image = cap.read()
+            # Calculate the NDVI
 
-def calculate_attributes():
-    """Calculates values for 'PatCNT' by copying attributes from Patient_Da column
-    and adds them to 'PatCNT' column in US Zip Codes table"""
+            # Bottom of fraction
+            bottom = (r.astype(float) + g.astype(float))
+            bottom[bottom == 0] = 0.01  # Make sure we don't divide by zero!
 
-    with edit(join_layer):
-        for feature in join_layer.getFeatures():
-            feature.setAttribute(feature.fieldNameIndex('PatCNT'), feature['Patient_Da'])
-            join_layer.updateFeature(feature)
-    print(f"Attribute calculated for {target_field} field")
-
-calculate_attributes()
+            ndvi = (r.astype(float) - g) / bottom
+            ndvi = contrast_stretch(ndvi)
+            ndvi = ndvi.astype(np.uint8)
