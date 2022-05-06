@@ -1,3 +1,8 @@
+library(tidyr)
+library(rgdal)
+library(leaflet)
+library(RColorBrewer)
+
 shift <- function(x, lag) {
   n <- length(x)
   xnew <- rep(NA, n)
@@ -22,11 +27,9 @@ f<-function(df,d=7){
 }
 
 
-#33333333333333333
+#Read Covid data
 download.file("https://covid19.who.int/WHO-COVID-19-global-data.csv", destfile="WHO-COVID-19-global-data.csv")
 mcsv<-read.csv("WHO-COVID-19-global-data.csv")
-head(mcsv)
-library(tidyr)
 
 gather(mcsv,key="cases",value="number",-c(1:4))->mcsv2
 spread(mcsv2,ï..Date_reported,number)->mcsv3
@@ -36,61 +39,85 @@ for (jj in (4+1:(dim(mcsv3)[2]-4))){
   else mm<- cbind(mm,tapply(mcsv3[,jj],mcsv3$cases,sum))
 }
 
-cumulative_cases<-subset(mcsv3, cases=="Cumulative_cases")
-cumulative_deaths<-subset(mcsv3, cases=="Cumulative_deaths")
+Cumulative_cases<-subset(mcsv3, cases=="Cumulative_cases")
+Cumulative_deaths<-subset(mcsv3, cases=="Cumulative_deaths")
 New_cases<-subset(mcsv3, cases=="New_cases")
-nco<-New_cases[1,5:dim(New_cases)[2]]
-apply(nco,2,sum)->ncw
-New_cases[nrow(New_cases) + 1,1:4] <- c("WD","World","All","New_cases")
-New_cases[nrow(New_cases),5:dim(New_cases)[2]] <- ncw
 New_deaths<-subset(mcsv3, cases=="New_deaths")
 
+covid_table<-function (v1){
+  nco<-v1[1,5:dim(v1)[2]]
+  apply(nco,2,sum)->ncw
+  v1[nrow(v1) + 1,1:4] <- c("WD","World","All",deparse(substitute(v1)))
+  v1[nrow(v1),5:dim(v1)[2]] <- ncw
+  v1
+}
 
-# Download the shapefile. (note that I store it in a folder called DATA. You have to change that if needed.)
+Cumulative_cases<-covid_table(Cumulative_cases)
+Cumulative_deaths<-covid_table(Cumulative_deaths)
+New_cases<-covid_table(New_cases)
+New_deaths<-covid_table(New_deaths)
+
+# Download the countries shapefile 
 download.file("http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip" , destfile="world_shape_file.zip")
-# You now have it in your current working directory, have a look!
-
-# Unzip this file. You can do it with R (as below), or clicking on the object you downloaded.
 system("unzip world_shape_file.zip")
-#  -- > You now have 4 files. One of these files is a .shp file! (TM_WORLD_BORDERS_SIMPL-0.3.shp)
 
 # Read this shape file with the rgdal library. 
-library(rgdal)
 world_spdf <- readOGR( 
   dsn= paste0(getwd(),"/world_shape_file") , 
   layer="TM_WORLD_BORDERS_SIMPL-0.3",
   verbose=FALSE
 )
 #Get dataframe
-world_spdf@data->x
+world_spdf@data->world_spdf_data_copy
 #Change colnames
-colnames(x)[2]<-colnames(New_cases)[1]
-world_spdf@data= x %>% merge(New_cases, by="Country_code")
-colnames(world_spdf@data)<-make.names(colnames(world_spdf@data))
+colnames(world_spdf_data_copy)[2]<-colnames(New_cases)[1]
 
-# Library for map
-library(leaflet)
-#Color Brewing
-library(RColorBrewer)
-partdata<-world_spdf@data$X2021.02.07
-mybins<-quantile(partdata,seq(0,1,length=7),na.rm=TRUE)
-y<-mybins[duplicated(mybins)]
-mybins<-c(y, mybins[!mybins %in% y])
-mypalette <- colorBin( palette="YlOrBr", domain=world_spdf@data$X2021.02.07, na.color="transparent", bins=mybins)
-# Basic choropleth with leaflet?
+map_covid<-function(wdata, dframe,ddate){
+  wdata@data->x
+  colnames(x)[2]<-colnames(dframe)[1]
+  wdata@data= x %>% left_join(dframe, by="Country_code")
+  colnames(wdata@data)<-make.names(colnames(wdata@data))
 
-leaflet(world_spdf) %>% 
-  addTiles()  %>% 
-  setView( lat=10, lng=0 , zoom=2) %>%
-  addPolygons( 
-    fillColor = ~mypalette(partdata), 
-    stroke=TRUE, 
-    fillOpacity = 0.9, 
-    color="white", 
-    weight=0.3,
-  ) %>%
-  addLegend( pal=mypalette, values=~partdata, opacity=0.9, title = "New Covid Cases", position = "bottomleft" )
+  #Color Brewing
+  partdata<-wdata@data[,make.names(ddate)]
+  mybins<-as.integer(quantile(partdata[partdata>0],seq(0,1,length=6),na.rm=TRUE))
+  y<-mybins[duplicated(mybins)]
+  mybins<-c(y, mybins[!mybins %in% y])
+  mypalette <- colorBin( palette="YlOrBr", domain=wdata@data[,make.names(ddate)], na.color="transparent", bins=mybins)
+  
+  #Prepare tooltip
+  titl<-gsub("_"," ",deparse(substitute(dframe)))
+  mytext <- paste(
+    "Country: ", wdata@data$NAME,"<br/>", 
+    "Area: ", wdata@data$AREA, "<br/>", 
+    titl,": ", wdata@data[,make.names(ddate)], 
+    sep="") %>%
+    lapply(htmltools::HTML)
+  
+  print(titl)
+  leaflet(wdata) %>% 
+    addTiles()  %>% 
+    setView( lat=10, lng=0 , zoom=2) %>%
+    addPolygons( 
+      fillColor = ~mypalette(partdata), 
+      stroke=TRUE, 
+      fillOpacity = 0.9, 
+      color="white", 
+      weight=0.3,
+      label = mytext,
+      labelOptions = labelOptions( 
+        style = list("font-weight" = "normal", padding = "3px 8px"), 
+        textsize = "13px", 
+        direction = "auto"
+      )
+    ) %>%
+    addLegend( pal=mypalette, values=as.integer(partdata), opacity=0.9, title = titl, position = "bottomleft" )
+}
 
+#Makemap
+datalist<-list(New_cases=New_cases,Cumulative_deaths=Cumulative_deaths,New_deaths=New_deaths,Cumulative_cases=Cumulative_cases)
+
+map_covid(world_spdf,Cumulative_cases,"2022-02-02")
 
 #To convert valid colnames to date
 as.Date(substring("X2020.01.02",2,11),"%Y.%m.%d")
