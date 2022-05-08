@@ -126,3 +126,32 @@ data.frame(day = as.Date(rownames(ax3t),"%Y-%m-%d"),cases=ax3t[,1])->ax3t
 f(ax3t)
 
 colnames(mcsv3)<-cn
+
+
+##############################
+install.packages("sendmailR",repos="http://cran.r-project.org")
+Server<-list(smtpServer= "smtp.example.io")
+library(sendmailR)
+from <- sprintf("<user@sender.com>","The Sender") # the sender’s name is an optional value
+to <- sprintf("<user@recipient.com>")
+subject <- "Test email subject"
+body <- "Test email body"
+
+sendmail(from,to,subject,body,control=list(smtpServer= "smtp.example.io"))
+from <- sprintf("<user@sender.com>","The Sender")
+to <-sprintf(c("<user@recipient.com>","<user2@recipient.com>", "<user3@recipient.com>")
+subject <- "Test email subject"
+body <- "Test email body"
+
+sapply(to,function(x) sendmail(from,to=x,subject,body,control=list(smtpServer= "smtp.example.io"))
+from <- sprintf("<user@sender.com>","The Sender")
+to <- sprintf("<user@recipient.com>")
+subject <- "Test email subject"
+body <- "Test email body"
+attachmentPath <-"C:/.../Attachment.png"
+attachmentObject <-mime_part(x=attachmentPath,name=attachmentName)
+bodyWithAttachment <- list(body,attachmentObject)
+
+sendmail(from,to,subject,bodyWithAttachment,control=list(smtpServer= "smtp.example.io"))
+
+       
