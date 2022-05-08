@@ -154,4 +154,55 @@ bodyWithAttachment <- list(body,attachmentObject)
 
 sendmail(from,to,subject,bodyWithAttachment,control=list(smtpServer= "smtp.example.io"))
 
-       
+install.packages("mailR",repos="http://cran.r-project.org")
+library(mailR)
+send.mail(from = "user@sender.com",
+          to = "user@recipient.com",
+          subject = "Test email subject",
+          body = "Test emails body",
+          smtp = list(host.name = "smtp.mailtrap.io", port = 25,
+                      user.name = "********",
+                      passwd = "******", ssl = TRUE),
+          authenticate = TRUE,
+          send = TRUE)
+library(mailR)
+send.mail(from = "user@sender.com",
+          to = c("Recipient 1 <user1@recipient.com>", "Recipient 2 <user@recipient.com>"),
+          cc = c("CC Recipient <cc.user@recipient.com>"),
+          bcc = c("BCC Recipient <bcc.user@recipient.com>"),
+          replyTo = c("Reply to Recipient <reply-to@recipient.com>"),
+          subject = "Test email subject",
+          body = "Test emails body",
+          smtp = list(host.name = "smtp.mailtrap.io", port = 25,
+                      user.name = "********",
+                      passwd = "******", ssl = TRUE),
+          authenticate = TRUE,
+          send = TRUE)
+library(mailR)
+send.mail(from = "user@sender.com",
+          to = c("Recipient 1 <user1@recipient.com>", "Recipient 2 <user@recipient.com>"),
+          cc = c("CC Recipient <cc.user@recipient.com>"),
+          bcc = c("BCC Recipient <bcc.user@recipient.com>"),
+          replyTo = c("Reply to Recipient <reply-to@recipient.com>"),
+          subject = "Test email subject",
+          body = "Test emails body",
+          smtp = list(host.name = "smtp.mailtrap.io", port = 25,
+                      user.name = "********",
+                      passwd = "******", ssl = TRUE),
+          authenticate = TRUE,
+          send = TRUE,
+          attach.files = c("./attachment.png", "https://dl.dropboxusercontent.com/u/123456/Attachment.pdf"),
+          file.names = c("Attachment.png", "Attachment.pdf"), #this is an optional parameter
+          file.descriptions = c("Description for Attachment.png", "Description for Attachment.pdf")) #this is an optional parameter
+library(mailR)
+send.mail(from = "user@sender.com",
+          to = "user@recipient.com",
+          subject = "Test email subject",
+          body = "<html>Test <strong>email</strong> body</html>",
+          smtp = list(host.name = "smtp.mailtrap.io", port = 25,
+                      user.name = "********",
+                      passwd = "******", ssl = TRUE),
+          authenticate = TRUE,
+          send = TRUE)
+body = "./Template.html",
+
