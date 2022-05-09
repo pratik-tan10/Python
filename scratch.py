@@ -5,17 +5,23 @@ arcpy.env.workspace = "C:/Users/Research Lab/BoxPratik/Box Sync/Pratik/sem2/Thes
 arcpy.FeatureToPoint_management("main.al_tuscaloosa", "parcels_center.shp", 
                                 "INSIDE")
 ###################################
-# IMPORTING DATA
-# Get the individual colour components of the image b, g, r = cv2.split(image)
-
-            [#start](/tag/start) video capture
-            ret, image = cap.read()
-            # Calculate the NDVI
-
-            # Bottom of fraction
-            bottom = (r.astype(float) + g.astype(float))
-            bottom[bottom == 0] = 0.01  # Make sure we don't divide by zero!
-
-            ndvi = (r.astype(float) - g) / bottom
-            ndvi = contrast_stretch(ndvi)
-            ndvi = ndvi.astype(np.uint8)
+def password_check(pword):
+  specialChar = ['$','@','#','%']
+  val = True
+  
+  if len(pword)<6:
+    print("Insuffecient length")
+    val=False
+  if  not any(char.isdigit() for char in pword):
+    print("Password should contain at least one digit.")
+    val = False
+  if not any(char.isUpper() for char in pword):
+    print("Password should contain at least one uppercase letter.")
+    val = Flase
+  if not any(char.islower() for char in pword):
+    print("Password should contain at least one lowercase character.")
+    val = False
+  if not any(char in specialChar for char in pword):
+    print("Password should contain at least one special character.")
+    val = False
+  return val
