@@ -25,3 +25,16 @@ def password_check(pword):
     print("Password should contain at least one special character.")
     val = False
   return val
+
+# Main method
+def main():
+    passwd = 'Hellow'
+      
+    if (password_check(passwd)):
+        print("Password is valid")
+    else:
+        print("Invalid Password !!")
+          
+# Driver Code        
+if __name__ == '__main__':
+    main()
