@@ -161,6 +161,17 @@ draw.board <- function(game) {
     if (abs(diag2) == 3) 
         lines(c(2, 28), c(2, 28), lwd = 10, col = "red")
 }
-  
 
-
+# Human player enters a move
+move.human <- function(game) {
+    text(4, 0, "Click on screen to move", col = "grey", cex=.7)
+    empty <- which(game == 0)
+    move <- 0
+    while (!move %in% empty) {
+        coords <- locator(n = 1) # add lines
+        coords$x <- floor(abs(coords$x) / 10) + 1
+        coords$y <- floor(abs(coords$y) / 10) + 1
+        move <- coords$x + 3 * (3 - coords$y)
+    }
+    return (move)
+}
