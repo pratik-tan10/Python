@@ -129,80 +129,38 @@ colnames(mcsv3)<-cn
 
 
 ##############################
-install.packages("sendmailR",repos="http://cran.r-project.org")
-Server<-list(smtpServer= "smtp.example.io")
-library(sendmailR)
-from <- sprintf("<user@sender.com>","The Sender") # the sender’s name is an optional value
-to <- sprintf("<user@recipient.com>")
-subject <- "Test email subject"
-body <- "Test email body"
+draw.board <- function(game) {
+    xo <- c("X", " ", "O") # Symbols
+    par(mar = rep(1,4))
+    plot.new()
+    plot.window(xlim = c(0,30), ylim = c(0,30))
+    abline(h = c(10, 20), col="darkgrey", lwd = 4)
+    abline(v = c(10, 20), col="darkgrey", lwd = 4)
+    text(rep(c(5, 15, 25), 3), c(rep(25, 3), rep(15,3), rep(5, 3)), xo[game + 2], cex = 4)
+    # Identify location of any three in a row
+    square <- t(matrix(game, nrow = 3))
+    hor <- abs(rowSums(square))
+    if (any(hor == 3)) 
+        hor <- (4 - which(hor == 3)) * 10 - 5 
+    else 
+        hor <- 0
+    ver <- abs(colSums(square))
+    if (any(ver == 3)) 
+        ver <- which(ver == 3) * 10 - 5 
+    else
+        ver <- 0
+    diag1 <- sum(diag(square))
+    diag2 <- sum(diag(t(apply(square, 2, rev)))) 
+    # Draw winning lines
+    if (all(hor > 0)) 
+        for (i in hor) lines(c(0, 30), rep(i, 2), lwd = 10, col="red")
+    if (all(ver > 0)) 
+        for (i in ver) lines(rep(i, 2), c(0, 30), lwd = 10, col="red")
+    if (abs(diag1) == 3) 
+        lines(c(2, 28), c(28, 2), lwd = 10, col = "red")
+    if (abs(diag2) == 3) 
+        lines(c(2, 28), c(2, 28), lwd = 10, col = "red")
+}
+  
 
-sendmail(from,to,subject,body,control=list(smtpServer= "smtp.example.io"))
-from <- sprintf("<user@sender.com>","The Sender")
-to <-sprintf(c("<user@recipient.com>","<user2@recipient.com>", "<user3@recipient.com>")
-subject <- "Test email subject"
-body <- "Test email body"
-
-sapply(to,function(x) sendmail(from,to=x,subject,body,control=list(smtpServer= "smtp.example.io"))
-from <- sprintf("<user@sender.com>","The Sender")
-to <- sprintf("<user@recipient.com>")
-subject <- "Test email subject"
-body <- "Test email body"
-attachmentPath <-"C:/.../Attachment.png"
-attachmentObject <-mime_part(x=attachmentPath,name=attachmentName)
-bodyWithAttachment <- list(body,attachmentObject)
-
-sendmail(from,to,subject,bodyWithAttachment,control=list(smtpServer= "smtp.example.io"))
-
-install.packages("mailR",repos="http://cran.r-project.org")
-library(mailR)
-send.mail(from = "user@sender.com",
-          to = "user@recipient.com",
-          subject = "Test email subject",
-          body = "Test emails body",
-          smtp = list(host.name = "smtp.mailtrap.io", port = 25,
-                      user.name = "********",
-                      passwd = "******", ssl = TRUE),
-          authenticate = TRUE,
-          send = TRUE)
-library(mailR)
-send.mail(from = "user@sender.com",
-          to = c("Recipient 1 <user1@recipient.com>", "Recipient 2 <user@recipient.com>"),
-          cc = c("CC Recipient <cc.user@recipient.com>"),
-          bcc = c("BCC Recipient <bcc.user@recipient.com>"),
-          replyTo = c("Reply to Recipient <reply-to@recipient.com>"),
-          subject = "Test email subject",
-          body = "Test emails body",
-          smtp = list(host.name = "smtp.mailtrap.io", port = 25,
-                      user.name = "********",
-                      passwd = "******", ssl = TRUE),
-          authenticate = TRUE,
-          send = TRUE)
-library(mailR)
-send.mail(from = "user@sender.com",
-          to = c("Recipient 1 <user1@recipient.com>", "Recipient 2 <user@recipient.com>"),
-          cc = c("CC Recipient <cc.user@recipient.com>"),
-          bcc = c("BCC Recipient <bcc.user@recipient.com>"),
-          replyTo = c("Reply to Recipient <reply-to@recipient.com>"),
-          subject = "Test email subject",
-          body = "Test emails body",
-          smtp = list(host.name = "smtp.mailtrap.io", port = 25,
-                      user.name = "********",
-                      passwd = "******", ssl = TRUE),
-          authenticate = TRUE,
-          send = TRUE,
-          attach.files = c("./attachment.png", "https://dl.dropboxusercontent.com/u/123456/Attachment.pdf"),
-          file.names = c("Attachment.png", "Attachment.pdf"), #this is an optional parameter
-          file.descriptions = c("Description for Attachment.png", "Description for Attachment.pdf")) #this is an optional parameter
-library(mailR)
-send.mail(from = "user@sender.com",
-          to = "user@recipient.com",
-          subject = "Test email subject",
-          body = "<html>Test <strong>email</strong> body</html>",
-          smtp = list(host.name = "smtp.mailtrap.io", port = 25,
-                      user.name = "********",
-                      passwd = "******", ssl = TRUE),
-          authenticate = TRUE,
-          send = TRUE)
-body = "./Template.html",
 
