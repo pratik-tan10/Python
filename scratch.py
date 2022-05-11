@@ -21,6 +21,16 @@ class Computer():
         def model(self):
             return "Core-i7"
 
+
+from os_work import OS
+from cpu_work import CPU
+
+class Computer():
+    def __init__(self):
+        self.name = "PC001"
+        self.os = OS()
+        self.cpu = CPU()
+
 if __name__ == "__main__":
     my_comp = Computer()
     my_os = my_comp.os
