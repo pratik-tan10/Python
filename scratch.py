@@ -5,36 +5,27 @@ arcpy.env.workspace = "C:/Users/Research Lab/BoxPratik/Box Sync/Pratik/sem2/Thes
 arcpy.FeatureToPoint_management("main.al_tuscaloosa", "parcels_center.shp", 
                                 "INSIDE")
 ###################################
-def password_check(pword):
-  specialChar = ['$','@','#','%']
-  val = True
-  
-  if len(pword)<6:
-    print("Insuffecient length")
-    val=False
-  if  not any(char.isdigit() for char in pword):
-    print("Password should contain at least one digit.")
-    val = False
-  if not any(char.isUpper() for char in pword):
-    print("Password should contain at least one uppercase letter.")
-    val = Flase
-  if not any(char.islower() for char in pword):
-    print("Password should contain at least one lowercase character.")
-    val = False
-  if not any(char in specialChar for char in pword):
-    print("Password should contain at least one special character.")
-    val = False
-  return val
+class Computer():
+    def __init__(self):
+        self.name = "PC001"
+        self.os = self.OS()
+        self.cpu = self.CPU()
+    
+    class OS():
+        def system(self):
+            return "Windows 10"
 
-# Main method
-def main():
-    passwd = 'Hellow'
-      
-    if (password_check(passwd)):
-        print("Password is valid")
-    else:
-        print("Invalid Password !!")
-          
-# Driver Code        
-if __name__ == '__main__':
-    main()
+    class CPU():
+        def make(self):
+            return "Intel"
+        def model(self):
+            return "Core-i7"
+
+if __name__ == "__main__":
+    my_comp = Computer()
+    my_os = my_comp.os
+    my_cpu = my_comp.cpu
+    print(my_comp.name)
+    print(my_os.system())
+    print(my_cpu.make())
+    print(my_cpu.model())
