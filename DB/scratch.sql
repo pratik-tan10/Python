@@ -28,3 +28,13 @@ LEFT JOIN away ON m.id = away.id
 WHERE m.season = '2014/2015'
       AND ((home.team_long_name = 'Manchester United' AND home.outcome = 'MU Loss')
       OR (away.team_long_name = 'Manchester United' AND away.outcome = 'MU Loss'));
+
+WITH numbered_row AS
+(
+   SELECT *,
+         ROW_NUMBER() OVER (PARTITION BY DocumentID ORDER BY DateCreated DESC) AS rnum
+   FROM DocumentStatusLogs
+)
+SELECT *
+FROM numbered_row
+WHERE rnum = 1
