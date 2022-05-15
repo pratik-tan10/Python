@@ -129,49 +129,21 @@ colnames(mcsv3)<-cn
 
 
 ##############################
-draw.board <- function(game) {
-    xo <- c("X", " ", "O") # Symbols
-    par(mar = rep(1,4))
-    plot.new()
-    plot.window(xlim = c(0,30), ylim = c(0,30))
-    abline(h = c(10, 20), col="darkgrey", lwd = 4)
-    abline(v = c(10, 20), col="darkgrey", lwd = 4)
-    text(rep(c(5, 15, 25), 3), c(rep(25, 3), rep(15,3), rep(5, 3)), xo[game + 2], cex = 4)
-    # Identify location of any three in a row
-    square <- t(matrix(game, nrow = 3))
-    hor <- abs(rowSums(square))
-    if (any(hor == 3)) 
-        hor <- (4 - which(hor == 3)) * 10 - 5 
-    else 
-        hor <- 0
-    ver <- abs(colSums(square))
-    if (any(ver == 3)) 
-        ver <- which(ver == 3) * 10 - 5 
-    else
-        ver <- 0
-    diag1 <- sum(diag(square))
-    diag2 <- sum(diag(t(apply(square, 2, rev)))) 
-    # Draw winning lines
-    if (all(hor > 0)) 
-        for (i in hor) lines(c(0, 30), rep(i, 2), lwd = 10, col="red")
-    if (all(ver > 0)) 
-        for (i in ver) lines(rep(i, 2), c(0, 30), lwd = 10, col="red")
-    if (abs(diag1) == 3) 
-        lines(c(2, 28), c(28, 2), lwd = 10, col = "red")
-    if (abs(diag2) == 3) 
-        lines(c(2, 28), c(2, 28), lwd = 10, col = "red")
-}
+mysqlconnection = dbConnect(MySQL(), user = 'root', password = '', dbname = 'sakila',
+   host = 'localhost')
 
-# Human player enters a move
-move.human <- function(game) {
-    text(4, 0, "Click on screen to move", col = "grey", cex=.7)
-    empty <- which(game == 0)
-    move <- 0
-    while (!move %in% empty) {
-        coords <- locator(n = 1) # add lines
-        coords$x <- floor(abs(coords$x) / 10) + 1
-        coords$y <- floor(abs(coords$y) / 10) + 1
-        move <- coords$x + 3 * (3 - coords$y)
-    }
-    return (move)
-}
+# List the tables available in this database.
+dbListTables(mysqlconnection)
+# Query the "actor" tables to get all the rows.
+result = dbSendQuery(mysqlconnection, "select * from actor")
+
+# Store the result in a R data frame object. n = 5 is used to fetch first 5 rows.
+data.frame = fetch(result, n = 5)
+print(data.fame)
+
+result = dbSendQuery(mysqlconnection, "select * from actor where last_name = 'TORN'")
+
+# Fetch all the records(with n = -1) and store it as a data frame.
+data.frame = fetch(result, n = -1)
+print(data)
+
