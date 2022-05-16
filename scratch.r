@@ -129,36 +129,6 @@ colnames(mcsv3)<-cn
 
 
 ##############################
-mysqlconnection = dbConnect(MySQL(), user = 'root', password = '', dbname = 'sakila',
-   host = 'localhost')
-
-# Get list of available tables
-dbListTables(mysqlconnection)
-# Query the "actor" tables to get all the rows.
-result = dbSendQuery(mysqlconnection, "select * from actor")
-
-# Fetch first 5 rows
-data.frame = fetch(result, n = 5)
-print(data.fame)
-
-result = dbSendQuery(mysqlconnection, "select * from actor where last_name = 'TORN'")
-
-#Fetch records
-data.frame = fetch(result, n = -1)
-print(data)
-
-dbSendQuery(mysqlconnection, "update mtcars set disp = 168.5 where hp = 110")
-dbSendQuery(mysqlconnection,
-   "insert into mtcars(row_names, mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb)
-   values('New Mazda RX4 Wag', 21, 6, 168.5, 110, 3.9, 2.875, 17.02, 0, 1, 4, 4)"
-)
-
-#create table
-mysqlconnection = dbConnect(MySQL(), user = 'root', password = '', dbname = 'sakila', 
-   host = 'localhost')
-
-dbWriteTable(mysqlconnection, "mtcars", mtcars[, ], overwrite = TRUE)
-
-#droping tables
-dbSendQuery(mysqlconnection, 'drop table if exists mtcars')
-
+Component V₁ = (V﹒b₁) / |b₁|² = (5*1 + -1*1) / ( √(1²+1²) )² = 4/2 = 2
+Component V₂ = (V﹒b₂) / |b₂|² = (5*1 + -1*-1) / ( √(1²+(-1)²) )² = 6/2= 3
+V' = (2, 3)
