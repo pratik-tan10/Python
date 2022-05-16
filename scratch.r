@@ -129,28 +129,14 @@ colnames(mcsv3)<-cn
 
 
 ##############################
-library(dplyr)
+# Set the color scale
+palette <- brewer.pal(5, "RdYlBu")[-(2:4)]
 
-starwars %>% 
-  filter(species == "Droid")
-
-starwars %>% 
-  select(name, ends_with("color"))
-
-starwars %>% 
-  mutate(name, bmi = mass / ((height / 100)  ^ 2)) %>%
-  select(name:mass, bmi)
-
-starwars %>% 
-  arrange(desc(mass))
-
-starwars %>%
-  group_by(species) %>%
-  summarise(
-    n = n(),
-    mass = mean(mass, na.rm = TRUE)
-  ) %>%
-  filter(
-    n > 1,
-    mass > 50
-  )
+# Add a title and caption
+ggplot(gm2007, aes(x = lifeExp, y = country, color = lifeExp)) +
+  geom_point(size = 4) +
+  geom_segment(aes(xend = 30, yend = country), size = 2) +
+  geom_text(aes(label = round(lifeExp,1)), color = "white", size = 1.5) +
+  scale_x_continuous("", expand = c(0,0), limits = c(30,90), position = "top") +
+  scale_color_gradientn(colors = palette) +
+  labs(title="Highest and lowest life expectancies, 2007", caption="Source: gapminder")
