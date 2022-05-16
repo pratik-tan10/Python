@@ -129,6 +129,28 @@ colnames(mcsv3)<-cn
 
 
 ##############################
-Component V₁ = (V﹒b₁) / |b₁|² = (5*1 + -1*1) / ( √(1²+1²) )² = 4/2 = 2
-Component V₂ = (V﹒b₂) / |b₂|² = (5*1 + -1*-1) / ( √(1²+(-1)²) )² = 6/2= 3
-V' = (2, 3)
+library(dplyr)
+
+starwars %>% 
+  filter(species == "Droid")
+
+starwars %>% 
+  select(name, ends_with("color"))
+
+starwars %>% 
+  mutate(name, bmi = mass / ((height / 100)  ^ 2)) %>%
+  select(name:mass, bmi)
+
+starwars %>% 
+  arrange(desc(mass))
+
+starwars %>%
+  group_by(species) %>%
+  summarise(
+    n = n(),
+    mass = mean(mass, na.rm = TRUE)
+  ) %>%
+  filter(
+    n > 1,
+    mass > 50
+  )
