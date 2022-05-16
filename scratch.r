@@ -132,6 +132,12 @@ colnames(mcsv3)<-cn
 # Set the color scale
 palette <- brewer.pal(5, "RdYlBu")[-(2:4)]
 
+global_mean <- mean(gm2007_full$lifeExp)
+x_start <- global_mean + 4
+y_start <- 5.5
+x_end <- global_mean
+y_end <- 7.5
+
 # Add a title and caption
 ggplot(gm2007, aes(x = lifeExp, y = country, color = lifeExp)) +
   geom_point(size = 4) +
@@ -139,4 +145,19 @@ ggplot(gm2007, aes(x = lifeExp, y = country, color = lifeExp)) +
   geom_text(aes(label = round(lifeExp,1)), color = "white", size = 1.5) +
   scale_x_continuous("", expand = c(0,0), limits = c(30,90), position = "top") +
   scale_color_gradientn(colors = palette) +
-  labs(title="Highest and lowest life expectancies, 2007", caption="Source: gapminder")
+  labs(title="Highest and lowest life expectancies, 2007", caption="Source: gapminder")+
+  theme_classic() +
+  theme(axis.line.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.text = element_text(color="black"),
+        axis.title = element_blank(),
+        legend.position = "none")+
+  geom_vline(xintercept = global_mean, color = "grey40", linetype = 3) +
+  step_3_annotation +
+  annotate(
+    "curve",
+    x = x_start, y = y_start,
+    xend = x_end, yend = y_end,
+    arrow = arrow(length = unit(0.2, "cm"), type = "closed"),
+    color = "grey40"
+  )
