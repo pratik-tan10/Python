@@ -130,10 +130,43 @@ colnames(mcsv3)<-cn
 
 ##############################
 ---
-title: "Investment Report"
+title: "Investment Report for Projects in `r params$country`"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
 date: "`r format(Sys.time(), '%d %B %Y')`"
-output: html_document
+params:
+  country: Brazil
+  year_start: 2017-07-01
+  year_end: 2018-06-30
+  fy: 2018
 ---
+
+<style>
+#TOC {
+  color: #708090;
+  font-family: Calibri;
+  font-size: 16px; 
+  border-color: #708090;
+}
+#header {
+  color: #F08080;
+  background-color: #F5F5F5;
+  opacity: 0.6;
+  font-family: Calibri;
+  font-size: 20px;
+}
+body {
+  color: #708090;
+  font-family: Calibri;
+  background-color: #F5F5F5;
+}
+pre {
+  color: #708090;
+  background-color: #F8F8FF;
+}
+</style>
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(fig.align = 'center', echo = TRUE)
@@ -152,9 +185,8 @@ investment_services_projects <- read_csv("https://assets.datacamp.com/production
 ## Datasets 
 
 ### Investment Annual Summary
-
 The `investment_annual_summary` dataset provides a summary of the dollars in millions provided to each region for each fiscal year, from 2012 to 2018.
-```{r investment-annual-summary, out.width = '85%', fig.cap = 'Figure 1.1 The Investment Annual Summary for each region for 2012 to 2018'}
+```{r investment-annual-summary}
 ggplot(investment_annual_summary, aes(x = fiscal_year, y = dollars_in_millions, color = region)) +
   geom_line() +
   labs(
@@ -164,34 +196,34 @@ ggplot(investment_annual_summary, aes(x = fiscal_year, y = dollars_in_millions, 
   )
 ```
 
-### Investment Projects in Brazil
+### Investment Projects in `r params$country`
+The `investment_services_projects` dataset provides information about each investment project from 2012 to 2018. Information listed includes the project name, company name, sector, project status, and investment amounts. Projects that do not have an associated investment amount are excluded from the plot.
 
-The `investment_services_projects` dataset provides information about each investment project from 2012 to 2018. Information listed includes the project name, company name, sector, project status, and investment amounts.
-```{r brazil-investment-projects, out.width = '95%', fig.cap = 'Figure 1.2 The Investment Services Projects in Brazil from 2012 to 2018'}
-brazil_investment_projects <- investment_services_projects %>%
-  filter(country == "Brazil") 
+```{r country-investment-projects}
+country_investment_projects <- investment_services_projects %>%
+  filter(country == params$country) 
 
-ggplot(brazil_investment_projects, aes(x = date_disclosed, y = total_investment, color = status)) +
+ggplot(country_investment_projects, aes(x = date_disclosed, y = total_investment, color = status)) +
   geom_point() +
   labs(
-    title = "Investment Services Projects in Brazil",
+    title = "Investment Services Projects",
     x = "Date Disclosed",
     y = "Total IFC Investment in Dollars in Millions"
   )
 ```
 
-### Investment Projects in Brazil in 2018
+### Investment Projects in `r params$country` in `r params$fy`
+The `investment_services_projects` dataset was filtered below to focus on information about each investment project from the `r params$fy` fiscal year, and is referred to as `country_annual_investment_projects`. Projects that do not have an associated investment amount are excluded from the plot.
+```{r country-annual-investment-projects}
+country_annual_investment_projects <- investment_services_projects %>%
+  filter(country == params$country,
+         date_disclosed >= params$year_start,
+         date_disclosed <= params$year_end) 
 
-```{r brazil-investment-projects-2018, out.width = '95%', fig.cap = 'Figure 1.3 The Investment Services Projects in Brazil in 2018'}
-brazil_investment_projects_2018 <- investment_services_projects %>%
-  filter(country == "Brazil",
-         date_disclosed >= "2017-07-01",
-         date_disclosed <= "2018-06-30") 
-
-ggplot(brazil_investment_projects_2018, aes(x = date_disclosed, y = total_investment, color = status)) +
+ggplot(country_annual_investment_projects, aes(x = date_disclosed, y = total_investment, color = status)) +
   geom_point() +
   labs(
-    title = "Investment Services Projects in Brazil in 2018",
+    title = "Investment Services Projects",
     x = "Date Disclosed",
     y = "Total IFC Investment in Dollars in Millions"
   ) 
