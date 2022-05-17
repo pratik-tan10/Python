@@ -129,35 +129,70 @@ colnames(mcsv3)<-cn
 
 
 ##############################
-# Set the color scale
-palette <- brewer.pal(5, "RdYlBu")[-(2:4)]
+---
+title: "Investment Report"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: html_document
+---
 
-global_mean <- mean(gm2007_full$lifeExp)
-x_start <- global_mean + 4
-y_start <- 5.5
-x_end <- global_mean
-y_end <- 7.5
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(fig.align = 'center', echo = TRUE)
+```
 
-# Add a title and caption
-ggplot(gm2007, aes(x = lifeExp, y = country, color = lifeExp)) +
-  geom_point(size = 4) +
-  geom_segment(aes(xend = 30, yend = country), size = 2) +
-  geom_text(aes(label = round(lifeExp,1)), color = "white", size = 1.5) +
-  scale_x_continuous("", expand = c(0,0), limits = c(30,90), position = "top") +
-  scale_color_gradientn(colors = palette) +
-  labs(title="Highest and lowest life expectancies, 2007", caption="Source: gapminder")+
-  theme_classic() +
-  theme(axis.line.y = element_blank(),
-        axis.ticks.y = element_blank(),
-        axis.text = element_text(color="black"),
-        axis.title = element_blank(),
-        legend.position = "none")+
-  geom_vline(xintercept = global_mean, color = "grey40", linetype = 3) +
-  step_3_annotation +
-  annotate(
-    "curve",
-    x = x_start, y = y_start,
-    xend = x_end, yend = y_end,
-    arrow = arrow(length = unit(0.2, "cm"), type = "closed"),
-    color = "grey40"
+```{r data, include = FALSE}
+library(readr)
+library(dplyr)
+library(ggplot2)
+
+investment_annual_summary <- read_csv("https://assets.datacamp.com/production/repositories/5756/datasets/d0251f26117bbcf0ea96ac276555b9003f4f7372/investment_annual_summary.csv")
+investment_services_projects <- read_csv("https://assets.datacamp.com/production/repositories/5756/datasets/bcb2e39ecbe521f4b414a21e35f7b8b5c50aec64/investment_services_projects.csv")
+```
+
+
+## Datasets 
+
+### Investment Annual Summary
+
+The `investment_annual_summary` dataset provides a summary of the dollars in millions provided to each region for each fiscal year, from 2012 to 2018.
+```{r investment-annual-summary, out.width = '85%', fig.cap = 'Figure 1.1 The Investment Annual Summary for each region for 2012 to 2018'}
+ggplot(investment_annual_summary, aes(x = fiscal_year, y = dollars_in_millions, color = region)) +
+  geom_line() +
+  labs(
+    title = "Investment Annual Summary",
+    x = "Fiscal Year",
+    y = "Dollars in Millions"
   )
+```
+
+### Investment Projects in Brazil
+
+The `investment_services_projects` dataset provides information about each investment project from 2012 to 2018. Information listed includes the project name, company name, sector, project status, and investment amounts.
+```{r brazil-investment-projects, out.width = '95%', fig.cap = 'Figure 1.2 The Investment Services Projects in Brazil from 2012 to 2018'}
+brazil_investment_projects <- investment_services_projects %>%
+  filter(country == "Brazil") 
+
+ggplot(brazil_investment_projects, aes(x = date_disclosed, y = total_investment, color = status)) +
+  geom_point() +
+  labs(
+    title = "Investment Services Projects in Brazil",
+    x = "Date Disclosed",
+    y = "Total IFC Investment in Dollars in Millions"
+  )
+```
+
+### Investment Projects in Brazil in 2018
+
+```{r brazil-investment-projects-2018, out.width = '95%', fig.cap = 'Figure 1.3 The Investment Services Projects in Brazil in 2018'}
+brazil_investment_projects_2018 <- investment_services_projects %>%
+  filter(country == "Brazil",
+         date_disclosed >= "2017-07-01",
+         date_disclosed <= "2018-06-30") 
+
+ggplot(brazil_investment_projects_2018, aes(x = date_disclosed, y = total_investment, color = status)) +
+  geom_point() +
+  labs(
+    title = "Investment Services Projects in Brazil in 2018",
+    x = "Date Disclosed",
+    y = "Total IFC Investment in Dollars in Millions"
+  ) 
+```
