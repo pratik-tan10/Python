@@ -129,102 +129,17 @@ colnames(mcsv3)<-cn
 
 
 ##############################
----
-title: "Investment Report for Projects in `r params$country`"
-output: 
-  html_document:
-    toc: true
-    toc_float: true
-date: "`r format(Sys.time(), '%d %B %Y')`"
-params:
-  country: Brazil
-  year_start: 2017-07-01
-  year_end: 2018-06-30
-  fy: 2018
----
+# Head of dates
+head(dates)
 
-<style>
-#TOC {
-  color: #708090;
-  font-family: Calibri;
-  font-size: 16px; 
-  border-color: #708090;
-}
-#header {
-  color: #F08080;
-  background-color: #F5F5F5;
-  opacity: 0.6;
-  font-family: Calibri;
-  font-size: 20px;
-}
-body {
-  color: #708090;
-  font-family: Calibri;
-  background-color: #F5F5F5;
-}
-pre {
-  color: #708090;
-  background-color: #F8F8FF;
-}
-</style>
+# Parse dates with fast_strptime
+fast_strptime(dates, 
+    format = "%Y-%m-%dT%H:%M:%S%z") %>% str()
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(fig.align = 'center', echo = TRUE)
-```
-
-```{r data, include = FALSE}
-library(readr)
-library(dplyr)
-library(ggplot2)
-
-investment_annual_summary <- read_csv("https://assets.datacamp.com/production/repositories/5756/datasets/d0251f26117bbcf0ea96ac276555b9003f4f7372/investment_annual_summary.csv")
-investment_services_projects <- read_csv("https://assets.datacamp.com/production/repositories/5756/datasets/bcb2e39ecbe521f4b414a21e35f7b8b5c50aec64/investment_services_projects.csv")
-```
-
-
-## Datasets 
-
-### Investment Annual Summary
-The `investment_annual_summary` dataset provides a summary of the dollars in millions provided to each region for each fiscal year, from 2012 to 2018.
-```{r investment-annual-summary}
-ggplot(investment_annual_summary, aes(x = fiscal_year, y = dollars_in_millions, color = region)) +
-  geom_line() +
-  labs(
-    title = "Investment Annual Summary",
-    x = "Fiscal Year",
-    y = "Dollars in Millions"
-  )
-```
-
-### Investment Projects in `r params$country`
-The `investment_services_projects` dataset provides information about each investment project from 2012 to 2018. Information listed includes the project name, company name, sector, project status, and investment amounts. Projects that do not have an associated investment amount are excluded from the plot.
-
-```{r country-investment-projects}
-country_investment_projects <- investment_services_projects %>%
-  filter(country == params$country) 
-
-ggplot(country_investment_projects, aes(x = date_disclosed, y = total_investment, color = status)) +
-  geom_point() +
-  labs(
-    title = "Investment Services Projects",
-    x = "Date Disclosed",
-    y = "Total IFC Investment in Dollars in Millions"
-  )
-```
-
-### Investment Projects in `r params$country` in `r params$fy`
-The `investment_services_projects` dataset was filtered below to focus on information about each investment project from the `r params$fy` fiscal year, and is referred to as `country_annual_investment_projects`. Projects that do not have an associated investment amount are excluded from the plot.
-```{r country-annual-investment-projects}
-country_annual_investment_projects <- investment_services_projects %>%
-  filter(country == params$country,
-         date_disclosed >= params$year_start,
-         date_disclosed <= params$year_end) 
-
-ggplot(country_annual_investment_projects, aes(x = date_disclosed, y = total_investment, color = status)) +
-  geom_point() +
-  labs(
-    title = "Investment Services Projects",
-    x = "Date Disclosed",
-    y = "Total IFC Investment in Dollars in Millions"
-  ) 
-```
+# Comparse speed to ymd_hms() and fasttime
+microbenchmark(
+  ymd_hms = ymd_hms(dates),
+  fasttime = fastPOSIXct(dates),
+  fast_strptime = fast_strptime(dates, 
+    format = "%Y-%m-%dT%H:%M:%S%z"),
+  times = 20)
