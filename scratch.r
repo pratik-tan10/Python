@@ -165,3 +165,15 @@ filtered_countries <- by_year_country %>%
 ggplot(filtered_countries, aes(year, percent_yes)) +
   geom_line() +
   facet_wrap(~ country, scales = "free_y")
+
+country_coefficients <- by_year_country %>%
+  nest(-country) %>%
+  mutate(model = map(data, ~ lm(percent_yes ~ year, data = .)),
+         tidied = map(model, tidy))%>%
+         unnest(tidied)
+filtered_countries <- country_coefficients %>%
+  filter(term == "year") %>%
+  mutate(p.adjusted = p.adjust(p.value)) %>%
+  filter(p.adjusted < .05)
+filtered_countries%>%arrange(desc(estimate))
+filtered_countries%>%arrange(estimate)
