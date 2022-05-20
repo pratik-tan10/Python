@@ -129,30 +129,39 @@ colnames(mcsv3)<-cn
 
 
 ##############################
-# Specify an order string to parse x
-x <- "Monday June 1st 2010 at 4pm"
-parse_date_time(x, orders = "ABdYIp")
+# Load the dplyr package
+library(dplyr)
 
-# Specify order to include both "mdy" and "dmy"
-two_orders <- c("October 7, 2001", "October 13, 2002", "April 13, 2003", 
-  "17 April 2005", "23 April 2017")
-parse_date_time(two_orders, orders = c("%mdy", "dmy"))
+# Print the votes dataset
+votes
 
-# Specify order to include "dOmY", "OmY" and "Y"
-short_dates <- c("11 December 1282", "May 1372", "1253")
-parse_date_time(short_dates, orders = c("dOmY", "OmY", "Y"))
+# Filter for votes that are "yes", "abstain", or "no"
+votes %>%
+  filter(vote <= 3)%>%
+  mutate(year=session+1945)
 
-# Head of dates
-head(dates)
+library(countrycode)
 
-# Parse dates with fast_strptime
-fast_strptime(dates, 
-    format = "%Y-%m-%dT%H:%M:%S%z") %>% str()
+votes_processed <- votes %>%
+  filter(vote <= 3) %>%
+  mutate(year = session + 1945, country=countrycode(ccode, "cown", "country.name"))
 
-# Comparse speed to ymd_hms() and fasttime
-microbenchmark(
-  ymd_hms = ymd_hms(dates),
-  fasttime = fastPOSIXct(dates),
-  fast_strptime = fast_strptime(dates, 
-    format = "%Y-%m-%dT%H:%M:%S%z"),
-  times = 20)
+by_country <- votes_processed %>%
+  group_by(country) %>%
+  summarize(total = n(),
+            percent_yes = mean(vote == 1))
+by_year_country <- votes_processed %>%
+  group_by(year, country) %>%
+  summarize(total = n(),
+            percent_yes = mean(vote == 1))
+
+
+countries <- c("United States", "United Kingdom",
+               "France", "Japan", "Brazil", "India","Nepal","Germany","China")
+
+filtered_countries <- by_year_country %>%
+  filter(country %in% countries)
+
+ggplot(filtered_countries, aes(year, percent_yes)) +
+  geom_line() +
+  facet_wrap(~ country, scales = "free_y")
