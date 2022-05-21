@@ -129,51 +129,16 @@ colnames(mcsv3)<-cn
 
 
 ##############################
-# Load the dplyr package
-library(dplyr)
+# From previous step
+prediction_data <- explanatory_data %>% 
+  mutate(   
+    has_churned = predict(mdl_churn_vs_relationship, explanatory_data, type = "response"),
+    odds_ratio = has_churned / (1 - has_churned)
+  )
 
-# Print the votes dataset
-votes
-
-# Filter for votes that are "yes", "abstain", or "no"
-votes %>%
-  filter(vote <= 3)%>%
-  mutate(year=session+1945)
-
-library(countrycode)
-
-votes_processed <- votes %>%
-  filter(vote <= 3) %>%
-  mutate(year = session + 1945, country=countrycode(ccode, "cown", "country.name"))
-
-by_country <- votes_processed %>%
-  group_by(country) %>%
-  summarize(total = n(),
-            percent_yes = mean(vote == 1))
-by_year_country <- votes_processed %>%
-  group_by(year, country) %>%
-  summarize(total = n(),
-            percent_yes = mean(vote == 1))
-
-
-countries <- c("United States", "United Kingdom",
-               "France", "Japan", "Brazil", "India","Nepal","Germany","China")
-
-filtered_countries <- by_year_country %>%
-  filter(country %in% countries)
-
-ggplot(filtered_countries, aes(year, percent_yes)) +
+# Using prediction_data, plot odds_ratio vs. time_since_first_purchase
+prediction_data%>%ggplot(aes(time_since_first_purchase ,odds_ratio)) +
+  # Make it a line plot
   geom_line() +
-  facet_wrap(~ country, scales = "free_y")
-
-country_coefficients <- by_year_country %>%
-  nest(-country) %>%
-  mutate(model = map(data, ~ lm(percent_yes ~ year, data = .)),
-         tidied = map(model, tidy))%>%
-         unnest(tidied)
-filtered_countries <- country_coefficients %>%
-  filter(term == "year") %>%
-  mutate(p.adjusted = p.adjust(p.value)) %>%
-  filter(p.adjusted < .05)
-filtered_countries%>%arrange(desc(estimate))
-filtered_countries%>%arrange(estimate)
+  # Add a dotted horizontal line at y = 1
+  geom_hline(yintercept=1,linetype="dotted")
