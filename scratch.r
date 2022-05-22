@@ -129,22 +129,21 @@ colnames(mcsv3)<-cn
 
 
 ##############################
-# Update the data frame
+# From previous step
+explanatory_data <- expand_grid(
+  n_convenience = 0:10,
+  house_age_years = unique(taiwan_real_estate$house_age_years)
+)
 prediction_data <- explanatory_data %>% 
-  mutate(   
-    has_churned = predict(mdl_churn_vs_relationship, explanatory_data, type = "response"),
-    odds_ratio = has_churned / (1 - has_churned),
-    # Add the log odds ratio from odds_ratio
-    log_odds_ratio = log(odds_ratio),
-    # Add the log odds ratio using predict()
-    log_odds_ratio2 = predict(mdl_churn_vs_relationship, explanatory_data)
+  mutate(
+    price_twd_msq = predict(mdl_price_vs_both_inter, explanatory_data)
   )
 
-# See the result
-prediction_data
-#plot
-ggplot(prediction_data, aes(time_since_first_purchase, odds_ratio)) +
-  geom_line() +
-  geom_hline(yintercept = 1, linetype = "dotted") +
-  # Use a logarithmic y-scale
-  scale_y_log10()
+# Using taiwan_real_estate, plot price vs. no. of convenience stores, colored by house age
+taiwan_real_estate%>%ggplot(aes(n_convenience,price_twd_msq, color=house_age_years))+
+  # Make it a scatter plot
+  geom_point()+
+  # Add linear regression trend lines, no ribbon
+  geom_smooth(method="lm",se=F)+
+  # Add points from prediction_data, size 5, shape 15
+  geom_point(data=prediction_data, size = 5, shape = 15)
