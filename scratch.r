@@ -129,29 +129,35 @@ colnames(mcsv3)<-cn
 
 
 ##############################
-# Use the prob parameter to get the proportion of votes for the winning class
-sign_pred <- knn(train = signs[-1], test = signs_test[-1], cl = signs$sign_type, k = 7, prob =T)
+library(tidyverse) 
+library(neuralnet)
+iris <- iris %>%  
+  mutate(Species=as_factor(Species) )
 
-# Get the "prob" attribute from the predicted classes
-sign_prob <- attr(sign_pred, "prob")
+draw_boxplot <- function(){ 
+  iris %>%  
+    pivot_longer(1:4, names_to="attributes") %>%  
+    ggplot(aes(attributes, value, fill=attributes)) + 
+    geom_boxplot() 
+}
+draw_boxplot()
 
-# Examine the first several predictions
-head(sign_pred)
+library(scales)
+iris <- iris %>%  
+  mutate(across(Sepal.Width, ~ squish(.x, quantile(.x, c(0.05, 0.95)))))
 
-# Examine the proportion of votes for the winning class
-head(sign_prob)
+iris <- iris %>%  
+  mutate(across(1:4, scale))
 
-# Build a recency, frequency, and money (RFM) model
-rfm_model <- glm(donated~money+recency*frequency, data = donors,family = binomial)
+training_data_rows <- floor(0.70 * nrow(iris))          
+set.seed(123) 
+training_indices <- sample(c(1:nrow(iris)), training_data_rows)
 
-# Summarize the RFM model to see how the parameters were coded
-summary(rfm_model)
+training_data <- iris[training_indices,] 
+test_data <- iris[-training_indices,]
 
-# Compute predicted probabilities for the RFM model
-rfm_prob <- predict(rfm_model, donors, type = "response")
+nn=neuralnet(Species~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width,  
+             data=training_data, hidden=c(2,2), linear.output = FALSE)
+plot(nn)
 
-# Plot the ROC curve and find AUC for the new model
-library(pROC)
-ROC <- roc(donors$donated, rfm_prob)
-plot(ROC, col = "red")
-auc(ROC)
+
