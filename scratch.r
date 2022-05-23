@@ -129,18 +129,14 @@ colnames(mcsv3)<-cn
 
 
 ##############################
-# From previous steps
-mdl_price_vs_conv_dist <- lm(price_twd_msq ~ n_convenience + sqrt(dist_to_mrt_m), data = taiwan_real_estate)
-explanatory_data <- expand_grid(n_convenience = 0:10, dist_to_mrt_m = seq(0, 80, 10) ^ 2)
-prediction_data <- explanatory_data %>% 
-  mutate(price_twd_msq = predict(mdl_price_vs_conv_dist, explanatory_data))
+# Use the prob parameter to get the proportion of votes for the winning class
+sign_pred <- knn(train = signs[-1], test = signs_test[-1], cl = signs$sign_type, k = 7, prob =T)
 
-# Add predictions to plot
-ggplot(
-  taiwan_real_estate, 
-  aes(n_convenience, sqrt(dist_to_mrt_m), color = price_twd_msq)
-) + 
-  geom_point() +
-  scale_color_viridis_c(option = "plasma")+
-  # Add prediction points colored yellow, size 3
-  geom_point(data= prediction_data, color = "yellow",size=3)
+# Get the "prob" attribute from the predicted classes
+sign_prob <- attr(sign_pred, "prob")
+
+# Examine the first several predictions
+head(sign_pred)
+
+# Examine the proportion of votes for the winning class
+head(sign_prob)
