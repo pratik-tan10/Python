@@ -160,4 +160,16 @@ nn=neuralnet(Species~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width,
              data=training_data, hidden=c(2,2), linear.output = FALSE)
 plot(nn)
 
+predict <- function(data){ 
+  prediction <- data.frame(neuralnet::compute(nn,  
+                                              data.frame(data[,-5]))$net.result) 
+  labels <- c("setosa", "versicolor", "virginca") 
+  prediction_label <- data.frame(max.col(prediction)) %>%  
+    mutate(prediction=labels[max.col.prediction.]) %>%  
+    select(2) %>%  
+    unlist() 
+  table(data$Species, prediction_label) 
+}
 
+predict(training_data)
+predict(test_data)
