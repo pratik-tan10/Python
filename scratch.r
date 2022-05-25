@@ -129,47 +129,41 @@ colnames(mcsv3)<-cn
 
 
 ##############################
-library(tidyverse) 
-library(neuralnet)
-iris <- iris %>%  
-  mutate(Species=as_factor(Species) )
+url <- "https://assets.datacamp.com/production/course_1903/datasets/WisconsinCancer.csv"
 
-draw_boxplot <- function(){ 
-  iris %>%  
-    pivot_longer(1:4, names_to="attributes") %>%  
-    ggplot(aes(attributes, value, fill=attributes)) + 
-    geom_boxplot() 
-}
-draw_boxplot()
+# Download the data: wisc.df
+read.csv(url)-> wisc.df
 
-library(scales)
-iris <- iris %>%  
-  mutate(across(Sepal.Width, ~ squish(.x, quantile(.x, c(0.05, 0.95)))))
+# Convert the features of the data: wisc.data
+wisc.data<- as.matrix(wisc.df[,3:32])
 
-iris <- iris %>%  
-  mutate(across(1:4, scale))
+# Set the row names of wisc.data
+row.names(wisc.data) <- wisc.df$id
 
-training_data_rows <- floor(0.70 * nrow(iris))          
-set.seed(123) 
-training_indices <- sample(c(1:nrow(iris)), training_data_rows)
+# Create diagnosis vector
+diagnosis <- as.numeric(wisc.df$diagnosis == "M")
 
-training_data <- iris[training_indices,] 
-test_data <- iris[-training_indices,]
+# Check column means and standard deviations
+colMeans(wisc.data)
+apply(wisc.data,2, sd)
 
-nn=neuralnet(Species~Sepal.Length+Sepal.Width+Petal.Length+Petal.Width,  
-             data=training_data, hidden=c(2,2), linear.output = FALSE)
-plot(nn)
+# Execute PCA, scaling if appropriate: wisc.pr
+wisc.pr<-prcomp(wisc.data, scale=T, center=T)
 
-predict <- function(data){ 
-  prediction <- data.frame(neuralnet::compute(nn,  
-                                              data.frame(data[,-5]))$net.result) 
-  labels <- c("setosa", "versicolor", "virginca") 
-  prediction_label <- data.frame(max.col(prediction)) %>%  
-    mutate(prediction=labels[max.col.prediction.]) %>%  
-    select(2) %>%  
-    unlist() 
-  table(data$Species, prediction_label) 
-}
+# Look at summary of results
+summary(wisc.pr)
 
-predict(training_data)
-predict(test_data)
+# Create a biplot of wisc.pr
+biplot(wisc.pr)
+
+# Scatter plot observations by components 1 and 2
+plot(wisc.pr$x[, c(1, 2)], col = (diagnosis + 1), 
+     xlab = "PC1", ylab = "PC2")
+
+# Repeat for components 1 and 3
+plot(wisc.pr$x[, c(1,3)], col = (diagnosis + 1), 
+     xlab = "PC1", ylab = "PC3")
+
+# Do additional data exploration of your choosing below (optional)
+plot(wisc.pr$x[, c(2,3)], col = (diagnosis + 1), 
+     xlab = "PC2", ylab = "PC3")
