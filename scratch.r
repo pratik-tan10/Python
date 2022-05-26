@@ -129,60 +129,47 @@ colnames(mcsv3)<-cn
 
 
 ##############################
-url <- "https://assets.datacamp.com/production/course_1903/datasets/WisconsinCancer.csv"
+# Calculate Euclidean distance between the occupations
+dist_oes <- dist(oes, method = "euclidean")
 
-# Download the data: wisc.df
-read.csv(url)-> wisc.df
+# Generate an average linkage analysis 
+hc_oes <- hclust(dist_oes, method = "average")
 
-# Convert the features of the data: wisc.data
-wisc.data<- as.matrix(wisc.df[,3:32])
+# Create a dendrogram object from the hclust variable
+dend_oes <- as.dendrogram(hc_oes)
 
-# Set the row names of wisc.data
-row.names(wisc.data) <- wisc.df$id
+# Plot the dendrogram
+plot(dend_oes)
 
-# Create diagnosis vector
-diagnosis <- as.numeric(wisc.df$diagnosis == "M")
+# Color branches by cluster formed from the cut at a height of 100000
+dend_colored <- color_branches(dend_oes, h = 100000)
 
-# Check column means and standard deviations
-colMeans(wisc.data)
-apply(wisc.data,2, sd)
+# Plot the colored dendrogram
+plot(dend_colored)
 
-# Execute PCA, scaling if appropriate: wisc.pr
-wisc.pr<-prcomp(wisc.data, scale=T, center=T)
+dist_oes <- dist(oes, method = 'euclidean')
+hc_oes <- hclust(dist_oes, method = 'average')
 
-# Look at summary of results
-summary(wisc.pr)
+library(tibble)
+library(tidyr)
 
-# Create a biplot of wisc.pr
-biplot(wisc.pr)
+# Use rownames_to_column to move the rownames into a column of the data frame
+df_oes <- rownames_to_column(as.data.frame(oes), var = 'occupation')
 
-# Scatter plot observations by components 1 and 2
-plot(wisc.pr$x[, c(1, 2)], col = (diagnosis + 1), 
-     xlab = "PC1", ylab = "PC2")
+# Create a cluster assignment vector at h = 100,000
+cut_oes <- cutree(hc_oes, h = 100000)
 
-# Repeat for components 1 and 3
-plot(wisc.pr$x[, c(1,3)], col = (diagnosis + 1), 
-     xlab = "PC1", ylab = "PC3")
+# Generate the segmented the oes data frame
+clust_oes <- mutate(df_oes, cluster = cut_oes)
 
-# Do additional data exploration of your choosing below (optional)
-plot(wisc.pr$x[, c(2,3)], col = (diagnosis + 1), 
-     xlab = "PC2", ylab = "PC3")
+# Create a tidy data frame by gathering the year and values into two columns
+gathered_oes <- gather(data = clust_oes, 
+                       key = year, 
+                       value = mean_salary, 
+                       -occupation, -cluster)
+# View the clustering assignments by sorting the cluster assignment vector
+sort(cut_oes)
 
-# Set up 1 x 2 plotting grid
-par(mfrow = c(1, 2))
-
-# Calculate variability of each component
-pr.var<-wisc.pr$sdev^2
-
-# Variance explained by each principal component: pve
-pve=pr.var/sum(pr.var)
-
-# Plot variance explained for each principal component
-plot(pve, xlab = "Principal Component", 
-     ylab = "Proportion of Variance Explained", 
-     ylim = c(0, 1), type = "b")
-
-# Plot cumulative proportion of variance explained
-plot(cumsum(pve), xlab = "Principal Component", 
-     ylab = "Cumulative Proportion of Variance Explained", 
-     ylim = c(0, 1), type = "b")
+# Plot the relationship between mean_salary and year and color the lines by the assigned cluster
+ggplot(gathered_oes, aes(x = year, y = mean_salary, color = factor(cluster))) + 
+    geom_line(aes(group = occupation))
