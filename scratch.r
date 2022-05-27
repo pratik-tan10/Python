@@ -129,80 +129,84 @@ colnames(mcsv3)<-cn
 
 
 ##############################
-# Calculate Euclidean distance between the occupations
-dist_oes <- dist(oes, method = "euclidean")
+# Compute the counts of all trees by hood
+tree_counts <- count(trees, hood)
 
-# Generate an average linkage analysis 
-hc_oes <- hclust(dist_oes, method = "average")
+# Take a quick look
+head(tree_counts)
 
-# Create a dendrogram object from the hclust variable
-dend_oes <- as.dendrogram(hc_oes)
+# Remove the geometry
+tree_counts_no_geom <- st_set_geometry(tree_counts, NULL)
 
-# Plot the dendrogram
-plot(dend_oes)
+# Rename the n variable to tree_cnt
+tree_counts_renamed <- rename(tree_counts_no_geom, tree_cnt = n)
+  
+# Create histograms of the total counts
+hist(tree_counts_renamed$tree_cnt)
+# Compute areas and unclass
+areas <- unclass(st_area(neighborhoods))
 
-# Color branches by cluster formed from the cut at a height of 100000
-dend_colored <- color_branches(dend_oes, h = 100000)
+# Add the areas to the neighborhoods object
+neighborhoods_area <- mutate(neighborhoods, area = areas)
 
-# Plot the colored dendrogram
-plot(dend_colored)
+# Join neighborhoods and counts
+neighborhoods_counts <- left_join(neighborhoods_area, 
+                            tree_counts_renamed, by = "hood")
 
-dist_oes <- dist(oes, method = 'euclidean')
-hc_oes <- hclust(dist_oes, method = 'average')
+# Replace NA values with 0
+neighborhoods_counts <- mutate(neighborhoods_counts, 
+                            tree_cnt = ifelse(is.na(tree_cnt), 
+                                              0, tree_cnt))
 
-library(tibble)
-library(tidyr)
+# Compute the density
+neighborhoods_counts <- mutate(neighborhoods_counts, 
+                               tree_density = tree_cnt/area)
+# Confirm that you have the neighborhood density results
+head(neighborhoods)
 
-# Use rownames_to_column to move the rownames into a column of the data frame
-df_oes <- rownames_to_column(as.data.frame(oes), var = 'occupation')
+# Transform the neighborhoods CRS to match the canopy layer
+neighborhoods_crs <- st_transform(neighborhoods, crs = crs(canopy, asText = T))
 
-# Create a cluster assignment vector at h = 100,000
-cut_oes <- cutree(hc_oes, h = 100000)
+# Convert neighborhoods object to a Spatial object
+neighborhoods_sp <- as(neighborhoods_crs, "Spatial")
 
-# Generate the segmented the oes data frame
-clust_oes <- mutate(df_oes, cluster = cut_oes)
+# Compute the mean of canopy values by neighborhood
+canopy_neighborhoods <- extract(canopy, neighborhoods_sp, fun = mean)
 
-# Create a tidy data frame by gathering the year and values into two columns
-gathered_oes <- gather(data = clust_oes, 
-                       key = year, 
-                       value = mean_salary, 
-                       -occupation, -cluster)
-# View the clustering assignments by sorting the cluster assignment vector
-sort(cut_oes)
+# Add the mean canopy values to neighborhoods
+neighborhoods_avg_canopy <- mutate(neighborhoods, avg_canopy = canopy_neighborhoods)
+# Load the ggplot2 package
+library(ggplot2)
 
-# Plot the relationship between mean_salary and year and color the lines by the assigned cluster
-ggplot(gathered_oes, aes(x = year, y = mean_salary, color = factor(cluster))) + 
-    geom_line(aes(group = occupation))
-# Use map_dbl to run many models with varying value of k (centers)
-tot_withinss <- map_dbl(1:10,  function(k){
-  model <- kmeans(x = oes, centers = k)
-  model$tot.withinss
-})
+# Create a histogram of tree density (tree_density)
+ggplot(neighborhoods, aes(x = tree_density)) + 
+  geom_histogram(color = "white")
 
-# Generate a data frame containing both k and tot_withinss
-elbow_df <- data.frame(
-  k = 1:10,
-  tot_withinss = tot_withinss
-)
+# Create a histogram of average canopy (avg_canopy)
+ggplot(neighborhoods, aes(x = avg_canopy)) + 
+  geom_histogram(color = "white")
 
-# Plot the elbow plot
-ggplot(elbow_df, aes(x = k, y = tot_withinss)) +
-  geom_line() +
-  scale_x_continuous(breaks = 1:10)
-# Use map_dbl to run many models with varying value of k
-sil_width <- map_dbl(2:10,  function(k){
-  model <- pam(oes, k = k)
-  model$silinfo$avg.width
-})
+# Create a scatter plot of tree_density vs avg_canopy
+ggplot(neighborhoods, aes(x = tree_density , y = avg_canopy)) + 
+    geom_point() + 
+    stat_smooth()
 
-# Generate a data frame containing both k and sil_width
-sil_df <- data.frame(
-  k = 2:10,
-  sil_width = sil_width
-)
+# Compute the correlation between density and canopy
+cor(neighborhoods$tree_density, neighborhoods$avg_canopy)
+# Plot the tree density with default colors
+ggplot(neighborhoods) + 
+  geom_sf(aes(fill = tree_density))
 
-# Plot the relationship between k and sil_width
-ggplot(sil_df, aes(x = k, y = sil_width)) +
-  geom_line() +
-  scale_x_continuous(breaks = 2:10)
+# Plot the tree canopy with default colors
+ggplot(neighborhoods) + 
+  geom_sf(aes(fill = avg_canopy))
+  
+# Plot the tree density using scale_fill_gradient()
+ggplot(neighborhoods) + 
+  geom_sf(aes(fill = tree_density)) + 
+  scale_fill_gradient(low = "#edf8e9", high = "#005a32")
 
+# Plot the tree canopy using the scale_fill_gradient()
+ggplot(neighborhoods) + 
+  geom_sf(aes(fill = avg_canopy)) +
+  scale_fill_gradient(low = "#edf8e9", high = "#005a32")
