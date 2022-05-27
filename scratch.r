@@ -210,3 +210,25 @@ ggplot(neighborhoods) +
 ggplot(neighborhoods) + 
   geom_sf(aes(fill = avg_canopy)) +
   scale_fill_gradient(low = "#edf8e9", high = "#005a32")
+# Create a simple map of neighborhoods
+tm_shape(neighborhoods) + 
+    tm_polygons()
+
+# Create a color-coded map of neighborhood tree density
+tm_shape(neighborhoods) + 
+    tm_polygons(col = "tree_density")
+
+# Style the tree density map
+tm_shape(neighborhoods) + 
+    tm_polygons("tree_density", palette = "Greens", 
+        style = "quantile", n = 7, 
+        title = "Trees per sq. KM")
+
+# Create a similar map of average tree canopy
+tm_shape(neighborhoods) + 
+    tm_polygons("avg_canopy", palette = "Greens", 
+        style = "quantile", n = 7, 
+        title = "Average tree canopy (%)")
+# Create a map of the manhattan aerial photo
+tm_shape(manhattan) + 
+  tm_raster()
