@@ -129,106 +129,56 @@ colnames(mcsv3)<-cn
 
 
 ##############################
-# Compute the counts of all trees by hood
-tree_counts <- count(trees, hood)
+# ca_geo has been pre-defined
+str(ca_geo, 1)
 
-# Take a quick look
-head(tree_counts)
+# See what measurements are at each location
+names(ca_geo)
 
-# Remove the geometry
-tree_counts_no_geom <- st_set_geometry(tree_counts, NULL)
+# Get a summary of the acidity (pH) values
+summary(ca_geo$pH)
 
-# Rename the n variable to tree_cnt
-tree_counts_renamed <- rename(tree_counts_no_geom, tree_cnt = n)
-  
-# Create histograms of the total counts
-hist(tree_counts_renamed$tree_cnt)
-# Compute areas and unclass
-areas <- unclass(st_area(neighborhoods))
+# Look at the distribution
+hist(ca_geo$pH)
 
-# Add the areas to the neighborhoods object
-neighborhoods_area <- mutate(neighborhoods, area = areas)
+# Make a vector that is TRUE for the missing data
+miss <- is.na(ca_geo$pH)
+table(miss)
 
-# Join neighborhoods and counts
-neighborhoods_counts <- left_join(neighborhoods_area, 
-                            tree_counts_renamed, by = "hood")
+# Plot a map of acidity
+spplot(ca_geo[!miss, ], "pH")
+# ca_geo has been pre-defined
+str(ca_geo, 1)
 
-# Replace NA values with 0
-neighborhoods_counts <- mutate(neighborhoods_counts, 
-                            tree_cnt = ifelse(is.na(tree_cnt), 
-                                              0, tree_cnt))
+# Are they called lat-long, up-down, or what?
+coordnames(ca_geo)
 
-# Compute the density
-neighborhoods_counts <- mutate(neighborhoods_counts, 
-                               tree_density = tree_cnt/area)
-# Confirm that you have the neighborhood density results
-head(neighborhoods)
+# Complete the formula
+m_trend <- lm(pH ~ x + y, as.data.frame(ca_geo))
 
-# Transform the neighborhoods CRS to match the canopy layer
-neighborhoods_crs <- st_transform(neighborhoods, crs = crs(canopy, asText = T))
+# Check the coefficients
+summary(m_trend)
+# ca_geo, miss, m_trend have been pre-defined
+ls.str()
 
-# Convert neighborhoods object to a Spatial object
-neighborhoods_sp <- as(neighborhoods_crs, "Spatial")
+# Make a vector that is TRUE for the missing data
+miss <- is.na(ca_geo$pH)
 
-# Compute the mean of canopy values by neighborhood
-canopy_neighborhoods <- extract(canopy, neighborhoods_sp, fun = mean)
+# Create a data frame of missing data
+ca_geo_miss <- as.data.frame(ca_geo)[miss, ]
 
-# Add the mean canopy values to neighborhoods
-neighborhoods_avg_canopy <- mutate(neighborhoods, avg_canopy = canopy_neighborhoods)
-# Load the ggplot2 package
-library(ggplot2)
+# Predict pH for the missing data
+predictions <- predict(m_trend, newdata = ca_geo_miss, se.fit = TRUE)
 
-# Create a histogram of tree density (tree_density)
-ggplot(neighborhoods, aes(x = tree_density)) + 
-  geom_histogram(color = "white")
+# Compute the exceedance probability
+pAlkaline <- 1 - pnorm(7, mean = predictions$fit, sd = predictions$se.fit)
+hist(pAlkaline)
+# ca_geo, miss have been pre-defined
+ls.str()
 
-# Create a histogram of average canopy (avg_canopy)
-ggplot(neighborhoods, aes(x = avg_canopy)) + 
-  geom_histogram(color = "white")
+# Make a cloud from the non-missing data up to 10km
+plot(variogram(pH ~ 1, ca_geo[!miss, ], cloud = TRUE, cutoff = 10000))
 
-# Create a scatter plot of tree_density vs avg_canopy
-ggplot(neighborhoods, aes(x = tree_density , y = avg_canopy)) + 
-    geom_point() + 
-    stat_smooth()
-
-# Compute the correlation between density and canopy
-cor(neighborhoods$tree_density, neighborhoods$avg_canopy)
-# Plot the tree density with default colors
-ggplot(neighborhoods) + 
-  geom_sf(aes(fill = tree_density))
-
-# Plot the tree canopy with default colors
-ggplot(neighborhoods) + 
-  geom_sf(aes(fill = avg_canopy))
-  
-# Plot the tree density using scale_fill_gradient()
-ggplot(neighborhoods) + 
-  geom_sf(aes(fill = tree_density)) + 
-  scale_fill_gradient(low = "#edf8e9", high = "#005a32")
-
-# Plot the tree canopy using the scale_fill_gradient()
-ggplot(neighborhoods) + 
-  geom_sf(aes(fill = avg_canopy)) +
-  scale_fill_gradient(low = "#edf8e9", high = "#005a32")
-# Create a simple map of neighborhoods
-tm_shape(neighborhoods) + 
-    tm_polygons()
-
-# Create a color-coded map of neighborhood tree density
-tm_shape(neighborhoods) + 
-    tm_polygons(col = "tree_density")
-
-# Style the tree density map
-tm_shape(neighborhoods) + 
-    tm_polygons("tree_density", palette = "Greens", 
-        style = "quantile", n = 7, 
-        title = "Trees per sq. KM")
-
-# Create a similar map of average tree canopy
-tm_shape(neighborhoods) + 
-    tm_polygons("avg_canopy", palette = "Greens", 
-        style = "quantile", n = 7, 
-        title = "Average tree canopy (%)")
-# Create a map of the manhattan aerial photo
-tm_shape(manhattan) + 
-  tm_raster()
+# Make a variogram of the non-missing data
+plot(variogram(pH ~ 1, ca_geo[!miss, ]))
+var(ca_geo$pH, na.rm=T)
