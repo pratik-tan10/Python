@@ -182,3 +182,62 @@ plot(variogram(pH ~ 1, ca_geo[!miss, ], cloud = TRUE, cutoff = 10000))
 # Make a variogram of the non-missing data
 plot(variogram(pH ~ 1, ca_geo[!miss, ]))
 var(ca_geo$pH, na.rm=T)
+# ca_geo, miss have been pre-defined
+ls.str()
+
+# See what coordinates are called
+coordnames(ca_geo)
+# ca_geo, miss, v_model have been pre-defined
+ls.str()
+
+# Set the trend formula and the new data
+km <- krige(pH ~ x + y, ca_geo[!miss, ], newdata = ca_geo[miss, ], model = v_model)
+names(km)
+
+# Plot the predicted values
+spplot(km, "var1.pred")
+
+# Compute the probability of alkaline samples, and map
+km$pAlkaline <- 1 - pnorm(7, mean = km$var1.pred, sd = sqrt(km$var1.var))
+spplot(km, "pAlkaline")
+# ca_geo, geo_bounds have been pre-defined
+ls.str()
+
+# Plot the polygon and points
+plot(geo_bounds); points(ca_geo)
+
+# Find the corners of the boundary
+bbox(geo_bounds)
+
+# Define a 2.5km square grid over the polygon extent. The first parameter is
+# the bottom left corner.
+grid <- GridTopology(c(537853,5536290), c(2500, 2500), c(72, 48))
+
+# Create points with the same coordinate system as the boundary
+gridpoints <- SpatialPoints(grid, proj4string = CRS(projection(geo_bounds)))
+plot(gridpoints)
+
+# Crop out the points outside the boundary
+cropped_gridpoints <- crop(gridpoints, geo_bounds)
+plot(cropped_gridpoints)
+
+# Convert to SpatialPixels
+spgrid <- SpatialPixels(cropped_gridpoints)
+coordnames(spgrid) <- c("x", "y")
+plot(spgrid)
+# spgrid, v_model have been pre-defined
+ls.str()
+
+# Do kriging predictions over the grid
+ph_grid <- krige(pH ~ x + y, ca_geo[!miss, ], newdata = spgrid, model = v_model)
+
+# Calc the probability of pH exceeding 7
+ph_grid$pAlkaline <- 1 - pnorm(7, mean = ph_grid$var1.pred, sd = sqrt(ph_grid$var1.var))
+
+# Map the probability of alkaline samples
+spplot(ph_grid, zcol = "pAlkaline")
+# The pH depends on the coordinates
+ph_vgm <- variogram(pH ~ x + y, ca_geo[!miss, ])
+plot(ph_vgm)
+nugget <- 0.16
+
