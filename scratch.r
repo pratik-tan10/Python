@@ -163,3 +163,27 @@ m3 <- leaflet() %>%
                          color = ~pal(sector_label), group = "Public")
 
 m3
+# Create data frame called private with only private colleges
+private <- filter(ipeds, sector_label == "Private")  
+
+# Add private colleges to `m3` as a new layer
+m3 <- m3 %>% 
+        addCircleMarkers(data = private, radius = 2, label = ~htmlEscape(name),
+                         color = ~pal(sector_label), group = "Private") %>% 
+        addLayersControl(overlayGroups = c("Public", "Private"))
+
+m3
+# Create data frame called profit with only For-Profit colleges
+profit <- filter(ipeds, sector_label == "For-Profit")  
+
+# Add For-Profit colleges to `m3` as a new layer
+m3 <- m3 %>% 
+        addCircleMarkers(data = profit, radius = 2, label = ~htmlEscape(name),
+                         color = ~pal(sector_label),   group = "For-Profit")  %>% 
+        addLayersControl(overlayGroups = c("Public", "Private", "For-Profit"))  
+
+# Center the map on the middle of the US with a zoom of 4
+m4 <- m3 %>%
+        setView(lat = 39.8282, lng = -98.5795, zoom = 4) 
+        
+m4
