@@ -129,61 +129,33 @@ colnames(mcsv3)<-cn
 
 
 ##############################
-library(leaflet.extras)
+# Create custom indices: myFolds
+myFolds <- createFolds(churn_y, k = 5)
 
-leaflet() %>%
-  addTiles() %>% 
-  addSearchOSM() %>% 
-  addReverseSearchOSM() 
-m2 <- ipeds %>% 
-        leaflet() %>% 
-            # use the CartoDB provider tile
-            addProviderTiles("CartoDB") %>% 
-            # center on the middle of the US with zoom of 3
-            setView(lat = 39.8282, lng = -98.5795, zoom= 3)
+# Create reusable trainControl object: myControl
+myControl <- trainControl(
+  summaryFunction = twoClassSummary,
+  classProbs = TRUE, # IMPORTANT!
+  verboseIter = TRUE,
+  savePredictions = TRUE,
+  index = myFolds
+)
 
-# Map all American colleges 
-m2 %>% 
-    addCircleMarkers() 
-pal <- colorFactor(palette = c("red", "blue", "#9b4a11"), 
-                   levels = c("Public", "Private", "For-Profit"))
+# Fit glmnet model: model_glmnet
+model_glmnet <- train(
+  x = churn_x, 
+  y = churn_y,
+  metric = "ROC",
+  method = "glmnet",
+  trControl = myControl
+)
 
-m2 %>% 
-    addCircleMarkers(radius = 2, label = ~name, color = ~pal(sector_label))
-# Load the htmltools package
-library(htmltools)
+# Fit random forest: model_rf
+model_rf <- train(
+  x = churn_x, 
+  y = churn_y,
+  metric = "ROC",
+  method = "ranger",
+  trControl = myControl
+)
 
-# Create data frame called public with only public colleges
-public <- filter(ipeds, sector_label == "Public")  
-
-# Create a leaflet map of public colleges called m3 
-m3 <- leaflet() %>% 
-        addProviderTiles("CartoDB") %>% 
-        addCircleMarkers(data = public, radius = 2, label = ~htmlEscape(name),
-                         color = ~pal(sector_label), group = "Public")
-
-m3
-# Create data frame called private with only private colleges
-private <- filter(ipeds, sector_label == "Private")  
-
-# Add private colleges to `m3` as a new layer
-m3 <- m3 %>% 
-        addCircleMarkers(data = private, radius = 2, label = ~htmlEscape(name),
-                         color = ~pal(sector_label), group = "Private") %>% 
-        addLayersControl(overlayGroups = c("Public", "Private"))
-
-m3
-# Create data frame called profit with only For-Profit colleges
-profit <- filter(ipeds, sector_label == "For-Profit")  
-
-# Add For-Profit colleges to `m3` as a new layer
-m3 <- m3 %>% 
-        addCircleMarkers(data = profit, radius = 2, label = ~htmlEscape(name),
-                         color = ~pal(sector_label),   group = "For-Profit")  %>% 
-        addLayersControl(overlayGroups = c("Public", "Private", "For-Profit"))  
-
-# Center the map on the middle of the US with a zoom of 4
-m4 <- m3 %>%
-        setView(lat = 39.8282, lng = -98.5795, zoom = 4) 
-        
-m4
