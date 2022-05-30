@@ -159,3 +159,17 @@ model_rf <- train(
   trControl = myControl
 )
 
+# Create model_list
+model_list <- list(item1 = model_glmnet, item2 = model_rf)
+
+# Pass model_list to resamples(): resamples
+resamples<- resamples(model_list)
+
+# Summarize the results
+summary(resamples)
+
+bwplot(resamples, metric = "ROC")
+xyplot(resamples, metric = "ROC")
+stack <- caretStack(model_list, method = "glm")
+
+summary(stack)
