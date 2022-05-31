@@ -129,47 +129,50 @@ colnames(mcsv3)<-cn
 
 
 ##############################
-# Create custom indices: myFolds
-myFolds <- createFolds(churn_y, k = 5)
+# Create data split object
+loans_split <- initial_split(loans_df, 
+                   strata = loan_default)
 
-# Create reusable trainControl object: myControl
-myControl <- trainControl(
-  summaryFunction = twoClassSummary,
-  classProbs = TRUE, # IMPORTANT!
-  verboseIter = TRUE,
-  savePredictions = TRUE,
-  index = myFolds
-)
+# Build training data
+loans_training <- loans_split %>% 
+  training()
 
-# Fit glmnet model: model_glmnet
-model_glmnet <- train(
-  x = churn_x, 
-  y = churn_y,
-  metric = "ROC",
-  method = "glmnet",
-  trControl = myControl
-)
+# Build test data
+loans_test <- loans_split %>% 
+  testing()
+dt_model <- decision_tree() %>% 
+  # Specify the engine
+  set_engine("rpart") %>% 
+  # Specify the mode
+  set_mode("classification")
+# Create a workflow
+loans_dt_wkfl <- workflow() %>% 
+  # Include the model object
+  add_model(dt_model) %>% 
+  # Include the recipe object
+  add_recipe(loans_recipe)
 
-# Fit random forest: model_rf
-model_rf <- train(
-  x = churn_x, 
-  y = churn_y,
-  metric = "ROC",
-  method = "ranger",
-  trControl = myControl
-)
+# Train the workflow
+loans_dt_wkfl_fit <- loans_dt_wkfl %>% 
+  last_fit(split = loans_split)
 
-# Create model_list
-model_list <- list(item1 = model_glmnet, item2 = model_rf)
+# Calculate performance metrics on test data
+loans_dt_wkfl_fit %>% 
+  collect_metrics()
+# Create cross validation folds
+set.seed(290)
+loans_folds <- vfold_cv(loans_training, v = 5,
+                       strata = loan_default)
 
-# Pass model_list to resamples(): resamples
-resamples<- resamples(model_list)
+# Create custom metrics function
+loans_metrics <- metric_set(roc_auc, sens, spec)
 
-# Summarize the results
-summary(resamples)
+# Fit resamples
+loans_dt_rs <- loans_dt_wkfl %>% 
+  fit_resamples(resamples = loans_folds,
+                metrics = loans_metrics)
 
-bwplot(resamples, metric = "ROC")
-xyplot(resamples, metric = "ROC")
-stack <- caretStack(model_list, method = "glm")
+# View performance metrics
+loans_dt_rs %>% 
+  collect_metrics()
 
-summary(stack)
