@@ -129,131 +129,54 @@ colnames(mcsv3)<-cn
 
 
 ##############################
-# Create data split object
-loans_split <- initial_split(loans_df, 
-                   strata = loan_default)
+# Load the packages
+library(tidyverse)
+library(lubridate)
 
-# Build training data
-loans_training <- loans_split %>% 
-  training()
+# Read in the crime data
+crime_raw <- read_csv("datasets/Violent_Crime_by_County_1975_to_2016.csv")
 
-# Build test data
-loans_test <- loans_split %>% 
-  testing()
-dt_model <- decision_tree() %>% 
-  # Specify the engine
-  set_engine("rpart") %>% 
-  # Specify the mode
-  set_mode("classification")
-# Create a workflow
-loans_dt_wkfl <- workflow() %>% 
-  # Include the model object
-  add_model(dt_model) %>% 
-  # Include the recipe object
-  add_recipe(loans_recipe)
+# Select and mutate columns the needed columns
+crime_use <- crime_raw %>% 
+    select(JURISDICTION, YEAR, POPULATION, crime_rate = `VIOLENT CRIME RATE PER 100,000 PEOPLE`) %>%
+    mutate(YEAR_2 = year(mdy_hms(YEAR)))
 
-# Train the workflow
-loans_dt_wkfl_fit <- loans_dt_wkfl %>% 
-  last_fit(split = loans_split)
+# Peek at the data
+head(crime_use)
+# Plot the data as lines and linear trend lines
+ggplot(crime_use, aes(x = YEAR_2, y = crime_rate, group = JURISDICTION)) + 
+    geom_line() + 
+    stat_smooth(method = "lm", se = F, size = 0.5)
+# Mutate data to create another year column, YEAR_3
+crime_use <-
+  crime_use %>%mutate(YEAR_3=YEAR_2 - min(YEAR_2))
+# load the lmerTest package
+library(lmerTest)
 
-# Calculate performance metrics on test data
-loans_dt_wkfl_fit %>% 
-  collect_metrics()
-# Create cross validation folds
-set.seed(290)
-loans_folds <- vfold_cv(loans_training, v = 5,
-                       strata = loan_default)
+# Build a lmer and save it as lmer_crime
+lmer_crime <- lmer(crime_rate ~ YEAR_3 + (YEAR_3|JURISDICTION), crime_use)
 
-# Create custom metrics function
-loans_metrics <- metric_set(roc_auc, sens, spec)
+# Print the model output
+lmer_crime
+# Examine the model outputs using summary
+summary(lmer_crime)
 
-# Fit resamples
-loans_dt_rs <- loans_dt_wkfl %>% 
-  fit_resamples(resamples = loans_folds,
-                metrics = loans_metrics)
+# This is for readability 
+noquote("**** Fixed-effects ****")
 
-# View performance metrics
-loans_dt_rs %>% 
-  collect_metrics()
+# Use fixef() to view fixed-effects
+fixef(lmer_crime)
 
-# Detailed cross validation results
-dt_rs_results <- loans_dt_rs %>% 
-  collect_metrics(summarize = FALSE)
+# This is for readability 
+noquote("**** Random-effects ****")
 
-# Explore model performance for decision tree
-dt_rs_results %>% 
-  group_by( .metric ) %>% 
-  summarize(min = min(.estimate),
-            median = median(.estimate),
-            max = max(.estimate))
-# Set tuning hyperparameters
-dt_tune_model <- decision_tree(cost_complexity = tune(),
-                               tree_depth = tune(),
-                               min_n = tune()) %>% 
-  # Specify engine
-  set_engine('rpart') %>% 
-  # Specify mode
-  set_mode('classification')
+# Use ranef() to view random-effects
+ranef(lmer_crime)
+# Add the fixed-effect to the random-effect and save as county_slopes
+county_slopes <- fixef(lmer_crime)["YEAR_3"] + ranef(lmer_crime)$JURISDICTION["YEAR_3"]
 
-# Create a tuning workflow
-loans_tune_wkfl <- loans_dt_wkfl %>% 
-  # Replace model
-  update_model(dt_tune_model)
 
-loans_tune_wkfl
-# Hyperparameter tuning with grid search
-set.seed(214)
-dt_grid <- grid_random(parameters(dt_tune_model),
-                       size = 5)
+# Add a new column with county names
+county_slopes <-
+    data.frame(county_slopes) %>% rownames_to_column(var = "county")
 
-# Hyperparameter tuning
-dt_tuning <- loans_tune_wkfl %>% 
-  tune_grid(resamples = loans_folds,
-            grid = dt_grid,
-            metrics = loans_metrics)
-
-# View results
-dt_tuning %>% 
-  collect_metrics()
-
-# Collect detailed tuning results
-dt_tuning_results <- dt_tuning %>% 
-  collect_metrics(summarize = FALSE)
-
-# Explore detailed ROC AUC results for each fold
-dt_tuning_results %>% 
-  filter(.metric == "roc_auc") %>% 
-  group_by(id) %>% 
-  summarize(min_roc_auc = min(.estimate),
-            median_roc_auc = median(.estimate),
-            max_roc_auc = max(.estimate))
-# Display 5 best performing models
-dt_tuning %>% 
-  show_best(metric = 'roc_auc', n = 5)
-
-# Select based on best performance
-best_dt_model <- dt_tuning %>% 
-  # Choose the best model based on roc_auc
-  select_best(metric = 'roc_auc')
-
-# Finalize your workflow
-final_loans_wkfl <- loans_tune_wkfl %>% 
-  finalize_workflow(best_dt_model)
-
-final_loans_wkfl
-# Train finalized decision tree workflow
-loans_final_fit <- final_loans_wkfl %>% 
-  last_fit(split = loans_split)
-
-# View performance metrics
-loans_final_fit %>% 
-  collect_metrics()
-
-# Create an ROC curve
-loans_final_fit %>% 
-  # Collect predictions
-  collect_predictions() %>%
-  # Calculate ROC curve metrics
-  roc_curve(truth = loan_default, .pred_yes) %>%
-  # Plot the ROC curve
-  autoplot()
