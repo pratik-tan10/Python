@@ -129,103 +129,24 @@ colnames(mcsv3)<-cn
 
 
 ##############################
-# Load the packages
-library(tidyverse)
-library(lubridate)
+library(e1071)
+#create vector to store accuracies and set random number seed
+accuracy <- rep(NA, 100)
+set.seed(2)
 
-# Read in the crime data
-crime_raw <- read_csv("datasets/Violent_Crime_by_County_1975_to_2016.csv")
+#calculate accuracies for 100 training/test partitions
+for (i in 1:100){
+    df[, "train"] <- ifelse(runif(nrow(df))<0.8, 1, 0)
+    trainset <- df[df$train == 1, ]
+    testset <- df[df$train == 0, ]
+    trainColNum <- grep("train", names(trainset))
+    trainset <- trainset[, -trainColNum]
+    testset <- testset[, -trainColNum]
+    svm_model<- svm(y ~ ., data = trainset, type = "C-classification", kernel = "polynomial", degree = 2)
+    pred_test <- predict(svm_model, testset)
+    accuracy[i] <- mean(pred_test == testset$y)
+}
 
-# Select and mutate columns the needed columns
-crime_use <- crime_raw %>% 
-    select(JURISDICTION, YEAR, POPULATION, crime_rate = `VIOLENT CRIME RATE PER 100,000 PEOPLE`) %>%
-    mutate(YEAR_2 = year(mdy_hms(YEAR)))
-
-# Peek at the data
-head(crime_use)
-# Plot the data as lines and linear trend lines
-ggplot(crime_use, aes(x = YEAR_2, y = crime_rate, group = JURISDICTION)) + 
-    geom_line() + 
-    stat_smooth(method = "lm", se = F, size = 0.5)
-# Mutate data to create another year column, YEAR_3
-crime_use <-
-  crime_use %>%mutate(YEAR_3=YEAR_2 - min(YEAR_2))
-# load the lmerTest package
-library(lmerTest)
-
-# Build a lmer and save it as lmer_crime
-lmer_crime <- lmer(crime_rate ~ YEAR_3 + (YEAR_3|JURISDICTION), crime_use)
-
-# Print the model output
-lmer_crime
-# Examine the model outputs using summary
-summary(lmer_crime)
-
-# This is for readability 
-noquote("**** Fixed-effects ****")
-
-# Use fixef() to view fixed-effects
-fixef(lmer_crime)
-
-# This is for readability 
-noquote("**** Random-effects ****")
-
-# Use ranef() to view random-effects
-ranef(lmer_crime)
-# Add the fixed-effect to the random-effect and save as county_slopes
-county_slopes <- fixef(lmer_crime)["YEAR_3"] + ranef(lmer_crime)$JURISDICTION["YEAR_3"]
-
-
-# Add a new column with county names
-county_slopes <-
-    data.frame(county_slopes) %>% rownames_to_column(var = "county")
-
-# Load usmap package
-library(usmap)
-# .... YOUR CODE FOR TASK 7 ....
-
-# load and filter map data
-county_map <- us_map(regions = "counties", include = "MD")
-# See which counties are not in both datasets
-county_slopes %>% anti_join(county_map, by = "county")
-county_map %>% anti_join(county_slopes, by = "county")
-
-# Rename crime_names county
-county_slopes  <- county_slopes  %>% 
-  mutate(county = ifelse(county == "Baltimore City", "Baltimore city", county))
-# Merge the map and slope data frames
-both_data <- county_map%>%full_join(county_slopes, by = "county")
-  # .... YOUR CODE FOR TASK 9 ....
-
-# Peek at the data
-head(both_data)
-# Set the notebook's plot settings
-options(repr.plot.width=10, repr.plot.height=5)
-
-# Plot the results 
-crime_map <- 
-   ggplot(both_data, aes(long, lat, group = county, fill = YEAR_3)) +
-  geom_polygon() + 
-  scale_fill_continuous(name = expression(atop("Change in crime rate","(Number year"^-1*")")),
-                        low = "skyblue", high = "gold")
-
-# Look at the map
-crime_map
-# Plot options
-options(repr.plot.width=10, repr.plot.height=5)
-
-# Polish figure
-crime_map_final <- crime_map + 
-  theme_minimal() +
-  xlab("") +
-  ylab("") +
-  theme(axis.line = element_blank(), axis.text = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(), panel.background = element_blank())
-
-# Look at the map
-print(crime_map_final)
-# Build a lmer with both year and population
-lmer_pop <- lmer(crime_rate ~ YEAR_3 + POPULATION + (YEAR_3|JURISDICTION), crime_use)
-
-# Inspect the results
-summary(lmer_pop)
-ranef(lmer_pop)
+#print average accuracy and standard deviation
+mean(accuracy)
+sd(accuracy)
