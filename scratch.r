@@ -129,74 +129,21 @@ colnames(mcsv3)<-cn
 
 
 ##############################
-library(e1071)
-#create vector to store accuracies and set random number seed
-accuracy <- rep(NA, 100)
-set.seed(2)
+# Generate the document-term matrix
+dtm <- corpus %>% 
+   unnest_tokens(input=text, output=word) %>% 
+   count(id, word) %>% 
+   cast_dtm(document=id, term=word, value=n)
 
-#calculate accuracies for 100 training/test partitions
-for (i in 1:100){
-    df[, "train"] <- ifelse(runif(nrow(df))<0.8, 1, 0)
-    trainset <- df[df$train == 1, ]
-    testset <- df[df$train == 0, ]
-    trainColNum <- grep("train", names(trainset))
-    trainset <- trainset[, -trainColNum]
-    testset <- testset[, -trainColNum]
-    svm_model<- svm(y ~ ., data = trainset, type = "C-classification", kernel = "polynomial", degree = 2)
-    pred_test <- predict(svm_model, testset)
-    accuracy[i] <- mean(pred_test == testset$y)
-}
+# Run the LDA for two topics
+mod <- LDA(x=dtm, k=2, method="Gibbs",control=list(alpha=1, delta=0.1, seed=10005))
 
-#print average accuracy and standard deviation
-mean(accuracy)
-sd(accuracy)
-#transform data
-df1 <- data.frame(x1sq = df$x1^2, x2sq = df$x2^2, y = df$y)
+# Retrieve the probabilities of word `will` belonging to topics 1 and 2
+tidy(mod, matrix="beta") %>%
+  filter(term == "will")
 
-#plot data points in the transformed space
-plot_transformed <- ggplot(data = df1, aes(x = x1sq, y = x2sq, color = y)) + 
-    geom_point()+ guides(color = FALSE) + 
-    scale_color_manual(values = c("red", "blue"))
-
-#add decision boundary and visualize
-plot_decision <- plot_transformed + geom_abline(slope = -1, intercept = 0.64)
-plot_decision
-svm_model<- 
-    svm(y ~ ., data = trainset, type = "C-classification", 
-        kernel = "polynomial", degree = 2)
-
-#measure training and test accuracy
-pred_train <- predict(svm_model, trainset)
-mean(pred_train == trainset$y)
-pred_test <- predict(svm_model, testset)
-mean(pred_test == testset$y)
-
-#plot
-plot(svm_model, trainset)
-#tune model
-tune_out <- 
-    tune.svm(x = trainset[, -3], y = trainset[, 3], 
-             type = "C-classification", 
-             kernel = "polynomial", degree = 2, cost = 10^(-1:2), 
-             gamma = c(0.1, 1, 10), coef0 = c(0.1, 1, 10))
-
-#list optimal values
-tune_out$best.parameters$cost
-tune_out$best.parameters$gamma
-tune_out$best.parameters$coef0
-#Build tuned model
-svm_model <- svm(y~ ., data = trainset, type = "C-classification", 
-                 kernel = "polynomial", degree = 2, 
-                 cost = tune_out$best.parameters$cost, 
-                 gamma = tune_out$best.parameters$gamma, 
-                 coef0 = tune_out$best.parameters$coef0)
-
-#Calculate training and test accuracies
-pred_train <- predict(svm_model, trainset)
-mean(pred_train == trainset$y)
-pred_test <- predict(svm_model, testset)
-mean(pred_test == testset$y)
-
-#plot model
-plot(svm_model, trainset)
-
+# Make a stacked column chart showing the probabilities of documents belonging to topics
+tidy(mod, matrix="gamma") %>% 
+  mutate(topic = as.factor(topic)) %>% 
+  ggplot(aes(x=document, y=gamma)) + 
+  geom_col(aes(fill=topic))
