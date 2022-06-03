@@ -147,3 +147,33 @@ tidy(mod, matrix="gamma") %>%
   mutate(topic = as.factor(topic)) %>% 
   ggplot(aes(x=document, y=gamma)) + 
   geom_col(aes(fill=topic))
+# Create the document-term matrix
+dtm <- corpus %>%
+  unnest_tokens(output=word, input=text) %>%
+  count(id, word) %>%
+  cast_dtm(document=id, term=word, value=n)
+
+# Display dtm as a matrix
+as.matrix(dtm)
+# Create the document-term matrix with stop words removed
+dtm <- corpus %>%
+  unnest_tokens(output=word, input=text) %>%
+  anti_join(stop_words) %>% 
+  count(id, word) %>%
+  cast_dtm(document=id, term=word, value=n)
+
+# Display the matrix
+as.matrix(dtm)
+# Perform inner_join with the dictionary table
+dtm <- corpus %>%
+  unnest_tokens(output=word, input=text) %>%
+  inner_join(dictionary) %>% 
+  count(id, word) %>%
+  cast_dtm(document=id, term=word, value=n)
+
+# Display the summary of dtm
+as.matrix(dtm)
+# Generate the counts of words in the corpus
+word_frequencies <- corpus %>% 
+  unnest_tokens(input=text, output=word) %>%
+  count(word)
