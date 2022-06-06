@@ -16,54 +16,53 @@ library(tidyverse)
 library(lubridate)
 library(plotly)
 
-trips_df <- read_csv('http://s3.amazonaws.com/assets.datacamp.com/production/course_6961/datasets/sanfran_bikeshare_joined_oneday.csv') %>%
-  mutate(duration_min = duration_sec / 60,
-         start_hour = hour(start_date)) %>%
-  filter(duration_min <= 8 * 60) # remove trips longer than 8 hours as suspicious data quality
+trips_df <- read_csv('https://assets.datacamp.com/production/repositories/1448/datasets/1f12031000b09ad096880bceb61f6ca2fd95e2eb/sanfran_bikeshare_joined_oneday.csv') %>%
+  mutate(duration_min = duration_sec / 60)
 
 ```
 
-
+Global Sidebar {.sidebar}
+====================
 
 Column {data-width=200 .sidebar}
 -----------------------------------------------------------------------
 
 ```{r}
 
-sliderInput("start_slider", 
-            label = "Select trip start times to display (hour of day):",
-            min = 0, 
-            max = 24, 
-            value = c(7,10), 
-            step = 1)
+sliderInput("duration_slider", label = "Select maximum trip duration to display (in minutes):",
+            min = 0, max = 120, value = 15, step = 5, dragRange = TRUE)
+
+sliderInput("duration_bin", label = "Select # of minutes to bin trip durations:",
+           min = 1, max = 15, value = 1, step = 1)
 
 show_trips_df <- reactive({
 
   trips_df %>%
-    filter(start_hour >= input$start_slider[1] &
-             start_hour <= input$start_slider[2])
+    filter(duration_sec <= input$duration_slider * 60)
 
 })
-
 ```
 
 Column {data-width=450}
 -----------------------------------------------------------------------
+
 ### Origins
 
 ```{r}
 
-  renderLeaflet({show_trips_df() %>%
+renderLeaflet({
+  show_trips_df() %>%
     rename(latitude = start_latitude,
            longitude = start_longitude) %>%
     group_by(start_station_id, latitude, longitude) %>%
     count() %>%
     leaflet() %>%
     addTiles() %>%
-    addCircles(radius = ~n)})
-
+    addCircles(radius = ~n)
+})
 
 ```
+
 
 Column {data-width=350}
 -----------------------------------------------------------------------
@@ -72,24 +71,43 @@ Column {data-width=350}
 
 ```{r}
 
-valueBox(prettyNum(trips_df %>%
-                     nrow(), big.mark = ','), 
-         icon = 'fa-bicycle')
-
+renderValueBox({
+  valueBox(prettyNum(show_trips_df() %>%
+                       nrow(), big.mark = ','), 
+           icon = 'fa-bicycle')
+})
 
 ```
 
-### Trips by Duration
+### Trips by Start Time
 
 ```{r}
 
-trips_df %>%
-    ggplot(aes(x = duration_min)) +
+renderPlot({show_trips_df() %>%
+    mutate(hour = hour(start_date)) %>%
+    group_by(hour) %>%
+    summarize(`Trips Started` = n()) %>%
+    ggplot(aes(x = hour, y = `Trips Started`)) +
     theme_bw() +
-    xlab('Trip Duration (min) \n') +
-    ylab('# trips') +
-    geom_histogram() 
+    ylab('Trips Started \n') +
+    geom_bar(stat = 'identity') 
+})
 
 ```
 
+Duration
+====================
 
+### Trip Durations
+
+```{r}
+
+renderPlot({show_trips_df() %>%
+  mutate(`Trip Duration (min)` = duration_sec / 60) %>%
+  ggplot(aes(x = `Trip Duration (min)`)) +
+  theme_bw() +
+  geom_histogram(binwidth = input$duration_bin) +
+  ylab('# Trips')
+})
+
+```
