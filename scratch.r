@@ -129,51 +129,23 @@ colnames(mcsv3)<-cn
 
 
 ##############################
-# Generate the document-term matrix
-dtm <- corpus %>% 
-   unnest_tokens(input=text, output=word) %>% 
-   count(id, word) %>% 
-   cast_dtm(document=id, term=word, value=n)
+# load spatial packages
+library(raster)
+library(rgdal)
+library(rgeos)
+library(RColorBrewer)
 
-# Run the LDA for two topics
-mod <- LDA(x=dtm, k=2, method="Gibbs",control=list(alpha=1, delta=0.1, seed=10005))
+# turn off factors
+options(stringsAsFactors = FALSE)
+# import the naip pre-fire data
+naip_multispectral_st <- stack("data/week-07/naip/m_3910505_nw_13_1_20130926/crop/m_3910505_nw_13_1_20130926_crop.tif")
 
-# Retrieve the probabilities of word `will` belonging to topics 1 and 2
-tidy(mod, matrix="beta") %>%
-  filter(term == "will")
+# convert data into rasterbrick for faster processing
+naip_multispectral_br <- brick(naip_multispectral_st)
+# calculate NDVI using the red (band 1) and nir (band 4) bands
+naip_ndvi <- (naip_multispectral_br[[4]] - naip_multispectral_br[[1]]) / (naip_multispectral_br[[4]] + naip_multispectral_br[[1]])
 
-# Make a stacked column chart showing the probabilities of documents belonging to topics
-tidy(mod, matrix="gamma") %>% 
-  mutate(topic = as.factor(topic)) %>% 
-  ggplot(aes(x=document, y=gamma)) + 
-  geom_col(aes(fill=topic))
-# Create the document-term matrix
-dtm <- corpus %>%
-  unnest_tokens(output=word, input=text) %>%
-  count(id, word) %>%
-  cast_dtm(document=id, term=word, value=n)
-
-# Display dtm as a matrix
-as.matrix(dtm)
-# Create the document-term matrix with stop words removed
-dtm <- corpus %>%
-  unnest_tokens(output=word, input=text) %>%
-  anti_join(stop_words) %>% 
-  count(id, word) %>%
-  cast_dtm(document=id, term=word, value=n)
-
-# Display the matrix
-as.matrix(dtm)
-# Perform inner_join with the dictionary table
-dtm <- corpus %>%
-  unnest_tokens(output=word, input=text) %>%
-  inner_join(dictionary) %>% 
-  count(id, word) %>%
-  cast_dtm(document=id, term=word, value=n)
-
-# Display the summary of dtm
-as.matrix(dtm)
-# Generate the counts of words in the corpus
-word_frequencies <- corpus %>% 
-  unnest_tokens(input=text, output=word) %>%
-  count(word)
+# plot the data
+plot(naip_ndvi,
+     main = "NDVI of Cold Springs Fire Site - Nederland, CO \n Pre-Fire",
+     axes = FALSE, box = FALSE)
