@@ -138,7 +138,7 @@ library(RColorBrewer)
 # turn off factors
 options(stringsAsFactors = FALSE)
 # import the naip pre-fire data
-naip_multispectral_st <- stack("data/week-07/naip/m_3910505_nw_13_1_20130926/crop/m_3910505_nw_13_1_20130926_crop.tif")
+naip_multispectral_st <- stack("data/m_3910505_nw_13_1_20130926/crop/m_3910505_nw_13_1_20130926_crop.tif")
 
 # convert data into rasterbrick for faster processing
 naip_multispectral_br <- brick(naip_multispectral_st)
@@ -149,3 +149,18 @@ naip_ndvi <- (naip_multispectral_br[[4]] - naip_multispectral_br[[1]]) / (naip_m
 plot(naip_ndvi,
      main = "NDVI of Cold Springs Fire Site - Nederland, CO \n Pre-Fire",
      axes = FALSE, box = FALSE)
+
+# view distribution of NDVI values
+hist(naip_ndvi,
+  main = "NDVI: Distribution of pixels\n NAIP 2013 Cold Springs fire site",
+  col = "springgreen",
+  xlab = "NDVI Index Value")
+
+# Check if the directory exists using the function you created last week
+check_create_dir("data/week-07/outputs/")
+
+writeRaster(x = naip_ndvi,
+              filename="data/naip_ndvi_2013_prefire.tif",
+              format = "GTiff", # save as a tif
+              datatype='INT2S', # save as a INTEGER rather than a float
+              overwrite = TRUE)  # OPTIONAL - be careful. This will OVERWRITE previous files.
