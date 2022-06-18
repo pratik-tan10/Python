@@ -1,19 +1,27 @@
-library(purrr)
-library(rvest)
-library(xml2)
+# Load VIM
+library(VIM)
 
-mountain_wiki_pages<-c("https://en.wikipedia.org/w/index.php?title=Mount_Everest&oldid=958643874", "https://en.wikipedia.org/w/index.php?title=K2&oldid=956671989", "https://en.wikipedia.org/w/index.php?title=Kangchenjunga&oldid=957008408")
-# Define a throttled read_html() function with a delay of 0.5s
-read_html_delayed <- slowly(read_html, 
-                            rate = rate_delay(0.5))
-# Construct a loop that goes over all page urls
-for(page_url in mountain_wiki_pages){
-   # Read in the html of each URL with a delay of 0.5s
-  html <- read_html_delayed(page_url)
-  # Extract the name of the peak and its coordinates
-  peak <- html %>% 
-  	html_nodes("#firstHeading") %>% html_text()
-  coords <- html %>% 
-    html_nodes("#coordinates .geo-dms") %>% html_text()
-  print(paste(peak, coords, sep = ": "))
-}
+# Draw a combined aggregation plot of africa
+africa %>%
+  aggr(combined = TRUE, numbers = TRUE)
+
+# Draw a spine plot of country vs trade
+africa %>% 
+  select(country, trade) %>%
+  spineMiss()
+# Load mice
+library(mice)
+
+# Impute africa with mice
+africa_multiimp <- mice(africa, m = 5, defaultMethod = "cart", seed = 3108)
+
+# Draw a stripplot of gdp_pc versus trade
+stripplot(africa_multiimp, gdp_pc ~ trade | .imp, pch = 20, cex = 2)
+# Fit linear regression to each imputed data set
+lm_multiimp <- with(africa_multiimp, lm(gdp_pc ~ country + year + trade + infl + civlib))
+
+# Pool regression results
+lm_pooled <- pool(lm_multiimp)
+
+# Summarize pooled results
+summary(lm_pooled, conf.int = TRUE, conf.level = 0.90)
