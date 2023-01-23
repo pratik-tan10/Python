@@ -83,8 +83,8 @@ Change the __Value Field__ to __Class Value__.
 Make sure that you provide the actual clipped landsat image for the __cellsize__ parameter, __Processing extent__ envrionment variables __Extent__ and __Snap Raster__.
 
 Make sure you end the name of output raster file with __.tif__.
-![image.png](attachment:image.png)
-![image-2.png](attachment:image-2.png)
+![image-6.png](attachment:image-6.png)
+![image-7.png](attachment:image-7.png)
 
 Finally, make sure the number of rows and columns of your actual clipped landsat image and the output just created are the same. This can be checked from __Properites__ --> __Source__ --> __Raster Information__ -> Columns and Rows.
 
@@ -94,7 +94,7 @@ Finally, make sure the number of rows and columns of your actual clipped landsat
 Find __Maximum Likelihood Classification__ tool either from search or from the __Classification__ drop-down of __Image Classification Tool__.
 
 Select the clipped landsat image as the __input raster band__ and provide the signature file we created as input. For the output image name, make sure you end it with __.tif__.
-![image-2.png](attachment:image-2.png)
+![image-8.png](attachment:image-8.png)
 
 Apply the appropriate symboloy to the classified image. Here is an example output.
 ![image-3.png](attachment:image-3.png)
