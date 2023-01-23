@@ -41,7 +41,7 @@ In this exercise, we are going to use the following image.
 
 <div style = "hight:50%; width:50%;">
 <figure>
-<img src="landsatImage.png" alt = 'clipped landsat scene'>
+<img src="./landsatImage.png" alt = 'clipped landsat scene'>
 <figcaption>Fig.1 : Clipped landsat image</figcaption>
 </figure>    
 </div>
