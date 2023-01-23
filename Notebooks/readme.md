@@ -41,7 +41,7 @@ In this exercise, we are going to use the following image.
 
 <div style = "hight:50%; width:50%;">
 <figure>
-<img src="./landsatImage.png" alt = 'clipped landsat scene'>
+<img src="landsatImage.PNG" alt = 'clipped landsat scene'>
 <figcaption>Fig.1 : Clipped landsat image</figcaption>
 </figure>    
 </div>
@@ -55,7 +55,11 @@ __If you want to use the training samples provided, open the _Training Sample Ma
 
 First, open the __Image classification__ tool and start to __Draw Polygons__ as trainig class. If you have multiple images loaded, make sure in the dropdown of the __Image Classification__ tool, you have selected the correct image. Then draw several polygons for one class (For example: Water).
 
-![image.png](attachment:image.png)
+<div style = "hight:50%; width:50%;">
+<figure>
+<img src="image.png" alt = 'image-1'>
+</figure>    
+</div
 
 Second, open the __Training Sample Manager__ and merge the polygons to a single feature.
 
