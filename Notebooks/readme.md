@@ -2,6 +2,8 @@
 
 This exercise will walks us through image classification in ArcMap and python. We will classifiy a clipped portion of landsat 5 image, first using maximum likelihood classification in ArcMap and then using a Neural Network in Python.
 
+Click [here](https://drive.google.com/drive/folders/1HQk2aMqL2LZbKCnOhDXYEzByiHbHDnXu?usp=sharing) to download the satellite image needed to follow this exercise.
+
 __Output of each steps are provided to follow this exercise from any step. If you just want to skip to neural network portion click [here](#3).__
 
 
