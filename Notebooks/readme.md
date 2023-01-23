@@ -59,23 +59,35 @@ First, open the __Image classification__ tool and start to __Draw Polygons__ as 
 <figure>
 <img src="image.png" alt = 'image-1'>
 </figure>    
-</div
+</div>
 
 Second, open the __Training Sample Manager__ and merge the polygons to a single feature.
 
-![image-2.png](attachment:image-2.png)
+<div style = "hight:50%; width:50%;">
+<figure>
+<img src="image-2.png" alt = 'image-2'>
+</figure>    
+</div>
 
 Now repeat step 1 and 2 for the next class. Make sure you change the __Value__ of each class so that it increases sequentially.
 Do this for all the remaining classes.
 
 Make sure you have enough training samples for each class. For better result, the number of training samples should be roughly proportional to the acutal area of each class in your data.
 
-![image-4.png](attachment:image-4.png)
+<div style = "hight:50%; width:50%;">
+<figure>
+<img src="image-4.png" alt = 'image-4'>
+</figure>    
+</div>
 
 Just make sure that you have a well distributed training samples for each class.
 If there are enough and well-distributed training samples, save them as for later use. Click the __Save training samples__ button in the __Training Sample Manger__ and save them in a appropriate location. These are the same as the _**trainingSample.shpe**_ file.
 
-![image-5.png](attachment:image-5.png)
+<div style = "hight:50%; width:50%;">
+<figure>
+<img src="image-5.png" alt = 'image-5'>
+</figure>    
+</div>
 
 Now, on the right side of the __Training Sample Manger__, click the __Create signature file__ button. This will create  a signature file --a text file, that we will use for __Maximum likelihood classification__.
 
@@ -89,8 +101,16 @@ Change the __Value Field__ to __Class Value__.
 Make sure that you provide the actual clipped landsat image for the __cellsize__ parameter, __Processing extent__ envrionment variables __Extent__ and __Snap Raster__.
 
 Make sure you end the name of output raster file with __.tif__.
-![image-6.png](attachment:image-6.png)
-![image-7.png](attachment:image-7.png)
+<div style = "hight:50%; width:50%;">
+<figure>
+<img src="image-6.png" alt = 'image-6'>
+</figure>    
+</div>
+<div style = "hight:50%; width:50%;">
+<figure>
+<img src="image-7.png" alt = 'image-7'>
+</figure>    
+</div>
 
 Finally, make sure the number of rows and columns of your actual clipped landsat image and the output just created are the same. This can be checked from __Properites__ --> __Source__ --> __Raster Information__ -> Columns and Rows.
 
@@ -100,10 +120,18 @@ Finally, make sure the number of rows and columns of your actual clipped landsat
 Find __Maximum Likelihood Classification__ tool either from search or from the __Classification__ drop-down of __Image Classification Tool__.
 
 Select the clipped landsat image as the __input raster band__ and provide the signature file we created as input. For the output image name, make sure you end it with __.tif__.
-![image-8.png](attachment:image-8.png)
+<div style = "hight:50%; width:50%;">
+<figure>
+<img src="image-8.png" alt = 'image-8'>
+</figure>    
+</div>
 
 Apply the appropriate symboloy to the classified image. Here is an example output.
-![image-3.png](attachment:image-3.png)
+<div style = "hight:50%; width:50%;">
+<figure>
+<img src="image-3.png" alt = 'image-3'>
+</figure>    
+</div>
 
 
 Next part will show how to use the training sample we created in step [1.3](#1.3) to perform classification using neural network in python.
