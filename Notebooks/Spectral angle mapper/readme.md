@@ -159,9 +159,9 @@ For vectors $\vec{p} $ and $\vec{q} $, their dot product is given by the formula
 
 $\vec{p} \cdot \vec{q}=\left | \vec{p} \right |\left | \vec{q} \right |\cos\theta $
 
-where  $\left | \vec{p} \right |$ = the length of vector $\vec{p} $ <br>
-    &emsp; &emsp; $\left | \vec{q} \right |$ = the length of vector $\vec{q} $ and <br>
-    &emsp; &emsp; $\cos\theta $ = the angle between $\vec{p} $ and $\vec{q} $
+where  $\left | \vec{p} \right |$ = the length of vector $ \vec{p} $ <br>
+    &emsp; &emsp; $ \left | \vec{q} \right |$ = the length of vector $ \vec{q} $ and <br>
+    &emsp; &emsp; $ \cos\theta $ = the angle between $\vec{p} $ and $ \vec{q} $
 
 So, the angle between two vectors is,
 $\theta = {\cos^{-1}} \left( \dfrac{\vec{p} \cdot \vec{q}}{\left | \vec{p} \right | \left | \vec{q} \right |} \right)$
