@@ -287,9 +287,9 @@ for imageName in glob.glob('/content/yolov5/runs/detect/exp2/*.jpg'): #assuming 
     plt.show()
     print("\n")
 ```
-<img style = "width: 50%;" src = './imgs/first.png'><br>
-<img style = "width: 50%;" src = './imgs/second.png'><br>
-<img style = "width: 50%;" src = './imgs/third.png'><br>
+<img style = "width: 50%;" src = './imgs/one.png'><br>
+<img style = "width: 50%;" src = './imgs/two.png'><br>
+<img style = "width: 50%;" src = './imgs/three.png'><br>
 
 __Congratulations__!! Now you know:
 * how to create training data for objection,
