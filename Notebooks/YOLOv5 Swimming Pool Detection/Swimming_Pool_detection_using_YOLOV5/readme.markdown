@@ -1,8 +1,3 @@
-<style>
-a {
-    color: #4267B2;
-}
-</style>
 <h2 style = "color: #4267B2; "> Swimming Pool Detection using YOLOv5 </h2>
 
 For some tasks, there are **pretrained models** that are already trained
@@ -292,9 +287,9 @@ for imageName in glob.glob('/content/yolov5/runs/detect/exp2/*.jpg'): #assuming 
     plt.show()
     print("\n")
 ```
-<img style = "width: 50%;" src = './Notebook jpgs/first.png'><br>
-<img style = "width: 50%;" src = './Notebook jpgs/second.png'><br>
-<img style = "width: 50%;" src = './Notebook jpgs/third.png'><br>
+<img style = "width: 50%;" src = './imgs/first.png'><br>
+<img style = "width: 50%;" src = './imgs/second.png'><br>
+<img style = "width: 50%;" src = './imgs/third.png'><br>
 
 __Congratulations__!! Now you know:
 * how to create training data for objection,
