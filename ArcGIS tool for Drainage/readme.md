@@ -10,8 +10,8 @@ outputs a raster showing drainage area value for each cell. The (underlying)step
 	2.	Calculate Flow direction
 	3.	Calculate Flow accumulation
 	4.	Calculate Drainage Area
-	
-	__D = Fac *Cellsize__
+
+	D = Fac *Cellsize
 	where,
 	D = Drainage Area
 	Fac= Flow accumulation
