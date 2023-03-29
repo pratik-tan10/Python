@@ -11,7 +11,7 @@ outputs a raster showing drainage area value for each cell. The (underlying)step
 	3.	Calculate Flow accumulation
 	4.	Calculate Drainage Area
 	
-	__ D = Fac *Cellsize __
+	__D = Fac *Cellsize__
 	where,
 	D = Drainage Area
 	Fac= Flow accumulation
