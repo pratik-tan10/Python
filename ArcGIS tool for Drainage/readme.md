@@ -1,5 +1,5 @@
-This is a tool for ArcGIS pro.
-Built with ArcGIS pro 2.8.0
+This is a tool for ArcGIS pro.<br>
+Built with ArcGIS pro 2.8.0<br>
 Python version 3.4.3
 
 This is a hydrology tool to calculate for each cell in a raster,
@@ -11,10 +11,10 @@ outputs a raster showing drainage area value for each cell. The (underlying)step
 	3.	Calculate Flow accumulation
 	4.	Calculate Drainage Area
 	
-	D = F~ac~*Cellsize
+	__ D = Fac *Cellsize __
 	where,
 	D = Drainage Area
-	F~ac~ = Flow accumulation
+	Fac= Flow accumulation
 	Cellsize = Area of single pixel of input raster
 
 This tool is used to compute the total area of upstream that contribute drain water of at a location.
@@ -43,4 +43,3 @@ Credit:
 Prepared by: Pratik Dhungana
 Email : pdhungana@crimson.ua.edu
 As part of GY 539 Assignment
-
