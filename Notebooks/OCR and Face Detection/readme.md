@@ -17,6 +17,8 @@ If I were to use the [images.zip](./readonly/images.zip) file and search for "Ma
 
 Note: That big file can take some time to process - for me it took nearly ten minutes! Use the small one for testing.
 
+## You can download the zipfile of data you need to do this exercise [here](https://drive.google.com/drive/folders/1_NjD9m-NH1ReHYQt9Re7AEDnKIj1mjat).
+
 
 ```python
 import zipfile
@@ -30,10 +32,9 @@ import numpy as np
 # loading the face detection classifier
 face_cascade = cv.CascadeClassifier('readonly/haarcascade_frontalface_default.xml')
 
-# the rest is up to you!
+# Load more libraries
 import os
 import pickle
-
 ```
 
 
@@ -52,6 +53,11 @@ with zipfile.ZipFile(big_zip, 'r') as zip:
 
 
 ```python
+# A helper function to create a corpus of text from the images
+# Tries to find an existing corpus saved as pickle file first
+# If not found, will use PyTesseract to apply OCR on the images
+# and generate corpus
+
 def create_corpus(folder):
     text_dict = {}
     try:
@@ -99,6 +105,9 @@ with open('images_corpus.pkl', 'wb') as f:
 
 
 ```python
+# Takes a folder with zipfile with images and a keyword to search
+# Return all the images on the page where the keyword is found
+
 def search(folder,keyword):
     corpus = texts_small if folder == 'small_img' else texts_big
     with zipfile.ZipFile(f"readonly/{folder}.zip","r") as zip:
@@ -202,12 +211,4 @@ search("images", keyword)
     Results found in file a-3.png
 
 
-
-```python
-
-```
-
-
-```python
-
-```
+Congratulations! You successfully applied Optical Character Recognition and Face Detection on several images.
