@@ -212,3 +212,11 @@ search("images", keyword)
 
 
 Congratulations! You successfully applied Optical Character Recognition and Face Detection on several images.
+
+<div>
+  <iframe height="300" style="width: 100%;" scrolling="no" title="fireworks" src="https://codepen.io/pdhungana/embed/bGxPwmP?default-tab=html%2Cresult" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href="https://codepen.io/pdhungana/pen/bGxPwmP">
+  fireworks</a> by Pratik Dhungana (<a href="https://codepen.io/pdhungana">@pdhungana</a>)
+  on <a href="https://codepen.io">CodePen</a>.
+</iframe>
+</div>
