@@ -9,7 +9,7 @@ have taken us weeks or even months if we had done all the model building
 and training from scratch.
 
 [YOLOv5](https://github.com/ultralytics/yolov5) is a really great
-open-source objection detection model. Through **transfer-learning**,
+open-source object detection model. Through **transfer-learning**,
 this model can be easily trained to a custom dataset for detecting the
 feature of our interest.
 
@@ -299,7 +299,7 @@ for imageName in glob.glob('/content/yolov5/runs/detect/exp2/*.jpg'): #assuming 
 <img style = "width: 50%;" src = './Notebook jpgs/three.png'><br>
 
 __Congratulations__!! Now you know:
-* how to create training data for objection,
+* how to create training data for object detection,
 * how to use a transfer learning and
 * how to deploy a trained model.
 
