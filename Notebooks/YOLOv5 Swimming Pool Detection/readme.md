@@ -16,6 +16,12 @@ feature of our interest.
 This tutorial will guide us on using this model for swimming pool
 detection in satellite images.
 
+__*I strongly encourage you to follow the data preparation steps yourself.
+You will need to do this to access the trained data programmatrically using roboflow.
+However, if you would like to use already preapred data, you can find it
+at  [Roboflow dataset](https://universe.roboflow.com/pratik-dhungana-pvv5d/swimmingpooldataset/dataset/1) and 
+you will need to sign in or create a new account with roboflow to access the dataset. Then skip the [step 2.2](#2.2)*__
+
 First, we will see how to prepare the training data then we will train,
 test and deploy the model.
 
@@ -184,6 +190,7 @@ Now click on __Generate New Version__ . Keep everything default. Go to number 5 
 <img src = './Notebook jpgs/Generate.PNG'><br>
 
 It will generate a version of data. Go to __Export__, and in the __format__, choose __YOLOv5 PyTorch__ annd click on __Continue__. This will generate a __download code__ that can be run in jupyter notebook or colab. Copy this code, we will need this to download our dataset, and also pay attention to the warning.
+<br>
 <img src = './Notebook jpgs/ChangeModelVersion.PNG'><br>
 
 <a name = '2'></a>
@@ -208,13 +215,13 @@ print(f"Setup complete. Using torch {torch.__version__} ({torch.cuda.get_device_
 ```
 <a name = '2.2'></a>
 ## 2.2 Load Data from roboflow
-In the cell below, paste the __download code__ copied from roboflow to obtain the data we prepared in step [1.3](#1.3)
+In the cell below, paste the __download code__ copied from roboflow to obtain the data we prepared at the end of step [1.3](#1.3)
 
 ``` python
 from roboflow import Roboflow
 rf = Roboflow(api_key="<personal_key>") # Replace
 project = rf.workspace("<workspace_name>").project("<project_name>") # Replace
-dataset = project.version(2).download("yolov8")
+dataset = project.version(1).download("yolov5")
 ```
 
 ``` python
@@ -231,8 +238,8 @@ Run the following cell to train the model.
 ``` python
 !python train.py --img 640 --batch 16 --epochs 50 --data {dataset.location}/data.yaml --weights yolov5s.pt --cache
 ```
-<a name = '3'></a>
-## 3 - Detect swimming pools on test image
+<a name = '4'></a>
+## 4 - Detect swimming pools on test image
 In the following cell make sure the location of __best.pt__ is correct and the path of folder containing test images is also correct. This exact same code will also be used for detecting in the future, but we will need to change the location of __best.pt__ and folder containing images.
 
 The parameter `conf` is set to 0.2. Setting it low will detect more swimming pools but will also detect other things as swimming pool meaning it will increase the __comission error__, and setting it high will detect fewer swimiming pool meaning it will increase the __omission error__. We can play around with this value to see what works best.
