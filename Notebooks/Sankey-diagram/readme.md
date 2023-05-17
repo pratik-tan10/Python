@@ -8,6 +8,7 @@ The notebook consists of the following sections:
 - [Define functions to calculate confusion matrices and create sankey texts](#3)
 - [Define a list of colors for each land use ](#4)
 - [Create and display the sankey diagram](#5)
+- [Save the sankey diagram](#6)
 
 # Install Kaleido and restart runtime
 Kaleido is a cross-platform library for generating static images from web-based visualization libraries like plotly. It is required for the `fig.write_image` function to work. To install kaleido, we use the pip command:
@@ -189,8 +190,9 @@ fig.update_layout(title_text="Land Use Changes between 3 Years", font_size=10)
 fig.show()
 ```
 <img src = "sankey.png">
+
 <a name="6"></a>
-# Save the sankey diagram as a static image file
+# Save the sankey diagram
 we can use `fig.write_image` method to save the image as a static image or `fig.write_html` to export it as a webpage.
 
 
